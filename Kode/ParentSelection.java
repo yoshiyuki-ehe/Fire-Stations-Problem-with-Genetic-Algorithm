@@ -1,5 +1,5 @@
 public abstract class ParentSelection{
 
-    public abstract Individual[] selectParents(Population population, Random random);
+    public abstract Individual[] selectParents(Population population, Random random, int nOfParents);
 
 }
