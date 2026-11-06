@@ -2,7 +2,7 @@ import java.util.LinkedList;
 import java.util.Random;
 
 public class ParentSelectionByFitness extends ParentSelection{
-    //karena gw ga tau bentukan Population, method di bawah masih harus direfactor.
+    
     @Override
     public Individual[] selectParents(Population population, Random random, int nOfParents)
     {
