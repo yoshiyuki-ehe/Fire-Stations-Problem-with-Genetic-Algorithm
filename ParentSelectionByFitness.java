@@ -43,9 +43,9 @@ public class ParentSelectionByFitness extends ParentSelection{
         return selectedParents;
     }
 
-    private LinkedList<Individual> linkedListConvert(Individual[] array){
-        LinkedList<Individual> ll = new LinkedList<>();
-        for (Individual individual : array) {
+    private <T> LinkedList<T> linkedListConvert(T[] array){
+        LinkedList<T> ll = new LinkedList<>();
+        for (T individual : array) {
             ll.offer(individual);
         }
         return ll;
