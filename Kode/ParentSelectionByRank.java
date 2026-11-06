@@ -5,7 +5,6 @@ import java.util.Random;
 public class ParentSelectionByRank extends ParentSelection{
     //karena gw ga tau bentukan Population, method di bawah masih harus direfactor.
     @Override
-    //TODO: ini masih select parents yang by fitness, harus beneran diganti ke by rank.
     public Individual[] selectParents(Population population, Random random, int nOfParents)
     {
         //sort terlebih dahulu population berdasarkan fitnessnya, ascending
@@ -28,7 +27,7 @@ public class ParentSelectionByRank extends ParentSelection{
             //for berikut mengambil sebuah kandidat acak untuk dimasukkan ke selectedParents.
             for (int j = 1; j < unselectedCandidates.size()-1; j++) {
 
-                //ganti kandidat setiap sisa nilai roulleteResult - nilai fitness dari kandidat masih bersisa.
+                //ganti kandidat setiap sisa nilai roulleteResult - nilai rank dari kandidat masih bersisa.
                 Individual curCandidate = unselectedCandidates.get(j);
                 roulleteResult -= j;
 
