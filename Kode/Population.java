@@ -22,9 +22,15 @@ public class Population {
         }
         return total;
     }
-    //TODO: populateWithNextGeneration memang belum beres
-    // public Population populateWithNextGeneration(){
-    //     return this;
-    // }
+
+    //TODO: Refaktor supaya memakai method crossover yang benar.
+    public Individual[] populateWithNextGeneration(Crossover crossover){
+        Individual[] nextGeneration = new Individual[getPopulationSize()];
+        for (int i = 0; i < nextGeneration.length; i++) {
+            nextGeneration[i] = crossover.crossover();
+        }
+        populate(nextGeneration);
+        return nextGeneration;
+    }
 
 }
