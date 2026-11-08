@@ -12,6 +12,7 @@ public class Population {
 
     public Population populate(Individual[] array){
         this.populationArray = array;
+        Arrays.sort(this.populationArray);
         return this;
     }
 
