@@ -76,3 +76,13 @@ public class Crossover {
         return new Chromosome.ChromosomeB[]{child1, child2};
     }
 }
+
+// buat abstract class Crossover
+// method crossover returns Chromosome
+
+// Random jangan buat new Random(), ambil dari Singleton
+// crossover hanya boleh memanggil getGene() dan setGene()
+
+// buat crossoverA singlepoint crossover
+// buat crossoverB arithmetic average crossover
+// ilustrasi ada di dokumen LucidChart kita
