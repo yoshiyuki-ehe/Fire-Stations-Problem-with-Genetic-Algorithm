@@ -120,3 +120,13 @@ class BitstringRelocationMutation extends Mutation {
         return mutated;
     }
 }
+
+// abstract void mutate(Chromosome chromosome)
+// mutation tidak memperbaiki chromosome
+// mutation hanya menerima chromosome dan mengganti gen dari chromosome tersebut
+
+// Mutation A Increment Gene
+// tambah 1 ke salah satu gene random
+
+// Mutation B Swap Genes
+// swap posisi 2 gene random
