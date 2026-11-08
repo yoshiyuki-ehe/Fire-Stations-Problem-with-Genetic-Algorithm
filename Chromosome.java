@@ -126,6 +126,8 @@ public abstract class Chromosome {
 
 // tambahkan abstract void selfRepair()
 // tambahkan abstract boolean equals()
+// tambahkan abstract Chromosome duplicate()
+// tambahkan abstract int length()
 // remove method getFireStationCount()
 
 // Buat Chromosome A menjadi Bitstring Combination (Kombinasi disimpan dalam Bitstring)
