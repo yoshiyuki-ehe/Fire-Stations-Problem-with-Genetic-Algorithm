@@ -123,3 +123,17 @@ public abstract class Chromosome {
         }
     }
 }
+
+// tambahkan abstract void selfRepair()
+// tambahkan abstract boolean equals()
+// remove method getFireStationCount()
+
+// Buat Chromosome A menjadi Bitstring Combination (Kombinasi disimpan dalam Bitstring)
+// harus memiliki atribut r
+// selfRepair() memastikan:
+//    hanya ada 1 dan 0 di dalam array
+//    ada tepat r angka 1 dalam array
+
+// Buat Chromosome B menjadi Pair Array matriks (2 x n)
+// harus memiliki atribut maxFirst, maxSecond
+// selfRepair() memastikan semua elemen arr[0][i] < maxFirst dan semua elemen arr[i][1] < maxSecond
