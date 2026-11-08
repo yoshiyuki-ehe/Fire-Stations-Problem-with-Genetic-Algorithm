@@ -7,6 +7,7 @@ public class Environment
     private static final int[][] dir = new int[][] {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
     private char[][] map;
     private int[][][] dist;
+    private int[][] freePositions;
 
     public final int unreachablePenalty;
     public final int fireStationCount;
@@ -25,6 +26,7 @@ public class Environment
         this.unreachablePenalty = this.mapHeight * this.mapWidth;
         precomputeDistance();
         this.houseCount = this.dist.length;
+        findFreePositions();
     }
 
     // precompute jarak setiap rumah ke setiap petak agar jarak suatu rumah ke setiap petak dapat diakses dengan kompleksitas O(1)
@@ -96,6 +98,25 @@ public class Environment
         }
     }
 
+    // mencari posisi kosong pada peta yang dapat digunakan untuk keperluan self repair Individu
+    private void findFreePositions()
+    {
+        int i, j;
+        LinkedList<int[]> foundSpots = new LinkedList<>();
+        
+        for (i = 0; i < mapHeight; i++)
+        {
+            for (j = 0; i < mapWidth; j++)
+            {
+                if (map[i][j] == '.') foundSpots.offer(new int[]{i, j});
+            }
+        }
+
+        this.freePositions = new int[foundSpots.size()][2];
+        i = 0;
+        while (!foundSpots.empty()) freePositions[i++] = foundSpots.poll();
+    }
+    
     // jarak rumah ke-ref ke petak row, col
     public int getDist(int ref, int row, int col)
     {
@@ -107,5 +128,11 @@ public class Environment
     public boolean isFree(int row, int col)
     {
         return this.map[row][col] == '.';
+    }
+
+    // memberikan salah satu posisi kosong secara out of place
+    public int[] getFreePosition(int ref)
+    {
+        return new int[] {freePositions[i][0], freePositions[i][1]};
     }
 }
