@@ -35,3 +35,11 @@ public class Population {
     }
 
 }
+
+// method Populate harusnya void
+// simpan atribut precomputed totalFitness
+// hitung totalFitness secara O(n) pada inisialisasi (generasi pertama)
+// ganti totalFitness saat melakukan populateWithNextGeneration()
+// nextGeneration size = n * (1 - elitism)
+// nextGeneration[i] = crossover.crossover() tidak akan bekerja karena method crossover dapat return array of individuals (jika multiple children)
+// sort Population di akhir populateWithNextGeneration()
