@@ -2,15 +2,14 @@ public class Population {
     
     private Individual[] populationArray;
     private double totalFitness;
+    private int elitismCount;
 
     //TODO: refactor constructor untuk menerima parameter IndividualGenerator
-    public Population(Individual[] populationArray){
-        populate(populationArray);
+    public Population(Individual[] populationArray, double elitsmRate){
+        this.populate(populationArray);
         double total = 0;
-        for (Individual individual: this.getArray()) {
-            total += individual.getFitness();
-        }
-        this.totalFitness = total;   
+        this.precomputeTotalFitness();
+        this.elitismCount = (int)(elitsmRate * this.getPopulationSize());
     }
     
     public Individual getIndividual(int index){
@@ -31,13 +30,23 @@ public class Population {
         return this.totalFitness;
     }
 
-    //TODO: Refaktor supaya memakai method crossover yang benar.
+    private void precomputeTotalFitness(){
+        for (Individual individual: this.populationArray) {
+            total += individual.getFitness();
+        }
+        this.totalFitness = total;
+    }
+    //TODO: Refaktor supaya memakai method crossover yang benar dan mengimplementasi elitism
+    
     public Individual[] populateWithNextGeneration(Crossover crossover){
+        
         Individual[] nextGeneration = new Individual[getPopulationSize()];
-        for (int i = 0; i < nextGeneration.length; i++) {
+        int eliteIndividualCount = this.getPopulationSize() - this.elitismCount;
+        for (int i = 0; i < this.eliteIndividualCount; i++) {
             nextGeneration[i] = crossover.crossover();
         }
-        populate(nextGeneration);
+        this.populate(nextGeneration);
+        this.precomputeTotalFitness();
         return nextGeneration;
     }
 
