@@ -1,11 +1,22 @@
 public class Population {
     
     private Individual[] populationArray;
+    private double totalFitness;
 
-    public Individual[] getArray(){
-        return this.populationArray;
+    //TODO: refactor constructor untuk menerima parameter IndividualGenerator
+    public Population(Individual[] populationArray){
+        populate(populationArray);
+        double total = 0;
+        for (Individual individual: this.getArray()) {
+            total += individual.getFitness();
+        }
+        this.totalFitness = total;   
     }
-
+    
+    public Individual getIndividual(int index){
+        return this.populationArray[i];
+    }
+    
     public int getPopulationSize(){
         return this.populationArray.length;
     }
@@ -17,11 +28,7 @@ public class Population {
     }
 
     public double getTotalFitness(){
-        double total = 0;
-        for (Individual individual: this.getArray()) {
-            total += individual.getFitness();
-        }
-        return total;
+        return this.totalFitness;
     }
 
     //TODO: Refaktor supaya memakai method crossover yang benar.
