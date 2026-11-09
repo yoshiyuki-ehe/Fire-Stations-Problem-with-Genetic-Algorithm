@@ -8,7 +8,6 @@ public class ParentSelectionByFitness extends ParentSelection{
         //LinkedList<Individual> unselectedCandidates = linkedListConvert(population.getArray());
 
         boolean[] selectedCandidates = new boolean[population.getPopulationSize()];
-        Individual[] candidates = population.getArray();
         double totalFitness = population.getTotalFitness();
 
         //array hasil parent-parent terpilih (yang di-return)
@@ -21,10 +20,10 @@ public class ParentSelectionByFitness extends ParentSelection{
             double roulleteResult = random.nextDouble(0, totalFitness);
             
             //for berikut mengambil sebuah kandidat acak untuk dimasukkan ke selectedParents.
-            for (int j = 0; j < candidates.length; j++) {
+            for (int j = 0; j < population.getTotalFitness(); j++) {
 
                 //ganti kandidat setiap sisa nilai roulleteResult - nilai fitness dari kandidat masih bersisa.
-                Individual curCandidate = candidates[j];
+                Individual curCandidate = population.getIndividual(j);
                 roulleteResult -= curCandidate.getFitness();
 
                 //kalau nilai roulleteResult sudah habis, anggap seperti wheel sudah berhenti berputar.
