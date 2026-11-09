@@ -5,9 +5,6 @@ public class ParentSelectionByRank extends ParentSelection{
     @Override
     public Individual[] selectParents(Population population, Random random, int nOfParents)
     {
-        //mengambil asumsi Population Array sudah disort, di method ini tidak perlu disort lagi. (Kredit: other team member)
-        Individual[] sortedPopulation = population.getArray();
-        //Arrays.sort(sortedPopulation);
         
         //masukkan population yang telah disort sebagai kandidat parent
         boolean[] selectedCandidates = new boolean[population.getPopulationSize()];
@@ -29,7 +26,7 @@ public class ParentSelectionByRank extends ParentSelection{
             if (!selectedCandidates[selectedParentIndex]) {
 
                 //kandidat valid menjadi parent, maka masukkan sebagai selected parent.
-                selectedParents[i] = sortedPopulation[selectedParentIndex];
+                selectedParents[i] = population.getIndividual(selectedParentIndex);
                 selectedCandidates[selectedParentIndex] = true;
 
             }else{
