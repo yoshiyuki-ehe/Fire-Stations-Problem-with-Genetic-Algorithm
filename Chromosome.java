@@ -125,7 +125,7 @@ public abstract class Chromosome {
 }
 
 // tambahkan abstract void selfRepair()
-// tambahkan abstract boolean equals()
+// tambahkan abstract boolean crossable(Chromosome other)
 // tambahkan abstract Chromosome duplicate()
 // tambahkan abstract int length()
 // remove method getFireStationCount()
