@@ -4,11 +4,25 @@ public abstract class Chromosome {
     public abstract Chromosome duplicate();
     public abstract int length();
 
+    public final int length;
+    
+    // length simpan sebagai final int di Chromosome
+    // pastikan kelas ekstensi memanggil super(int length)
+    public Chromosome(int length) {
+        this.length = length;
+    }
+    
+    // btw ini gw ralat sedikit: gw bilang n * m maksudnya array 1 dimensi yang panjangnya (n * m)
+    // tapi n * m nya dihitungnya di luar, bukan di dalam
+    
     //Chromosome A (n x m)
+    // ChromosomeA bikin di file yang berbeda
     public static class ChromosomeA extends Chromosome {
         private int[][] genes;
         private int r;
 
+        // int r harus ada karena Kombinasi
+        // parameter genes dalam Constructor dibuat 1 dimensi
         //constructor dengan r
         public ChromosomeA(int[][] genes, int r) {
             this.genes = new int[genes.length][genes[0].length];
@@ -19,11 +33,19 @@ public abstract class Chromosome {
             }
         }
 
+        // harus ada r dammit
         //constructor without r
         public ChromosomeA(int[][] genes) {
             this(genes, countOnes(genes));
         }
 
+        // ini static sok pintar ngl
+        // gw tau static gunanya apa tapi kita hampir gakan pakai
+        // google static buat apa
+        
+        // btw tadi gw scroll ke bawah 
+        // ujung ujugnya coutnOnes gak kepakai anjg
+        
         //menghitung jumlah angka 1 dalam genes
         private static int countOnes(int[][] genes) {
             int count = 0;
@@ -39,6 +61,11 @@ public abstract class Chromosome {
             return count;
         }
 
+        // jangan ada getGenes
+        // kita tidak ingin objek lain bisa ngedit isi genes
+        // selain itu beda chromosome bisa menyimpan gene dalam bentuk yang berbeda
+        // kita ingin bisa mengakses array 1D, 2D, 3D, etc dengan cara yang sama
+        
         //mengambil salinan genes
         public int[][] getGenes() {
             int[][] copy = new int[genes.length][genes[0].length];
@@ -50,14 +77,16 @@ public abstract class Chromosome {
             return copy;
         }
 
+        // no
         public int getRows() {
             return genes.length;
         }
-
+        // no
         public int getCols() {
             return genes[0].length;
         }
-
+        // no, maybe
+        // palingan r dibikin public final int kalau mau
         public int getR() {
             return r;
         }
@@ -118,6 +147,7 @@ public abstract class Chromosome {
             }
         }
 
+        // tadi gw bilang jangan pakai getRows dan getCols
         @Override
         //cek apakah kedua parent bisa dicross
         public boolean crossable(Chromosome other) {
@@ -133,18 +163,21 @@ public abstract class Chromosome {
         }
 
         @Override
+        // return type Chromosome, bukan ChromosomeA
         //mengambil salinan ChromosomeA
         public ChromosomeA duplicate() {
             return new ChromosomeA(getGenes(), r);
         }
 
         @Override
+        // like I said forget method length
         //mengambil panjang dari ChromosomeA
         public int length() {
             return getRows() * getCols();
         }
     }
 
+    // ChromosomeB bikin di file terpisah
     //Chromosome B (2 x n)
     public static class ChromosomeB extends Chromosome {
         private int[][] genes;
@@ -157,16 +190,19 @@ public abstract class Chromosome {
             this.maxFirst = Math.max(1, maxFirst);
             this.maxSecond = Math.max(1, maxSecond);
 
+            // jangan fucking clone it here
             for (int i = 0; i < 2; i++) {
                 this.genes[i] = genes[i].clone();
             }
         }
 
+        // apalah kontol ini lagi
         //constructor without maxFirst and maxSecond
         public ChromosomeB(int[][] genes) {
             this(genes, findMax(genes[0]) + 1, findMax(genes[1]) + 1);
         }
 
+        // fuck you
         //mencari nilai maksimum dalam array
         private static int findMax(int[] values) {
             int max = 0;
@@ -180,6 +216,7 @@ public abstract class Chromosome {
             return max;
         }
 
+        // no
         //mengambil salinan genes
         public int[][] getGenes() {
             int[][] copy = new int[2][genes[0].length];
@@ -199,6 +236,8 @@ public abstract class Chromosome {
             return maxSecond;
         }
 
+        // getGene harusnya return int goddammit
+        // gen itu 1 unit informasi
         //mengambil gene
         public int[] getGene(int index) {
             return new int[] {
@@ -207,12 +246,14 @@ public abstract class Chromosome {
             };
         }
 
+        // value harusnya int
         //mengubah gene
         public void setGene(int index, int[] value) {
             genes[0][index] = value[0];
             genes[1][index] = value[1];
         }
 
+        // fuck mengambil koordinat
         //mengambil koordinat x dan y dari station
         public int getX(int index) {
             return genes[0][index];
@@ -222,6 +263,7 @@ public abstract class Chromosome {
             return genes[1][index];
         }
 
+        // gada station station dalam Chromosome
         //mengubah koordinat x dan y dari station
         public void setStation(int index, int x, int y) {
             genes[0][index] = x;
@@ -232,6 +274,8 @@ public abstract class Chromosome {
             return genes[0].length;
         }
 
+        // ini cool, no comment
+        // ada beberapa hal, tapi kinda debatable
         @Override
         public void selfRepair() {
             for (int i = 0; i < length(); i++) {
@@ -252,6 +296,7 @@ public abstract class Chromosome {
 
             ChromosomeB chromosome = (ChromosomeB) other;
 
+            // ingat length pakai final int di kelas parent Chromosome
             return length() == chromosome.length()
                 && maxFirst == chromosome.maxFirst
                 && maxSecond == chromosome.maxSecond;
@@ -260,9 +305,12 @@ public abstract class Chromosome {
         @Override
         //mengambil salinan ChromosomeB
         public ChromosomeB duplicate() {
+            // jangan masukkin original array di sini
+            // masukin cloned array ke dalam sini
             return new ChromosomeB(getGenes(), maxFirst, maxSecond);
         }
 
+        // like I said forget method length
         @Override
         public int length() {
             return getStationCount();
