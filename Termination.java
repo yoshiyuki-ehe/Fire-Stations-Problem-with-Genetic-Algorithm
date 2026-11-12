@@ -1,6 +1,4 @@
-
 public class Termination implements TerminateCondition{
-
     private int maxStagnantGenerations;
     private double minDelta;
     private double bestFitness;
@@ -13,17 +11,13 @@ public class Termination implements TerminateCondition{
         this.stagnantCount = 0;
     }
 
-
     @Override
     public boolean shouldTerminate(Population population, int currentGeneration) {
-         Individual individuals[] = population.getArray();
-        
-        if (individuals == null || individuals.length == 0) {
-            return true;
-        }
+        //population pasti dalam keadaan sorted saat method ini dipanggil
+        //sehingga fitness tertinggi pasti ada pada individual index 0
+        double currentBestFitness = population.getIndividual(0).getFitness();
 
-        double currentBestFitness = individuals[0].getFitness();
-
+        //mencatat banyaknya stagnasi berturut-turut
         if (currentBestFitness - this.bestFitness > minDelta) {
             this.stagnantCount = 0;
         } 
@@ -31,11 +25,8 @@ public class Termination implements TerminateCondition{
             this.stagnantCount++;
         }
 
-        if (currentBestFitness > this.bestFitness) {
-            this.bestFitness = currentBestFitness;
-        }
+        bestFitness = Math.max(bestFitness, currentBestFitness);
 
         return this.stagnantCount >= this.maxStagnantGenerations;
     }
-
 }
