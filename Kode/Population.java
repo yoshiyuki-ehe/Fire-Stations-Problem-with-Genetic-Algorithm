@@ -1,29 +1,33 @@
+import java.util.Arrays;
+import java.util.Random;
+
 public class Population {
     
     private Individual[] populationArray;
     private double totalFitness;
-    private int elitismCount;
+    //culledGenSize menyimpan ukuran population setelah initial population
+    private int culledGenSize;
 
     //TODO: refactor constructor untuk menerima parameter IndividualGenerator
     public Population(Individual[] populationArray, double elitsmRate){
         this.populate(populationArray);
-        double total = 0;
         this.precomputeTotalFitness();
-        this.elitismCount = (int)(elitsmRate * this.getPopulationSize());
+        int elitismCount = (int)(elitsmRate * this.getPopulationSize());
+        this.culledGenSize = this.getPopulationSize() - elitismCount;
     }
     
     public Individual getIndividual(int index){
-        return this.populationArray[i];
+        return this.populationArray[index];
     }
     
     public int getPopulationSize(){
         return this.populationArray.length;
     }
 
-    public Population populate(Individual[] array){
+    public void populate(Individual[] array){
         this.populationArray = array;
         Arrays.sort(this.populationArray);
-        return this;
+        this.precomputeTotalFitness();
     }
 
     public double getTotalFitness(){
@@ -31,23 +35,45 @@ public class Population {
     }
 
     private void precomputeTotalFitness(){
+        double total = 0;
         for (Individual individual: this.populationArray) {
             total += individual.getFitness();
         }
         this.totalFitness = total;
     }
-    //TODO: Refaktor supaya memakai method crossover yang benar dan mengimplementasi elitism
     
-    public Individual[] populateWithNextGeneration(Crossover crossover){
+    //mungkin biar clean code, harusnya beberapa parameternya diganti FireStationsSingleton saja.
+    public Individual[] populateWithNextGeneration(ParentSelection parentSelection, Random random, Crossover crossover, Mutation mutation, double mutationRate){
         
-        Individual[] nextGeneration = new Individual[getPopulationSize()];
-        int eliteIndividualCount = this.getPopulationSize() - this.elitismCount;
-        for (int i = 0; i < this.eliteIndividualCount; i++) {
-            nextGeneration[i] = crossover.crossover();
-        }
-        this.populate(nextGeneration);
-        this.precomputeTotalFitness();
-        return nextGeneration;
+        Individual[] children = new Individual[this.getPopulationSize()];
+
+        //populate process
+        for (int i = 0; i < this.getPopulationSize(); i += 2) {
+            Individual[] selectedParents = parentSelection.selectParents(this, random, 2);
+            
+            Chromosome[] childrensChromosomes = crossover.crossover(selectedParents[0].chromosome, selectedParents[1].chromosome);//mana getter chromosome? :sad:
+            
+            
+            if(random.nextDouble(0,1) < mutationRate){//TODO: masalahnya 1 exclusive, mungkin technically bug, mungkin mau cari solusi lebih baik
+                mutation.mutate(childrensChromosomes[0]);
+            }
+
+            if(random.nextDouble(0,1) < mutationRate){//TODO: masalahnya 1 exclusive, mungkin technically bug, mungkin mau cari solusi lebih baik
+                mutation.mutate(childrensChromosomes[1]);
+            }
+            
+            //mengambil asumsi constructor langsung menghitung fitnessValue dan objectiveValue
+            Individual childA = new Individual(childrensChromosomes[0]);
+            Individual childB = new Individual(childrensChromosomes[1]);
+
+            children[i] = childA;
+            children[i+1] = childB;
+
+        }   
+        Arrays.sort(children);
+        //sebelum nextGen menggantikan population yang sekarang, cull children untuk membuat nextGen.
+        Individual[] nextGen = Arrays.copyOfRange(children, 0, culledGenSize-1);
+        populate(nextGen);
     }
 
 }
