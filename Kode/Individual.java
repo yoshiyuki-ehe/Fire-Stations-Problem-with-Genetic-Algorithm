@@ -2,22 +2,24 @@ public abstract class Individual implements Comparable<Individual> {
     public final double objectiveValue; // average of min distances
     public final double fitnessValue; // n*m + 0.0001 - objectiveFunction (buat roulette wheel, selalu > 0)
     public final Chromosome chromosome;
-    // array firestations dibuat private agar isinya tidak dapat dimodifikasi objek lain
-    private Point[] fireStations;
+    protected final Point[] fireStations;
 
-    // kelas konkret menghitung objectiveValue, fitnessValue, dan fireStations sendiri
-    // lalu pass ke super(...)
-    protected Individual(Chromosome chromosome, double objectiveValue, double fitnessValue, Point[] fireStations) {
+    protected Individual(Chromosome chromosome) {
         this.chromosome = chromosome;
-        this.objectiveValue = objectiveValue;
-        this.fitnessValue = fitnessValue;
-        this.fireStations = fireStations;
     }
     
-    public Point getFireStation(int i) {
+    public Point getFireStationWithIndex(int i) {
         return fireStations[i];
     }
-    
+
+    public Point[] getFireStation(){
+        return this.fireStations;
+    }
+
+    public Chromosome getChromosome(){
+        return this.chromosome;
+    }
+
     @Override
     public int compareTo(Individual other) {
         // fitness tertinggi yg didepan

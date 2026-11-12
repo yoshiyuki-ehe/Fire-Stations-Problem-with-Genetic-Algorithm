@@ -7,69 +7,70 @@ public class Environment
     private static final int[][] dir = new int[][] {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
     private char[][] map;
     private int[][][] dist;
-    private int[][] freePositions;
+    private ArrayList<Point> freePositions;
 
     public final int unreachablePenalty;
     public final int fireStationCount;
     public final int houseCount;
     public final int mapHeight;
     public final int mapWidth;
+    public final int freePositionCount;
 
     public Environment(char[][] map, int fireStationCount)
     {
         // asumsi map 0-indexed
         this.map = map;
         this.fireStationCount = fireStationCount;
-        this.mapHeight = map.length;
-        this.mapWidth = map[0].length;
+        mapHeight = map.length;
+        mapWidth = map[0].length;
         // asumsi n (tinggi map) dan m (lebar map) pada setiap testcase >= 1
-        this.unreachablePenalty = this.mapHeight * this.mapWidth;
+        unreachablePenalty = this.mapHeight * this.mapWidth;
         precomputeDistance();
-        this.houseCount = this.dist.length;
+        houseCount = dist.length;
         findFreePositions();
+        freePositionCount = freePositions.size();
     }
 
     // precompute jarak setiap rumah ke setiap petak agar jarak suatu rumah ke setiap petak dapat diakses dengan kompleksitas O(1)
     private void precomputeDistance()
     {
         // pre-declaration
-        int i, j, k;
+        int i, j, k, l, depth;
 
         // houses dicatat menggunakan Queue (diimplementasi dengan LinkedList) karena pada awalnya jumlah rumah tidak diketahui
         // sebenarnya dapat dilakukan dengan ArrayList tetapi sedikit lebih lambat (tidak murni O(1))
-        LinkedList<int[]> houses = new LinkedList<>();
+        ArrayList<Point> houses = new ArrayList<>();
 
         for (i = 0; i < this.mapHeight; i++)
         {
             for (j = 0; j < this.mapWidth; j++)
             {
                 // mencatat koordinat setiap rumah
-                if (map[i][j] == 'H') houses.offer(new int[] {i, j});
+                if (map[i][j] == 'H') houses.add(new Point(i, j));
             }
         }
 
-        int[][][] dist = new int[houses.size()][this.mapHeight][this.mapWidth];
-        while (!houses.isEmpty())
+        dist = new int[houses.size()][this.mapHeight][this.mapWidth];
+        for (l = houses.size() - 1; l > 0; l--)
         {
-            LinkedList<int[]> bfs = new LinkedList<>();
+            LinkedList<Point> bfs = new LinkedList<>();
             // masukkan petak sumber (rumah saat ini)
-            // ukuran houseCount akan digunakan sebagai indeks
             // urutan rumah yang diproses terlebih dahulu tidak penting
-            bfs.offer(houses.poll());
+            bfs.offer(houses.get(k));
 
             for (i = 0; i < this.mapHeight; i++)
             {
                 for (j = 0; j < this.mapWidth; j++)
                 {
                     // asumsikan di awal semua petak unreachable sampai dibuktikan sebaliknya
-                    dist[houses.size()][i][j] = unreachablePenalty;
+                    dist[k][i][j] = unreachablePenalty;
                 }
             }
 
             // perhitungan dimulai dengan adjacent neighbour dari masing masing house (yang memiliki jarak 1)
-            int depth = 1;
+            depth = 1;
             // pre-declaration
-            int[] cur, nex;
+            Point cur, nex;
             // jarak rumah ke dirinya sendiri tidak diset 0 karena ada obstacle (rumah)
             // jika ada fire station diletakkan pada petak tersebut maka penempatan invalid dan tidak perlu menghitung jarak
             while (!bfs.isEmpty())
@@ -83,13 +84,13 @@ public class Environment
                     // generate tetangga di 4 arah
                     for (i = 0; i < 4; i++)
                     {
-                        nex = new int[] {cur[0] + dir[i][0], cur[1] + dir[i][1]};
+                        nex = new Point(cur.row + dir[i][0], cur.col + dir[i][1]);
                         // boundary check dan obstacle check dan redundancy check
-                        if (nex[0] >= 0 && nex[1] >= 0 && nex[0] < this.mapHeight && nex[1] < this.mapWidth
-                            && map[nex[0]][nex[1]] == '.' && dist[houses.size()][nex[0]][nex[1]] > depth)
+                        if (nex.row >= 0 && nex.col >= 0 && nex.row < this.mapHeight && nex.col < this.mapWidth
+                            && map[nex.row][nex.col] == '.' && dist[k][nex.row][nex.col] > depth)
                         {
                             bfs.offer(nex);
-                            dist[houses.size()][nex[0]][nex[1]] = depth;
+                            dist[k][nex.row][nex.col] = depth;
                         }
                     }
                 }
@@ -102,19 +103,14 @@ public class Environment
     private void findFreePositions()
     {
         int i, j;
-        LinkedList<int[]> foundSpots = new LinkedList<>();
         
         for (i = 0; i < mapHeight; i++)
         {
             for (j = 0; i < mapWidth; j++)
             {
-                if (map[i][j] == '.') foundSpots.offer(new int[]{i, j});
+                if (map[i][j] == '.') foundSpots.add(new Point(i, j));
             }
         }
-
-        this.freePositions = new int[foundSpots.size()][2];
-        i = 0;
-        while (!foundSpots.empty()) freePositions[i++] = foundSpots.poll();
     }
     
     // jarak rumah ke-ref ke petak row, col
@@ -133,6 +129,6 @@ public class Environment
     // memberikan salah satu posisi kosong secara out of place
     public int[] getFreePosition(int ref)
     {
-        return new int[] {freePositions[i][0], freePositions[i][1]};
+        return freePositions.get(ref);
     }
 }
