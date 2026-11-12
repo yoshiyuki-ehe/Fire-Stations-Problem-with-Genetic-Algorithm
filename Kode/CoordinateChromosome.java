@@ -1,9 +1,9 @@
-public class ChromosomeB extends Chromosome {
+public class CoordinateChromosome extends Chromosome {
     private int[][] genes;
     private int maxFirst;
     private int maxSecond;
 
-    public ChromosomeB(int[][] genes, int maxFirst, int maxSecond, int length) {
+    public CoordinateChromosome(int[][] genes, int maxFirst, int maxSecond, int length) {
         super(length);
 
         this.genes = new int[2][genes[0].length];
@@ -47,11 +47,11 @@ public class ChromosomeB extends Chromosome {
 
     @Override
     public boolean crossable(Chromosome other) {
-        if (!(other instanceof ChromosomeB)) {
+        if (!(other instanceof CoordinateChromosome)) {
             return false;
         }
 
-        ChromosomeB chromosome = (ChromosomeB) other;
+        CoordinateChromosome chromosome = (CoordinateChromosome) other;
 
         return length == chromosome.length
             && maxFirst == chromosome.maxFirst
@@ -60,6 +60,6 @@ public class ChromosomeB extends Chromosome {
 
     @Override
     public Chromosome duplicate() {
-        return new ChromosomeB(genes, maxFirst, maxSecond, length);
+        return new CoordinateChromosome(genes, maxFirst, maxSecond, length);
     }
 }
