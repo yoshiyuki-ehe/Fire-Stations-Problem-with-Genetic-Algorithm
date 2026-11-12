@@ -1,8 +1,8 @@
-public class ChromosomeA extends Chromosome {
+public class GridChromosome extends Chromosome {
     private int[] genes;
     public final int r;
 
-    public ChromosomeA(int[] genes, int r, int length) {
+    public GridChromosome(int[] genes, int r, int length) {
         super(length);
         this.genes = genes.clone();
         this.r = r;
@@ -55,17 +55,17 @@ public class ChromosomeA extends Chromosome {
 
     @Override
     public boolean crossable(Chromosome other) {
-        if (!(other instanceof ChromosomeA)) {
+        if (!(other instanceof GridChromosome)) {
             return false;
         }
 
-        ChromosomeA chromosome = (ChromosomeA) other;
+        GridChromosome chromosome = (GridChromosome) other;
 
         return length == chromosome.length && r == chromosome.r;
     }
 
     @Override
     public Chromosome duplicate() {
-        return new ChromosomeA(genes, r, length);
+        return new GridChromosome(genes, r, length);
     }
 }
