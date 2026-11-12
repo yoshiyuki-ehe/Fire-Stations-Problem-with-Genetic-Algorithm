@@ -2,11 +2,11 @@ public class Point
 {
   // kelas Point dapat menyimpan suatu titik dan memberikannya ke objek lain
   // tetapi titik tersebut tidak dapat diubah
-  public final int r, c;
+  public final int row, col;
 
-  public Spot(int r, int c)
+  public Point(int row, int col)
   {
-    this.r = r;
-    this.c = c;
+    this.row = row;
+    this.col = col;
   }
 }
