@@ -1,6 +1,6 @@
 import java.util.Random;
 
-public class CrossoverA extends Crossover {
+public class SinglePointCrossover extends Crossover {
     @Override
     public Chromosome[] crossover(Chromosome parent1, Chromosome parent2) {
         //cek apakah kedua parent bisa dicross
