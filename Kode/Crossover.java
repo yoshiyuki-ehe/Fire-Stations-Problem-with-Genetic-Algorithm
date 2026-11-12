@@ -3,31 +3,47 @@ import java.util.Random;
 public abstract class Crossover {
     public abstract Chromosome[] crossover(Chromosome parent1, Chromosome parent2);
 
+    // like I said in Chromosome, ChromosomeA dan ChromosomeB di file terpisah
+    // CrossoverA dan CrossoverB di file terpisah juga
+    // note: please think of a good class name
+    // liat Mutation sama ParentSelection sebagai contoh
+    
     //single-Point Crossover (ChromosomeA)
     public static class CrossoverA extends Crossover {
         @Override
         public Chromosome[] crossover(Chromosome parent1, Chromosome parent2) {
+            // bgst ada alasannya gw suruh bikin method crossable
+            // jangan malah lu hardcode ini
             if (!(parent1 instanceof Chromosome.ChromosomeA) || !(parent2 instanceof Chromosome.ChromosomeA)) {
                 return new Chromosome[0];
             }
 
+            // fucking hell
+            // Chromosome malah lu downcast ke ChromosomeA
+            // Crossover harusnya bisa menerima ChromosomeA maupun ChromosomeB
+            // yang penting p1 dan p2 crossable
             Chromosome.ChromosomeA p1 = (Chromosome.ChromosomeA) parent1;
             Chromosome.ChromosomeA p2 = (Chromosome.ChromosomeA) parent2;
-
+            
+            // harusnya cek crossable di atas
             //cek apakah kedua parent bisa dicross
             if (!p1.crossable(p2)) {
                 return new Chromosome[0];
             }
 
+            // no
             int totalGenes = p1.length();
 
+            // makin ke bawah makin salah anjg
             //buat anak dari salinan parent
             Chromosome.ChromosomeA child1 = p1.duplicate();
             Chromosome.ChromosomeA child2 = p2.duplicate();
 
+            // acceptable
             //mengambil random dari singleton
             Random random = FireStationsSingleton.INSTANCE.getRandom();
 
+            // jangan if length > 1
             //single-point crossover
             if (totalGenes > 1) {
                 int point = random.nextInt(totalGenes - 1) + 1;
@@ -73,6 +89,13 @@ public abstract class Crossover {
                 int[] gene1 = p1.getGene(i);
                 int[] gene2 = p2.getGene(i);
 
+                // you don't need doubles dammit
+                // note: asumsi a dan b int,
+                    // maka round((a + b) / 2) = (a + b + 1) / 2
+                // aku menyuruh ini untuk hemat memori dengan menghindari menggunakan double
+
+                // sama like I said di atas jangan bikin CrossoverB terbatas pada ChromosomeB
+                // CrossoverB harus bekerja pada ChromosomeA maupun ChromosomeB
                 int firstAverage = (int) Math.round((gene1[0] + gene2[0]) / 2.0);
                 int secondAverage = (int) Math.round((gene1[1] + gene2[1]) / 2.0);
 
