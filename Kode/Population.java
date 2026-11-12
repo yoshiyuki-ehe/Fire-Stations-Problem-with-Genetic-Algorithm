@@ -72,7 +72,7 @@ public class Population {
         }   
         Arrays.sort(children);
         //sebelum nextGen menggantikan population yang sekarang, cull children untuk membuat nextGen.
-        Individual[] nextGen = Arrays.copyOfRange(children, 0, culledGenSize-1);
+        Individual[] nextGen = Arrays.copyOfRange(children, this.getPopulationSize()-culledGenSize-1, this.getPopulationSize()-1);
         populate(nextGen);
     }
 
