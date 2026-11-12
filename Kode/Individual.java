@@ -1,25 +1,33 @@
 public abstract class Individual implements Comparable<Individual> {
-    protected int[][] fireStations; // int[p][2]
-    protected double objectiveFunction = -1; // sum of min distances (total jarak)
-    protected double fitness = -1; // n*m + 0.0001 - objectiveFunction (buat roulette wheel, selalu > 0)
+    public final double objectiveValue; // average of min distances
+    public final double fitnessValue; // n*m + 0.0001 - objectiveFunction (buat roulette wheel, selalu > 0)
+    public final Chromosome chromosome;
+    // array firestations dibuat private agar isinya tidak dapat dimodifikasi objek lain
+    private Point[] fireStations; // refer to kelas Point pada branch main
 
     // method abstract wajib buat nanti di override
-    protected abstract void selfCorrect(); // koreksi chromosome agar valid
-    protected abstract void initFitness(); // map chromosome ke fireStations, hitung objectiveFunction dan fitness
-    protected abstract Chromosome getChromosome(); // method untuk return chromosome
+    // protected abstract void initFitness(); // map chromosome ke fireStations, hitung objectiveFunction dan fitness
+    // protected abstract void initObjective();
 
-    public int[][] getFireStations() {
-        return this.fireStations;
+    // comment from your leader:
+    
+    // mungkin aku gila melakukan ini tapi
+    // karena initFitness() dan initObjective() tidak akan pernah dipanggil kelas lain
+    // tidak perlu dibuat pada abstract class
+    // tapi nanti bikin aja pada kelas konkretnya private
+    
+    // kelas konkret hanya menerima 1 parameter constructor, yaitu Chromosome
+    // kelas konret tersebut akan menghitung 3 parameter lain sendiri
+    public Individual(Chromosome chromosome, double fitnessValue, double objectiveValue, Point[] firestations) {
+        this.chromosome = chromosome;
+        this.fitnessValue = fitnessValue;
+        this.objectiveValue = objectiveValue;
+        this.firestations = firestations;
     }
-
-    public double getObjectiveFunction() {
-        return this.objectiveFunction;
+    
+    public Point getFireStation(int i) {
+        return fireStations[i];
     }
-
-    public double getFitness() {
-        return this.fitness;
-    }
-
 
     @Override
     public int compareTo(Individual other) {
@@ -38,5 +46,4 @@ public abstract class Individual implements Comparable<Individual> {
 // basically that's it
 
 // Individual B pakai Chromosome B
-// khusus ini ada "self repair"
-// semua posisi fire station harus berada di free position
+// abaikan posisi fire station yang invalid
