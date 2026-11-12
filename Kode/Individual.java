@@ -9,15 +9,6 @@ public abstract class Individual implements Comparable<Individual> {
     // protected abstract void initFitness(); // map chromosome ke fireStations, hitung objectiveFunction dan fitness
     // protected abstract void initObjective();
 
-    // comment from your leader:
-    
-    // mungkin aku gila melakukan ini tapi
-    // karena initFitness() dan initObjective() tidak akan pernah dipanggil kelas lain
-    // tidak perlu dibuat pada abstract class
-    // tapi nanti bikin aja pada kelas konkretnya private
-    
-    // kelas konkret hanya menerima 1 parameter constructor, yaitu Chromosome
-    // kelas konret tersebut akan menghitung 3 parameter lain sendiri
     public Individual(Chromosome chromosome, double fitnessValue, double objectiveValue, Point[] firestations) {
         this.chromosome = chromosome;
         this.fitnessValue = fitnessValue;
@@ -28,7 +19,7 @@ public abstract class Individual implements Comparable<Individual> {
     public Point getFireStation(int i) {
         return fireStations[i];
     }
-
+    
     @Override
     public int compareTo(Individual other) {
         // fitness tertinggi yg didepan
@@ -36,6 +27,15 @@ public abstract class Individual implements Comparable<Individual> {
     }
 }
 
+// comment from your leader:
+
+// mungkin aku gila melakukan ini tapi
+// karena initFitness() dan initObjective() tidak akan pernah dipanggil kelas lain
+// tidak perlu dibuat pada abstract class
+// tapi nanti bikin aja pada kelas konkretnya private
+
+// kelas konkret hanya menerima 1 parameter constructor, yaitu Chromosome
+// kelas konret tersebut akan menghitung 3 parameter lain sendiri
 // gw ada bikin kelas Point, liat di main kalau sebagai referensi
 // kalo lu butuh ngambil koordinat pakai itu
 // contoh getFireStations jadinya return Point[] fireStations
