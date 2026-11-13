@@ -4,7 +4,7 @@ public class FullParameterTermination implements Termination{
     private double bestFitness;
     private int stagnantCount;
 
-    public Termination(int maxStagnantGenerations, double minDelta) {
+    public FullParameterTermination(int maxStagnantGenerations, double minDelta) {
         this.maxStagnantGenerations = maxStagnantGenerations;
         this.minDelta = minDelta;
         this.bestFitness = 0;
@@ -12,7 +12,7 @@ public class FullParameterTermination implements Termination{
     }
 
     @Override
-    public boolean shouldTerminate(Population population, int currentGeneration) {
+    public boolean shouldTerminate(Population population) {
         //population pasti dalam keadaan sorted saat method ini dipanggil
         //sehingga fitness tertinggi pasti ada pada individual index 0
         double currentBestFitness = population.getIndividual(0).getFitness();

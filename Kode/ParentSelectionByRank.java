@@ -1,11 +1,11 @@
 import java.util.Random;
 
 public class ParentSelectionByRank extends ParentSelection{
-    //karena gw ga tau bentukan Population, method di bawah masih harus direfactor.
     @Override
-    public Individual[] selectParents(Population population, Random random, int nOfParents)
+    public Individual[] selectParents(Population population, int nOfParents)
     {
-        
+        Random random = FireStationsSingleton.INSTANCE.getRandom();
+
         //masukkan population yang telah disort sebagai kandidat parent
         boolean[] selectedCandidates = new boolean[population.getPopulationSize()];
         int totalRank = termial(population.getPopulationSize());
@@ -33,33 +33,28 @@ public class ParentSelectionByRank extends ParentSelection{
                 //ulangi cycle karena kandidat yang terpilih tidak valid.
                 i--;
             }
-
-
         }
 
         return selectedParents;
     }
 
-    //Credit to another team member: ganti nama method supaya sesuai istilah benarnya dan mengubah complexity dari O(n) ke O(1)
     private int termial(int n){
-        return n*(n+1)/2;
+        return n * (n + 1) / 2;
     }
 
+    // perhitungan invers termial dengan kompleksitas O(1)
     private int inverseTermial(int y){
+        // rumus mencari nilai x pada fungsi kuadrat
+        // 0 = ax^2 + bx + c
+        // x = (-1 +- sqrt(b^2 - 4ac)) / 2a
+        // Termial(n) = n * (n + 1) / 2
+        // 2 * Termial(n) = n^2 + n
+        // 0 = n^2 + n - 2 * Termial(n)
+        // nilai invers yang dibutuhkan merupakan nilai positif
+        // n = (-1 + sqrt(1 - 4 * 2 * Termial(n))) / 2
+
+        return (-1 + (int)(Math.sqrt(1 - 4 * 2 * y))) / 2;
         //some study reference used into the implementation below and to understand the possible risks of it:
         //https://stackoverflow.com/questions/1348892/why-does-math-floordouble-return-a-value-of-type-double
-        return (-1 + (int)(Math.sqrt(1 - 4 * 2 * y))) / 2;
     }
 }
-
-// remove sort karena dilakukan sendiri oleh Population
-// memilih angka dari (1, Termial(n) + 1)
-// pilih kandidat dari inverse function Termial
-// f(n) = (n * (n + 1) / 2)
-// f(n) = (n^2 + n) / 2
-// f(n) = (n/2)^2 + n/2
-// 0 = (n/2)^2 + n/2 + f(n)
-// 0 = n^2 + n + 2*f(n)
-// n = (-1 + sqrt(1 - 4 * 2 * f(n))) / 2
-// source: https://www.geeksforgeeks.org/maths/x-intercepts-of-a-quadratic-fuction/
-// (population size - n - 1) jadi indeks winner candidate

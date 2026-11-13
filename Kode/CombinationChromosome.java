@@ -8,6 +8,7 @@ public class CombinationChromosome extends Chromosome {
         this.genes = genes;
         // membatasi nilai r agar menjadi nilai r yang valid untuk Kombinasi dengan panjang gen
         this.r = Math.max(0, Math.min(r, genes.length));
+        this.selfRepair();
     }
 
     @Override

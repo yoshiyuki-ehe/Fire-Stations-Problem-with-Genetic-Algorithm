@@ -12,23 +12,25 @@ public class PointChromosome extends Chromosome {
         // memastikan setiap "baris" memiliki minimal 2 "kolom"
         for (int i = 0; i < genes.length; i++) if (genes[i].length < 2) genes[i] = Arrays.copyOf(genes[i], 2);
 
-        // memastikan nilai maxFirst dan maxSecond masuk akal
+        // memastikan nilai maxFirst dan maxSecond masuk batasan
         this.maxFirst = Math.max(1, maxFirst);
         this.maxSecond = Math.max(1, maxSecond);
+
+        this.selfRepair();
     }
 
     @Override
     public int getGene(int index) {
-        int row = index / (length / 2);
-        int col = index % (length / 2);
+        int row = index % genes.length;
+        int col = index / genes.length;
 
         return genes[row][col];
     }
 
     @Override
     public void setGene(int index, int value) {
-        int row = index / (length / 2);
-        int col = index % (length / 2);
+        int row = index % genes.length;
+        int col = index / genes.length;
 
         genes[row][col] = value;
     }

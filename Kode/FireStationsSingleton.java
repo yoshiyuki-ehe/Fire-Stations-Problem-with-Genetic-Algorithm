@@ -17,6 +17,7 @@ public enum FireStationsSingleton
 
     private Random rand = null;
     private double elitismRate = 0;
+    private double crossoverRate = 0;
     private double mutationRate = 0;
 
     // getter dan setter
@@ -80,8 +81,17 @@ public enum FireStationsSingleton
         return elitismRate;
     }
 
+    // elitismRate, crossoverRate, dan mutationRate harus bernilai [0, 1]
     public void setElitismRate(double elitismRate) {
-        this.elitismRate = elitismRate;
+        this.elitismRate = Math.max(0, Math.min(elitismRate, 1));
+    }
+
+    public double getCrossoverRate() {
+        return crossoverRate;
+    }
+
+    public void setCrossoverRate(double crossoverRate) {
+        this.crossoverRate = Math.max(0, Math.min(crossoverRate, 1));
     }
 
     public double getMutationRate() {
@@ -89,7 +99,7 @@ public enum FireStationsSingleton
     }
 
     public void setMutationRate(double mutationRate) {
-        this.mutationRate = mutationRate;
+        this.mutationRate = Math.max(0, Math.min(mutationRate, 1));
     }
 
     public void run()

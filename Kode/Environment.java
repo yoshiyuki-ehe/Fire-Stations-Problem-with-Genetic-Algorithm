@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 public class Environment
@@ -51,19 +52,19 @@ public class Environment
         }
 
         dist = new int[houses.size()][this.mapHeight][this.mapWidth];
-        for (l = houses.size() - 1; l > 0; l--)
+        for (l = houses.size() - 1; l >= 0; l--)
         {
             LinkedList<Point> bfs = new LinkedList<>();
             // masukkan petak sumber (rumah saat ini)
             // urutan rumah yang diproses terlebih dahulu tidak penting
-            bfs.offer(houses.get(k));
+            bfs.offer(houses.get(l));
 
             for (i = 0; i < this.mapHeight; i++)
             {
                 for (j = 0; j < this.mapWidth; j++)
                 {
                     // asumsikan di awal semua petak unreachable sampai dibuktikan sebaliknya
-                    dist[k][i][j] = unreachablePenalty;
+                    dist[l][i][j] = unreachablePenalty;
                 }
             }
 
@@ -102,21 +103,22 @@ public class Environment
     // mencari posisi kosong pada peta yang dapat digunakan untuk keperluan self repair Individu
     private void findFreePositions()
     {
-        int i, j;
+        freePositions = new ArrayList<>();
         
+        int i, j;
         for (i = 0; i < mapHeight; i++)
         {
             for (j = 0; i < mapWidth; j++)
             {
-                if (map[i][j] == '.') foundSpots.add(new Point(i, j));
+                if (map[i][j] == '.') freePositions.add(new Point(i, j));
             }
         }
     }
     
     // jarak rumah ke-ref ke petak row, col
-    public int getDist(int ref, int row, int col)
+    public int getDist(int index, int row, int col)
     {
-        return dist[ref][row][col];
+        return dist[index][row][col];
     }
 
     // memeriksa jika di sebuah posisi di map bebas obstacle
@@ -127,8 +129,8 @@ public class Environment
     }
 
     // memberikan salah satu posisi kosong secara out of place
-    public int[] getFreePosition(int ref)
+    public Point getFreePosition(int index)
     {
-        return freePositions.get(ref);
+        return freePositions.get(index);
     }
 }

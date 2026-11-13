@@ -3,9 +3,9 @@ import java.util.Random;
 public class ParentSelectionByFitness extends ParentSelection{
     
     @Override
-    public Individual[] selectParents(Population population, Random random, int nOfParents)
+    public Individual[] selectParents(Population population, int nOfParents)
     {
-        //LinkedList<Individual> unselectedCandidates = linkedListConvert(population.getArray());
+        Random random = FireStationsSingleton.INSTANCE.getRandom();
 
         boolean[] selectedCandidates = new boolean[population.getPopulationSize()];
         double totalFitness = population.getTotalFitness();
@@ -52,6 +52,3 @@ public class ParentSelectionByFitness extends ParentSelection{
         return selectedParents;
     }
 }
-
-// buat random.nextDouble(0, totalFitness)
-// buat boolean[] selectedCandidates untuk menandai kandidat yang sudah diselect, kalau populationnya besar lebih efisien daripada menghapus dari List
