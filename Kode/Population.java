@@ -10,11 +10,13 @@ public class Population {
     //culledGenSize menyimpan ukuran population setelah initial population
     private int culledGenSize;
     private int elitismCount;
+    private int generation;
 
     public Population(IndividualGenerator generator, int populationSize, double elitismRate){
         this.generator = generator;
         populationArray = new Individual[populationSize];
         for (int i = 0; i < populationSize; i++) populationArray[i] = generator.generateRandomIndividual();
+        generation = 0;
         refreshGeneration();
 
         // elitismCount dibulatkan ke bawah agar jika ukuran Population 0 tetap dapat menerima Individual baru
@@ -36,7 +38,11 @@ public class Population {
     }
 
     public double getTotalFitness(){
-        return this.totalFitness;
+        return totalFitness;
+    }
+
+    public int getCurrentGeneration(){
+        return generation;
     }
 
     private void computeTotalFitness(){
@@ -44,6 +50,7 @@ public class Population {
         for (Individual individual : populationArray) {
             totalFitness += individual.getFitness();
         }
+        generation++;
     }
     
     public Individual[] populateWithNextGeneration(){
@@ -80,16 +87,7 @@ public class Population {
         }   
 
         //ganti Individu non-elit dengan generasi selanjutnya
-        for (i = 0; i < elitismCount; i++) nextGen[]
-        populate(nextGen);
+        for (i = 0; i < elitismCount; i++) nextGen[culledGenSize + i] = populationArray[i];
+        refreshGeneration();
     }
-
 }
-
-// method Populate harusnya void
-// simpan atribut precomputed totalFitness
-// hitung totalFitness secara O(n) pada inisialisasi (generasi pertama)
-// ganti totalFitness saat melakukan populateWithNextGeneration()
-// nextGeneration size = n * (1 - elitism)
-// nextGeneration[i] = crossover.crossover() tidak akan bekerja karena method crossover dapat return array of individuals (jika multiple children)
-// sort Population di akhir populateWithNextGeneration()

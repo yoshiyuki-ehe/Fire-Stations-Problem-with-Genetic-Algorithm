@@ -8,6 +8,7 @@ public enum FireStationsSingleton
 
     private Environment environment = null;
     private Population population = null;
+    private IndividualGenerator generator = null;
 
     // ParentSelection, Crossover, Mutation, Termination dibuat dengan abstract class agar tidak hardcoded
     private ParentSelection parentSelection = null;
@@ -19,6 +20,7 @@ public enum FireStationsSingleton
     private double elitismRate = 0;
     private double crossoverRate = 0;
     private double mutationRate = 0;
+    private int populationSize = 0;
 
     // getter dan setter
     public Environment getEnvironment() {
@@ -102,9 +104,17 @@ public enum FireStationsSingleton
         this.mutationRate = Math.max(0, Math.min(mutationRate, 1));
     }
 
+    public int getPopulationSize() {
+        return populationSize;
+    }
+
+    public void setPopulationSize(int populationSize) {
+        this.populationSize = populationSize;
+    }
+
     public void run()
     {
-        if (environment != null && population != null
+        if (environment != null && population != null && generator != null
             && parentSelection != null && crossover != null && mutation != null && termination != null
             && rand != null)
         {

@@ -27,6 +27,6 @@ public class ArithmeticAverageCrossover extends Crossover {
 
         child.selfRepair();
 
-        return new Chromosome[]{child1};
+        return new Chromosome[]{child};
     }
 }
