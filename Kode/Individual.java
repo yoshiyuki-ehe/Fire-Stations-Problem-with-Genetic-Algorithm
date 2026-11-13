@@ -1,8 +1,8 @@
 public abstract class Individual implements Comparable<Individual> {
-    public final double objectiveValue; // average of min distances
-    public final double fitnessValue; // n*m + 0.0001 - objectiveFunction (buat roulette wheel, selalu > 0)
-    public final Chromosome chromosome;
-    protected final Point[] fireStations;
+    public double objectiveValue; // average of min distances
+    public double fitnessValue; // n*m + 0.0001 - objectiveFunction (buat roulette wheel, selalu > 0)
+    public Chromosome chromosome;
+    protected Point[] fireStations;
 
     protected Individual(Chromosome chromosome) {
         this.chromosome = chromosome;
