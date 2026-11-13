@@ -52,23 +52,18 @@ public class Population {
             Individual[] selectedParents = parentSelection.selectParents(this, random, 2);
             
             Chromosome[] childrensChromosomes = crossover.crossover(selectedParents[0].chromosome, selectedParents[1].chromosome);//mana getter chromosome? :sad:
-            
-            
-            if(random.nextDouble(0,1) < mutationRate){//TODO: masalahnya 1 exclusive, mungkin technically bug, mungkin mau cari solusi lebih baik
-                mutation.mutate(childrensChromosomes[0]);
-            }
 
-            if(random.nextDouble(0,1) < mutationRate){//TODO: masalahnya 1 exclusive, mungkin technically bug, mungkin mau cari solusi lebih baik
-                mutation.mutate(childrensChromosomes[1]);
+            for(int j = 1; j < childrensChromosomes.length; j++){
+                if(random.nextDouble(0,1) < mutationRate){//TODO: masalahnya 1 exclusive, mungkin technically bug, mungkin mau cari solusi lebih baik
+                    mutation.mutate(childrensChromosomes[i]);
+                }
             }
             
-            //mengambil asumsi constructor langsung menghitung fitnessValue dan objectiveValue
-            Individual childA = new Individual(childrensChromosomes[0]);
-            Individual childB = new Individual(childrensChromosomes[1]);
-
-            children[i] = childA;
-            children[i+1] = childB;
-
+            //mengambil asumsi constructor langsung menghitung fitnessValue dan objectiveValue,
+            for(int j = 0; j < childrensChromosomes.length; j++){
+                children[i+j] = new Individual(childrensChromosomes[j]);
+            }
+            
         }   
         Arrays.sort(children);
         //sebelum nextGen menggantikan population yang sekarang, cull children untuk membuat nextGen.
