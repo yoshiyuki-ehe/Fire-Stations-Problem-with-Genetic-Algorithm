@@ -1,4 +1,4 @@
-public class ArithmeticAverageCrossover extends Crossover {
+public class ArithmeticAverageCrossover implements Crossover {
     @Override
     public Chromosome[] crossover(Chromosome parent1, Chromosome parent2) {
         //cek apakah kedua parent dapat dicross
