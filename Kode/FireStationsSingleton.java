@@ -38,6 +38,14 @@ public enum FireStationsSingleton
     public void setPopulation(Population population) {
         this.population = population;
     }
+    
+    public IndividualGenerator getGenerator() {
+        return generator;
+    }
+
+    public void setGenerator(IndividualGenerator generator) {
+        this.generator = generator;
+    }
 
     public ParentSelection getParentSelection() {
         return parentSelection;
