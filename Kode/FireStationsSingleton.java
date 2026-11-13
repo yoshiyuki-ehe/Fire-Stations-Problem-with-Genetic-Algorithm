@@ -118,10 +118,10 @@ public enum FireStationsSingleton
             && parentSelection != null && crossover != null && mutation != null && termination != null
             && rand != null)
         {
-            // population dirun
-            // setelah selesai run (Termination Condition terpenuhi) best Individual dapat diakses dari Population
-            // nanti gw bikin setelah all of the above jalan
-            // just be considerate about this saat kalian bikin algo kalian
+            while (!termination.shouldTerminate(population))
+                population.populateWithNextGeneration();
+
+            // setelah selesai run (Terminate Condition terpenuhi) Individual terbaik dapat diakses dari Population
         }
     }
 }
