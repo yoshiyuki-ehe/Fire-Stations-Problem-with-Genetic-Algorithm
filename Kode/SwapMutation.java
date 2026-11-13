@@ -1,5 +1,5 @@
 import java.util.Random;
-public class SwapMutation extends Mutation {
+public class SwapMutation implements Mutation {
     @Override
     public void mutate(Chromosome chromosome) {
         FireStationsSingleton singleton = FireStationsSingleton.INSTANCE;
