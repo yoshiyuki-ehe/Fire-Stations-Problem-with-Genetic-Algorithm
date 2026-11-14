@@ -19,23 +19,23 @@ public class BoundedCoordinateChromosome extends Chromosome {
         this.selfRepair();
     }
 
-    // sebutlah p jumlah titik yang direpresentasikan
+    // sebutlah p jumlah titik yang direpresentasikan (sebanyak ukuran dimensi pertama genes)
     // index 0 .. p-1      = row
     // index p .. 2*p-1    = col
     @Override
     public int getGene(int index) {
-        int row = index % genes.length;
-        int col = index / genes.length;
+        int id = index % genes.length;
+        int dimension = index / genes.length;
 
-        return genes[row][col];
+        return genes[id][dimension];
     }
 
     @Override
     public void setGene(int index, int value) {
-        int row = index % genes.length;
-        int col = index / genes.length;
+        int id = index % genes.length;
+        int dimension = index / genes.length;
 
-        genes[row][col] = value;
+        genes[id][dimension] = value;
     }
 
     @Override
@@ -43,6 +43,7 @@ public class BoundedCoordinateChromosome extends Chromosome {
         for (int i = 0; i < genes.length; i++) {
             //clamping menggunakan modulo agar efek dari increment dari IncrementMutation tidak hilang
 
+            // ((a % bound) + b) % bound untuk menangani kasus nilai a negatif tetap menghasilkan nilai [0, bound]
             //memastikan koordinat pertama berada dalam batas
             genes[i][0] = (genes[i][0] % maxFirst + maxFirst) % maxFirst;
 
