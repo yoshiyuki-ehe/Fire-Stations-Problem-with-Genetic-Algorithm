@@ -1,0 +1,4 @@
+1,2,1,2
+Chromosome Encoding,Parent Selection,Crossover,Mutation
+1=CombinationChromosome,1=ParentSelectionByFitness,1=SinglePointCrossover,1=SwapMutation
+2=BoundedCoordinateChromosome,2=ParentSelectionByRank,2=ArithmeticAverageCrossover,2=IncrementMutation
