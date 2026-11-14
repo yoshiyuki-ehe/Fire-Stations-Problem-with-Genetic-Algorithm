@@ -1,22 +1,21 @@
 public class FullParameterTermination implements Termination{
+    private Population population;
     private int maxStagnantGenerations;
-    private int evaluationBudget;
+    private int remainingGenerations;
     private double minDelta;
     private double bestFitness;
     private int stagnantCount;
 
-    public FullParameterTermination(double minDelta, int maxStagnantGenerations, int evaluationBudget) {
+    public FullParameterTermination(Population population, int maxStagnantGenerations, double minDelta, int evaluationBudget) {
         this.maxStagnantGenerations = maxStagnantGenerations;
-        this.evaluationBudget = evaluationBudget;
+        remainingGenerations = (evaluationBudget + population.getPopulationSize() - 1) / population.getPopulationSize();
         this.minDelta = minDelta;
-        this.bestFitness = 0;
-        this.stagnantCount = 0;
+        bestFitness = 0;
+        stagnantCount = 0;
     }
 
     @Override
     public boolean shouldTerminate() {
-        Population population = FireStationsSingleton.INSTANCE.getPopulation();
-
         //population pasti dalam keadaan sorted saat method ini dipanggil
         //sehingga fitness tertinggi pasti ada pada individual index 0
         double currentBestFitness = population.getIndividual(0).getFitness();
@@ -31,6 +30,6 @@ public class FullParameterTermination implements Termination{
 
         bestFitness = Math.max(bestFitness, currentBestFitness);
 
-        return this.stagnantCount >= this.maxStagnantGenerations || evaluationBudget <= 0;
+        return this.stagnantCount >= this.maxStagnantGenerations || remainingGenerations-- <= 0;
     }
 }

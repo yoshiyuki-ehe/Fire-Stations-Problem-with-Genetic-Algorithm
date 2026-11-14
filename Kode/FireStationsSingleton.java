@@ -20,7 +20,6 @@ public enum FireStationsSingleton
     private double elitismRate = 0;
     private double crossoverRate = 0;
     private double mutationRate = 0;
-    private int populationSize = 0;
     private int evaluationBudget = 0;
 
     // getter dan setter
