@@ -21,15 +21,11 @@ public class FullParameterTermination implements Termination{
         double currentBestFitness = population.getIndividual(0).getFitness();
 
         //mencatat banyaknya stagnasi berturut-turut
-        if (currentBestFitness - this.bestFitness > minDelta) {
-            this.stagnantCount = 0;
-        } 
-        else {
-            this.stagnantCount++;
-        }
+        if (currentBestFitness - bestFitness > minDelta) stagnantCount = 0;
+        else stagnantCount++;
 
         bestFitness = Math.max(bestFitness, currentBestFitness);
 
-        return this.stagnantCount >= this.maxStagnantGenerations || remainingGenerations-- <= 0;
+        return remainingGenerations-- <= 0 || stagnantCount >= maxStagnantGenerations;
     }
 }
