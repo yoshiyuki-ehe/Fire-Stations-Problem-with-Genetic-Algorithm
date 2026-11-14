@@ -1,5 +1,6 @@
 import java.util.Random;
 
+// Roulette Wheel proportional by Fitness
 public class ParentSelectionByFitness extends ParentSelection{
     
     @Override
@@ -14,7 +15,7 @@ public class ParentSelectionByFitness extends ParentSelection{
         Individual[] selectedParents = new Individual[nOfParents];
 
         //ambil parent sebanyak nOfParents
-        for (int i = 0; i < nOfParents; i++) 
+        for (int i = 0; i < nOfParents; i++)
         {    
             //ambil nilai sembarang roulleteResult dari 0 sampai total nilai fitness.
             double roulleteResult = random.nextDouble(0, totalFitness);
@@ -27,7 +28,7 @@ public class ParentSelectionByFitness extends ParentSelection{
                 roulleteResult -= curCandidate.getFitness();
 
                 //kalau nilai roulleteResult sudah habis, anggap seperti wheel sudah berhenti berputar.
-                if (roulleteResult <= 0 ){
+                if (roulleteResult <= 0){
 
                     //kalau curCandidate belum terpilih,
                     if (!selectedCandidates[j]) {
@@ -42,9 +43,6 @@ public class ParentSelectionByFitness extends ParentSelection{
                         i--;
                         break;
                     }
-
-
-
                 }
             }
         }

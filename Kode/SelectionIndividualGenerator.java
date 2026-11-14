@@ -1,6 +1,6 @@
 import java.util.Random;
 
-public class SelectedPositionGenerator extends IndividualGenerator
+public class SelectionIndividualGenerator extends IndividualGenerator
 {
     private Environment env;
     private Random rand;
@@ -22,12 +22,12 @@ public class SelectedPositionGenerator extends IndividualGenerator
         // pemilihan random index sebanyak r kali dapat menghasilkan Chromosome invalid
         // hal tersebut akan ditangani selfRepair() pada instansiasi Chromosome
         Chromosome newChromosome = new CombinationChromosome(arr, env.fireStationCount);
-        return new SelectedPositionIndividual(newChromosome);
+        return new SelectionIndividual(newChromosome);
     }
 
     @Override
     public Individual generateSpecificIndividual(Chromosome chromosome)
     {
-        return new SelectedPositionIndividual(chromosome);
+        return new SelectionIndividual(chromosome);
     }
 }

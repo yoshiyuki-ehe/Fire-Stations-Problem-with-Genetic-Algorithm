@@ -1,11 +1,11 @@
 import java.util.Arrays;
 
-public class PointChromosome extends Chromosome {
+public class BoundedCoordinateChromosome extends Chromosome {
     private int[][] genes;
     private int maxFirst;
     private int maxSecond;
 
-    public PointChromosome(int[][] genes, int maxFirst, int maxSecond) {
+    public BoundedCoordinateChromosome(int[][] genes, int maxFirst, int maxSecond) {
         super(genes.length * 2);
 
         this.genes = genes;
@@ -19,6 +19,9 @@ public class PointChromosome extends Chromosome {
         this.selfRepair();
     }
 
+    // sebutlah p jumlah titik yang direpresentasikan
+    // index 0 .. p-1      = row
+    // index p .. 2*p-1    = col
     @Override
     public int getGene(int index) {
         int row = index % genes.length;
@@ -50,11 +53,11 @@ public class PointChromosome extends Chromosome {
 
     @Override
     public boolean crossable(Chromosome other) {
-        if (!(other instanceof PointChromosome)) {
+        if (!(other instanceof BoundedCoordinateChromosome)) {
             return false;
         }
 
-        PointChromosome downcast = (PointChromosome) other;
+        BoundedCoordinateChromosome downcast = (BoundedCoordinateChromosome) other;
 
         return genes.length * 2 == other.length
             && maxFirst == downcast.maxFirst
@@ -63,6 +66,6 @@ public class PointChromosome extends Chromosome {
 
     @Override
     public Chromosome duplicate() {
-        return new PointChromosome(genes.clone(), maxFirst, maxSecond);
+        return new BoundedCoordinateChromosome(genes.clone(), maxFirst, maxSecond);
     }
 }

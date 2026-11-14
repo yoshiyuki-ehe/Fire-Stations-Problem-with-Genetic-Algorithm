@@ -6,8 +6,8 @@ public class TestAllOfIt
     public static void main(String[] args) throws Exception
     {
         IndividualGenerator[] chromosomeEncodings = new IndividualGenerator[] {
-            new SelectedPositionGenerator(),
-            new FireStationPositionGenerator()
+            new SelectionIndividualGenerator(),
+            new CoordinateIndividualGenerator()
         };
         ParentSelection[] parentSelections = new ParentSelection[] {
             new ParentSelectionByFitness(),

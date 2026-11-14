@@ -24,7 +24,7 @@ public class ArithmeticAverageCrossover implements Crossover {
 
             child.setGene(i, averageGene);
         }
-
+        
         child.selfRepair();
 
         return new Chromosome[]{child};

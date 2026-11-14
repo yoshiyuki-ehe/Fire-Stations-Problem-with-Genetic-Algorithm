@@ -1,6 +1,6 @@
 import java.util.Random;
 
-public class FireStationPositionGenerator extends IndividualGenerator
+public class CoordinateIndividualGenerator extends IndividualGenerator
 {
     private Environment env;
     private Random rand;
@@ -23,13 +23,13 @@ public class FireStationPositionGenerator extends IndividualGenerator
             arr[i][1] = rand.nextInt(env.mapWidth);
         }
 
-        Chromosome newChromosome = new PointChromosome(arr, env.mapHeight, env.mapWidth);
-        return new FireStationPositionIndividual(newChromosome);
+        Chromosome newChromosome = new BoundedCoordinateChromosome(arr, env.mapHeight, env.mapWidth);
+        return new CoordinateIndividual(newChromosome);
     }
 
     @Override
     public Individual generateSpecificIndividual(Chromosome chromosome)
     {
-        return new FireStationPositionIndividual(chromosome);
+        return new CoordinateIndividual(chromosome);
     }
 }
