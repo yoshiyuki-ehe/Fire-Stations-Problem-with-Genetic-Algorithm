@@ -31,7 +31,7 @@ public class TesterTools
 
     public static void readMaps() throws Exception
     {
-        File folder = new File(inputFolder + "/maps");
+        File folder = new File(inputFolder + "/Maps");
         File[] list = folder.listFiles();
         mapNames = new String[list.length];
         maps = new Environment[list.length];
