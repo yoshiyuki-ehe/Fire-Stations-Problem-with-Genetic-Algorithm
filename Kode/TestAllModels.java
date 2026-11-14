@@ -1,7 +1,7 @@
 import java.util.*;
 import java.io.*;
 
-public class TestAllOfModels
+public class TestAllModels
 {
     public static void main(String[] args) throws Exception
     {
@@ -31,7 +31,7 @@ public class TestAllOfModels
         Environment[] maps = TesterTools.maps;
         double[][] res = new double[mapNames.length][rnds.length];
 
-        BufferedReader br = new BufferedReader(new FileReader(TesterTools.inputPath + "/SingleHyperparameter.csv"));
+        BufferedReader br = new BufferedReader(new FileReader(TesterTools.inputPath + "/SpecificHyperparameter.csv"));
         StringTokenizer st = new StringTokenizer(br.readLine(), ",");
         FileWriter fw = new FileWriter(Tester.resultsPath + "/generalResults.csv", true);
 
