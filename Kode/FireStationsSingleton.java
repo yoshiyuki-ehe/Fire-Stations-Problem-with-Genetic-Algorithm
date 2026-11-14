@@ -21,6 +21,7 @@ public enum FireStationsSingleton
     private double crossoverRate = 0;
     private double mutationRate = 0;
     private int populationSize = 0;
+    private int evaluationBudget = 0;
 
     // getter dan setter
     public Environment getEnvironment() {
@@ -39,6 +40,14 @@ public enum FireStationsSingleton
         this.population = population;
     }
     
+    public IndividualGenerator getGenerator() {
+        return generator;
+    }
+
+    public void setGenerator(IndividualGenerator generator) {
+        this.generator = generator;
+    }
+
     public IndividualGenerator getGenerator() {
         return generator;
     }
@@ -118,6 +127,14 @@ public enum FireStationsSingleton
 
     public void setPopulationSize(int populationSize) {
         this.populationSize = populationSize;
+    }
+
+    public int getEvluationBudget() {
+        return evaluationBudget;
+    }
+
+    public void setEvaluationBudget(int evaluationBudget) {
+        this.evaluationBudget = evaluationBudget;
     }
 
     public void run()
