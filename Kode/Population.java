@@ -12,7 +12,6 @@ public class Population {
     //TODO: refactor constructor untuk menerima parameter IndividualGenerator
     public Population(Individual[] populationArray, double elitsmRate){
         this.populate(populationArray);
-        this.precomputeTotalFitness();
         int elitismCount = (int)(elitsmRate * this.getPopulationSize());
         this.culledGenSize = this.getPopulationSize() - elitismCount;
         
@@ -37,20 +36,11 @@ public class Population {
     public void populate(Individual[] array){
         this.populationArray = array;
         Arrays.sort(this.populationArray);
-        this.precomputeTotalFitness();
         this.preComputePrefixSumFitness();
     }
 
     public double getTotalFitness(){
-        return this.totalFitness;
-    }
-
-    private void precomputeTotalFitness(){
-        double total = 0;
-        for (Individual individual: this.populationArray) {
-            total += individual.getFitness();
-        }
-        this.totalFitness = total;
+        return this.prefixSumFitness[prefixSumFitness.length-1];
     }
     
     private int getCulledGenSize(){
@@ -94,4 +84,3 @@ public class Population {
 // nextGeneration size = n * (1 - elitism)
 // nextGeneration[i] = crossover.crossover() tidak akan bekerja karena method crossover dapat return array of individuals (jika multiple children)
 // sort Population di akhir populateWithNextGeneration()
-// suggestion pakai prefixSum dari anggota kelompok lain
