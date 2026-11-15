@@ -8,8 +8,7 @@ public class ParentSelectionByFitness extends ParentSelection{
     {
         Random random = FireStationsSingleton.INSTANCE.getRandom();
 
-        boolean[] selectedCandidates = new boolean[population.getPopulationSize()];
-        double totalFitness = population.getTotalFitness();
+        double totalFitness = population.getFitnessPrefixSum(population.getPopulationSize());
 
         //array hasil parent-parent terpilih (yang di-return)
         Individual[] selectedParents = new Individual[nOfParents];
@@ -18,35 +17,35 @@ public class ParentSelectionByFitness extends ParentSelection{
         for (int i = 0; i < nOfParents; i++)
         {    
             //ambil nilai sembarang roulleteResult dari 0 sampai total nilai fitness.
-            double roulleteResult = random.nextDouble(0, totalFitness);
-            
-            //for berikut mengambil sebuah kandidat acak untuk dimasukkan ke selectedParents.
-            for (int j = 0; j < population.getTotalFitness(); j++) {
-
-                //ganti kandidat setiap sisa nilai roulleteResult - nilai fitness dari kandidat masih bersisa.
-                Individual curCandidate = population.getIndividual(j);
-                roulleteResult -= curCandidate.getFitness();
-
-                //kalau nilai roulleteResult sudah habis, anggap seperti wheel sudah berhenti berputar.
-                if (roulleteResult <= 0){
-
-                    //kalau curCandidate belum terpilih,
-                    if (!selectedCandidates[j]) {
-
-                        //ambil kandidat menjadi salah satu parent terpilih dan hilangkan dari sisa kandidat (dengan ditandai bahwa sudah terpilih).
-                        selectedParents[i] = curCandidate;
-                        selectedCandidates[j] = true;
-                        break;
-                    
-                    }else{
-                        //ulangi cycle pemilihan, curCandidate tidak valid.
-                        i--;
-                        break;
-                    }
-                }
-            }
+            double rouletteResult = random.nextDouble(0, totalFitness);
+            int selectedParentIndex = searchRouletteIndex(population, rouletteResult);
+            selectedParents[i] = population.getIndividual(selectedParentIndex);
         }
 
         return selectedParents;
+    }
+
+    private int searchRouletteIndex(Population population, double rouletteResult) {
+        
+        int left = 0;
+        int right = population.getPopulationSize() - 1;
+        int mid = (left + right) / 2;
+
+        // interval ke-i dinyatakan sebagai (prefixSum[i - 1], prefixSum[i]] dengan interval ke-0 (0, prefixSum[i]]
+        // kita ingin mengetahui rouletteResult jatuh di interval mana
+        // kita dapat melakukan hal tersebut dengan mencari nilai terendah yang tidak kurang dari rouletteResult dengan Bisection
+        while (left < right)
+        {
+            mid = (left + right) / 2;
+            // interval rouletteResult ada di kanan batas kanan interval yang diperiksa sekarang (tidak mungkin berada di dalamnya)
+            // | mid | rouletteResult |
+            if (population.getFitnessPrefixSum(mid) < rouletteResult) left = mid + 1;
+            // jika tidak rouletteResult berada di kiri batas kanan interval yang diperiksa sekarang (bisa saja berada di dalamnya)
+            // | rouletteResult mid |
+            // | rouletteResult | mid |
+            else mid = right;
+        }
+
+        return left;
     }
 }

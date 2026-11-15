@@ -7,7 +7,6 @@ public class ParentSelectionByRank extends ParentSelection{
         Random random = FireStationsSingleton.INSTANCE.getRandom();
 
         //masukkan population yang telah disort sebagai kandidat parent
-        boolean[] selectedCandidates = new boolean[population.getPopulationSize()];
         int totalRank = termial(population.getPopulationSize());
 
         //array hasil parent-parent terpilih (yang di-return)
@@ -17,22 +16,12 @@ public class ParentSelectionByRank extends ParentSelection{
         for (int i = 0; i < nOfParents; i++) 
         {    
             //ambil nilai sembarang roulleteResult dari 1 sampai total nilai fitness.
-            int roulleteResult = random.nextInt(1, totalRank+1);
+            int roulleteResult = random.nextInt(1, totalRank + 1);
             
             //untuk mengambil sebuah kandidat acak untuk dimasukkan ke selectedParents, 
             //pakai inverse function termial untuk mendapatkan index dari nilai (index diambil dari belakang)
             int selectedParentIndex = population.getPopulationSize() - inverseTermial(roulleteResult) - 1;
-            //kalau kandidat belum pernah terpilih
-            if (!selectedCandidates[selectedParentIndex]) {
-
-                //kandidat valid menjadi parent, maka masukkan sebagai selected parent.
-                selectedParents[i] = population.getIndividual(selectedParentIndex);
-                selectedCandidates[selectedParentIndex] = true;
-
-            }else{
-                //ulangi cycle karena kandidat yang terpilih tidak valid.
-                i--;
-            }
+            selectedParents[i] = population.getIndividual(selectedParentIndex);
         }
 
         return selectedParents;
