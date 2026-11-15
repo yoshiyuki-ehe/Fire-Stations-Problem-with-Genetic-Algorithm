@@ -7,6 +7,7 @@ public class Population {
     private double totalFitness;
     //culledGenSize menyimpan ukuran population setelah initial population
     private int culledGenSize;
+    private double[] prefixSumFitness;
 
     //TODO: refactor constructor untuk menerima parameter IndividualGenerator
     public Population(Individual[] populationArray, double elitsmRate){
@@ -14,6 +15,15 @@ public class Population {
         this.precomputeTotalFitness();
         int elitismCount = (int)(elitsmRate * this.getPopulationSize());
         this.culledGenSize = this.getPopulationSize() - elitismCount;
+        
+    }
+    
+    public void preComputePrefixSumFitness(){
+        double curSum = 0;
+        for (int i = 0; i < this.getPopulationSize(); i++) {
+            curSum += getIndividual(i).getFitness();
+            this.prefixSumFitness[i] = curSum;
+        }
     }
     
     public Individual getIndividual(int index){
@@ -28,6 +38,7 @@ public class Population {
         this.populationArray = array;
         Arrays.sort(this.populationArray);
         this.precomputeTotalFitness();
+        this.preComputePrefixSumFitness();
     }
 
     public double getTotalFitness(){
@@ -42,6 +53,9 @@ public class Population {
         this.totalFitness = total;
     }
     
+    private int getCulledGenSize(){
+        return this.culledGenSize;
+    }
     //mungkin biar clean code, harusnya beberapa parameternya diganti FireStationsSingleton saja.
     public Individual[] populateWithNextGeneration(ParentSelection parentSelection, Random random, Crossover crossover, Mutation mutation, double mutationRate){
         
@@ -67,7 +81,7 @@ public class Population {
         }   
         Arrays.sort(children);
         //sebelum nextGen menggantikan population yang sekarang, cull children untuk membuat nextGen.
-        Individual[] nextGen = Arrays.copyOfRange(children, this.getPopulationSize()-culledGenSize-1, this.getPopulationSize()-1);
+        Individual[] nextGen = Arrays.copyOfRange(children, this.getPopulationSize()-this.getCulledGenSize(), this.getPopulationSize()-1);
         populate(nextGen);
     }
 
@@ -80,3 +94,4 @@ public class Population {
 // nextGeneration size = n * (1 - elitism)
 // nextGeneration[i] = crossover.crossover() tidak akan bekerja karena method crossover dapat return array of individuals (jika multiple children)
 // sort Population di akhir populateWithNextGeneration()
+// suggestion pakai prefixSum dari anggota kelompok lain
