@@ -6,17 +6,18 @@ public class Population {
     private Individual[] populationArray;
     private IndividualGenerator generator;
 
-    private double totalFitness;
-    //culledGenSize menyimpan ukuran population setelah initial population
+    //culledGenSize merupakan banyaknya individu non-elit (diganti setiap pergantian generasi)
     private int culledGenSize;
     private int elitismCount;
     private int generation;
+    private double[] fitnessPrefixSum;
 
     public Population(IndividualGenerator generator, int populationSize, double elitismRate){
         this.generator = generator;
         populationArray = new Individual[populationSize];
         for (int i = 0; i < populationSize; i++) populationArray[i] = generator.generateRandomIndividual();
         generation = 0;
+        fitnessPrefixSum = new double[populationSize];
         refreshGeneration();
 
         // elitismCount dibulatkan ke bawah agar jika ukuran Population 0 tetap dapat menerima Individual baru
@@ -34,23 +35,23 @@ public class Population {
 
     private void refreshGeneration(){
         Arrays.sort(populationArray);
-        computeTotalFitness();
+        computeFitnessPrefixSum();
+        generation++;
     }
 
-    public double getTotalFitness(){
-        return totalFitness;
+    public double getFitnessPrefixSum(int index){
+        return fitnessPrefixSum[index];
     }
 
     public int getCurrentGeneration(){
         return generation;
     }
 
+    // fitnessPrefixSum dibuat agar ParentSelectionByFitness dapat dilakukan dengan kompleksitas O(logn)
     private void computeTotalFitness(){
-        totalFitness = 0;
-        for (Individual individual : populationArray) {
-            totalFitness += individual.getFitness();
-        }
-        generation++;
+        fitnessPrefixSum[0] = populationArray[0].fitness;
+        for (int i = 1; i < populationArray.length; i++)
+            fitnessPrefixSum[i] = fitnessPrefixSum[i - 1] + populationArray[i].fitness;
     }
     
     public Individual[] populateWithNextGeneration(){
