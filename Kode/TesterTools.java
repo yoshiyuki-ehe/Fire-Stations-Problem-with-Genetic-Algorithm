@@ -11,22 +11,35 @@ public class TesterTools
     public static final String projectRoot = inputFolder + "/..";
     public static final String resultsPath = projectRoot + "/Results";
 
+    public static final IndividualGenerator[] chromosomeEncodings = new IndividualGenerator[] {
+        new SelectionIndividualGenerator(),
+        new CoordinateIndividualGenerator()
+    };
+    public static final ParentSelection[] parentSelections = new ParentSelection[] {
+        new ParentSelectionByFitness(),
+        new ParentSelectionByRank()
+    };
+    public static final Crossover[] crossovers = new Crossover[] {
+        new SinglePointCrossover(),
+        new ArithmeticAverageCrossover()
+    };
+    public static final Mutation[] mutations = new Mutation[] {
+        new SwapMutation(),
+        new IncrementMutation()
+    };
+    public static final String[] encodingNames = new String[] {"Combination", "BoundedCoordinate"};
+
     public static String[] mapNames;
     public static Environment[] maps;
 
     public static int[] seeds;
-    public static Random[] rnds;
 
-    public static void initializeSeeds(Random rand, int n)
+    public static void initializeSeeds(int randSeed, int n)
     {
+        Random rand = new Random(randSeed);
         seeds = new int[n];
-        rnds = new Random[n];
 
-        for (int i = 0; i < n; i++)
-        {
-            seeds[i] = rand.nextInt();
-            rnds[i] = new Random(seeds[i]);
-        }
+        for (int i = 0; i < n; i++) seeds[i] = rand.nextInt();
     }
 
     public static void readMaps() throws Exception
@@ -39,7 +52,6 @@ public class TesterTools
         int n, m, p, i, f;
         for (f = 0; f < list.length; f++)
         {
-            mapNames[f] = list[f].getName();
             BufferedReader br = new BufferedReader(new FileReader(list[f]));
             StringTokenizer st = new StringTokenizer(br.readLine());
 
@@ -52,6 +64,7 @@ public class TesterTools
             br.close();
 
             maps[f] = new Environment(map, p);
+            mapNames[f] = list[f].getName();
         }
     }
 
