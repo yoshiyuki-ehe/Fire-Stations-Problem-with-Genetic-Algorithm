@@ -5,7 +5,7 @@ public class SelectionIndividual extends Individual {
 
     public SelectionIndividual(Chromosome chromosome) {
         Environment env = FireStationsSingleton.INSTANCE.getEnvironment();
-        fireStations = new Point[env.fireStationCount];
+        Point[] fireStations = new Point[env.fireStationCount];
 
         // Scan bitstring: setiap bit 1 adalah fire station
         int i, j = 0;

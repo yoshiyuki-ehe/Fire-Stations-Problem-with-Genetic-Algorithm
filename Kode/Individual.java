@@ -23,9 +23,10 @@ public abstract class Individual implements Comparable<Individual> {
         return Double.compare(other.fitnessValue, this.fitnessValue);
     }
 
-    // ukuran peta + 0.0001 - objectiveFunction (buat roulette wheel, selalu > 0)
+    // nilai objective terburuk adalah ukuran map itu sendiri (sama dengan unreachablePenalty)
+    // fungsi fitness di bawah memastikan dalam kasus terekstrim, nilai fitness terendah adalah 0 (tidak mungkin negatif)
     private double fitness() {
-        return FireStationsSingleton.getEnvironment().unreachablePenalty + 0.0001 - objectiveValue;
+        return FireStationsSingleton.getEnvironment().unreachablePenalty - objectiveValue;
     }
 
     // average of min distances
@@ -49,24 +50,3 @@ public abstract class Individual implements Comparable<Individual> {
         return env.houseCount > 0 ? (totalMinDist / env.houseCount) : 0;
     }
 }
-
-// comment from your leader:
-
-// mungkin aku gila melakukan ini tapi
-// karena initFitness() dan initObjective() tidak akan pernah dipanggil kelas lain
-// tidak perlu dibuat pada abstract class
-// tapi nanti bikin aja pada kelas konkretnya private
-
-// kelas konkret hanya menerima 1 parameter constructor, yaitu Chromosome
-// kelas konret tersebut akan menghitung 3 parameter lain sendiri
-// gw ada bikin kelas Point, liat di main kalau sebagai referensi
-// kalo lu butuh ngambil koordinat pakai itu
-// contoh getFireStations jadinya return Point[] fireStations
-// jadinya Individual gada selfCorrect()
-
-// liat detail Chromosome A dan Chromosme B di branch Chromosome
-// Individual A pakai Chromosome A
-// basically that's it
-
-// Individual B pakai Chromosome B
-// abaikan posisi fire station yang invalid

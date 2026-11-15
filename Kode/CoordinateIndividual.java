@@ -4,7 +4,7 @@ public class CoordinateIndividual extends Individual {
     public CoordinateIndividual(Chromosome chromosome) {
         Environment env = FireStationsSingleton.INSTANCE.getEnvironment();
         int p = env.fireStationCount;
-        fireStations = new Point[p];
+        Point[] fireStations = new Point[p];
 
         // BoundedCoordinateChromosome menyimpan:
         // index 0 .. p-1      = row
