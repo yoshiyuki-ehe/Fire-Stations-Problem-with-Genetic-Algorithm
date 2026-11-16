@@ -72,7 +72,7 @@ public class TestHyperparamA {
         };
 
         //baca lagi dari spesifik model skrng buat nentuin enaknya pake model apa
-        BufferedReader brModel = new BufferedReader(new FileReader(TesterTools.inputPath + "/SpecificModel.csv"));
+        BufferedReader brModel = new BufferedReader(new FileReader(TesterTools.inputPath + "/SpecificModel.txt"));
         StringTokenizer stModel = new StringTokenizer(brModel.readLine(), ",");
 
         //ambil angkkanya
@@ -82,17 +82,17 @@ public class TestHyperparamA {
         int mutationCode  = Integer.parseInt(stModel.nextToken().trim());
 
         //set komponen pake index array, karena array mulai dari 0 di -1
-        fireStation.setGenerator(chromosomeEncodings[encodingCode - 1]);
-        fireStation.setParentSelection(parentSelections[selectionCode - 1]);
-        fireStation.setCrossover(crossovers[crossoverCode - 1]);
-        fireStation.setMutation(mutations[mutationCode - 1]);
+        fireStation.setGenerator(chromosomeEncodings[encodingCode]);
+        fireStation.setParentSelection(parentSelections[selectionCode]);
+        fireStation.setCrossover(crossovers[crossoverCode]);
+        fireStation.setMutation(mutations[mutationCode]);
 
         //disini harusnya ada file writer aku kurang ngerti cara pakenya nanti boleh tolong tambahin
-        FileWriter fw = new FileWriter(TesterTools.resultsPath + "/hyperparamResults.csv", true);
+        FileWriter fw = new FileWriter(TesterTools.resultsPath + "/TestAResults.csv", true);
         fw.append("Parameter,Value,Map,Mean,Stdev\n"); // Tulis header kolom
         
         //ini gw ambil dari csv [Redacted] nilainya yang specifichyper parameter buat acuan
-        BufferedReader brDefault = new BufferedReader(new FileReader(TesterTools.inputPath + "/SpecificHyperparameter.csv"));
+        BufferedReader brDefault = new BufferedReader(new FileReader(TesterTools.inputPath + "/SpecificHyperparameter.txt"));
         StringTokenizer stDefault = new StringTokenizer(brDefault.readLine(), ",");
 
         int bestPopulationSize = Integer.parseInt(stDefault.nextToken().trim());
