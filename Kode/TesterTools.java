@@ -1,13 +1,10 @@
-import java.io.File;
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.lang.Exception;
-import java.util.Random;
-import java.util.StringTokenizer;
+import java.util.*;
+import java.io.*;
+import java.lang.*;
 
 public class TesterTools
 {
-    public static Random globalRandom;
+    public static Random globalRand;
 
     public static final String inputPath = System.getProperty("user.dir");
     public static final String projectRoot = inputPath + "/..";
@@ -39,7 +36,7 @@ public class TesterTools
     public static void setOtherParameters() throws Exception
     {
         BufferedReader br = new BufferedReader(new FileReader(inputPath + "/OtherParameters.txt"));
-        globalRandom = new Random(Integer.parseInt(br.readLine().trim()));
+        globalRand = new Random(Integer.parseInt(br.readLine().trim()));
         br.close();
     }
 

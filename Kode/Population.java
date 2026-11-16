@@ -14,6 +14,7 @@ public class Population {
 
     public Population(IndividualGenerator generator, int populationSize, double elitismRate){
         this.generator = generator;
+        generator.updateContext();
         populationArray = new Individual[populationSize];
         for (int i = 0; i < populationSize; i++) populationArray[i] = generator.generateRandomIndividual();
         generation = 0;

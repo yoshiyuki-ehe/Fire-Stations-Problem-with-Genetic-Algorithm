@@ -16,7 +16,6 @@ public class TestHyperparamA {
         // ini aku ngambil dari yang punya [Redacted] yang testAllModels
         Random rand = new Random(20010911);
         TesterTools.initializeSeeds(rand, 10);
-        Random[] rnds = TesterTools.rnds;
         TesterTools.readMaps();
         String[] mapNames = TesterTools.mapNames;
         Environment[] maps = TesterTools.maps;

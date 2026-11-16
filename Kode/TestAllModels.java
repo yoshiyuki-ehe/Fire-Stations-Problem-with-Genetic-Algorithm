@@ -5,9 +5,10 @@ public class TestAllModels
 {
     public static void main(String[] args) throws Exception
     {
-        Random rand = new Random(20010911);
-        TesterTools.initializeSeeds(rand);
-        Random[] rnds = TesterTools.rnds;
+        TesterTools.setOtherParameters();
+        Random rand = TesterTools.globalRand;
+        int[] seeds = TesterTools.seeds;
+
         TesterTools.readMaps();
         String[] mapNames = TesterTools.mapNames;
         Environment[] maps = TesterTools.maps;
@@ -32,7 +33,7 @@ public class TestAllModels
                 {
                     for (l = 0; l < 2; l++)
                     {
-                        fss.setGenerator(chromosomeEncodings[i]);
+                        fss.setGenerator(TesterTools.chromosomeEncodings[i]);
                         fss.setParentSelection(parentSelections[j]);
                         fss.setCrossover(crossovers[k]);
                         fss.setMutation(mutations[l]);
@@ -47,11 +48,11 @@ public class TestAllModels
                             else if (maps[m].unreachablePenalty < 6400) evaluationBudget = 200000; // ukuran lebih kecil 80 x 80 (1600-6399)
                             fss.setEvaluationBudget(evaluationBudget);
 
-                            for (n = 0; n < rnds.length; n++)
+                            for (n = 0; n < seeds.length; n++)
                             {
-                                fss.setRandom(rnds[n]);
+                                fss.setRandom(new Random(seeds[n]));
                                 Population subject = new Population(
-                                    chromosomeEncodings[i],
+                                    TesterTools.chromosomeEncodings[i],
                                     fss.getPopulationSize(),
                                     fss.getElitismRate());
                                 fss.setPopulation(subject);
