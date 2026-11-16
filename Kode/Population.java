@@ -48,13 +48,13 @@ public class Population {
     }
 
     // fitnessPrefixSum dibuat agar ParentSelectionByFitness dapat dilakukan dengan kompleksitas O(logn)
-    private void computeTotalFitness(){
-        fitnessPrefixSum[0] = populationArray[0].fitness;
+    private void computeFitnessPrefixSum(){
+        fitnessPrefixSum[0] = populationArray[0].fitnessValue;
         for (int i = 1; i < populationArray.length; i++)
-            fitnessPrefixSum[i] = fitnessPrefixSum[i - 1] + populationArray[i].fitness;
+            fitnessPrefixSum[i] = fitnessPrefixSum[i - 1] + populationArray[i].fitnessValue;
     }
     
-    public Individual[] populateWithNextGeneration(){
+    public void populateWithNextGeneration(){
         ParentSelection parentSelection = FireStationsSingleton.INSTANCE.getParentSelection();
         Random random = FireStationsSingleton.INSTANCE.getRandom();
         Crossover crossover = FireStationsSingleton.INSTANCE.getCrossover();

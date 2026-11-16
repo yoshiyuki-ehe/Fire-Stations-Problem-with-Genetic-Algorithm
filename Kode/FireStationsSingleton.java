@@ -112,14 +112,6 @@ public enum FireStationsSingleton
         this.mutationRate = Math.max(0, Math.min(mutationRate, 1));
     }
 
-    public int getPopulationSize() {
-        return populationSize;
-    }
-
-    public void setPopulationSize(int populationSize) {
-        this.populationSize = populationSize;
-    }
-
     public int getEvluationBudget() {
         return evaluationBudget;
     }

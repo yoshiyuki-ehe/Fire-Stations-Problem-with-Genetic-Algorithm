@@ -26,9 +26,10 @@ public class ModelTestData implements Comparable<ModelTestData>
         generalMean = TesterTools.meanAndStdev(mapBest)[0];
     }
 
-    public int CompareTo(ModelTestData other)
+    @Override 
+    public int compareTo(ModelTestData other)
     {
-        return this.generalMean - other.generalMean;
+        return Double.compare(generalMean, other.generalMean);
     }
 
     public String outputVerbose()

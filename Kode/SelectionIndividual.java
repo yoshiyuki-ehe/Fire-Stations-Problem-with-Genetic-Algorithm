@@ -1,6 +1,3 @@
-// IndividualA
-import java.util.ArrayList;
-
 public class SelectionIndividual extends Individual {
 
     public SelectionIndividual(Chromosome chromosome) {
