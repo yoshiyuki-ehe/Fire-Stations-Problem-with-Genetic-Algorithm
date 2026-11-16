@@ -13,14 +13,13 @@ public class TestAllModels
         Environment[] maps = TesterTools.maps;
         
         BufferedReader br = new BufferedReader(new FileReader(TesterTools.inputPath + "/SpecificHyperparameter.csv"));
-        StringTokenizer st = new StringTokenizer(br.readLine(), ",");
-        br.close();
 
         FireStationsSingleton fss = FireStationsSingleton.INSTANCE;
-        fss.setPopulationSize(Integer.parseInt(st.nextToken()));
-        fss.setCrossoverRate(Double.parseDouble(st.nextToken()));
-        fss.setMutationRate(Double.parseDouble(st.nextToken()));
-        fss.setElitismRate(Double.parseDouble(st.nextToken()));
+        fss.setPopulationSize(Integer.parseInt(br.readLine().trim()));
+        fss.setCrossoverRate(Double.parseDouble(br.readLine().trim()));
+        fss.setMutationRate(Double.parseDouble(br.readLine().trim()));
+        fss.setElitismRate(Double.parseDouble(br.readLine().trim()));
+        br.close();
         
         ModelTestData[] model = new ModelTestData[16];
         int i, j, k, l, m, n;
