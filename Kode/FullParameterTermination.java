@@ -18,7 +18,7 @@ public class FullParameterTermination implements Termination{
     public boolean shouldTerminate() {
         //population pasti dalam keadaan sorted saat method ini dipanggil
         //sehingga fitness tertinggi pasti ada pada individual index 0
-        double currentBestFitness = population.getIndividual(0).getFitness();
+        double currentBestFitness = population.getIndividual(0).fitnessValue;
 
         //mencatat banyaknya stagnasi berturut-turut
         if (currentBestFitness - bestFitness > minDelta) stagnantCount = 0;

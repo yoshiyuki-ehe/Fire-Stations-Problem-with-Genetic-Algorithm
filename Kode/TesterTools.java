@@ -7,8 +7,10 @@ import java.util.StringTokenizer;
 
 public class TesterTools
 {
+    public static Random globalRandom;
+
     public static final String inputPath = System.getProperty("user.dir");
-    public static final String projectRoot = inputFolder + "/..";
+    public static final String projectRoot = inputPath + "/..";
     public static final String resultsPath = projectRoot + "/Results";
 
     public static final IndividualGenerator[] chromosomeEncodings = new IndividualGenerator[] {
@@ -34,6 +36,13 @@ public class TesterTools
 
     public static int[] seeds;
 
+    public static void setOtherParameters() throws Exception
+    {
+        BufferedReader br = new BufferedReader(new FileReader(inputPath + "/OtherParameters.txt"));
+        globalRandom = new Random(Integer.parseInt(br.readLine().trim()));
+        br.close();
+    }
+
     public static void initializeSeeds(int randSeed, int n)
     {
         Random rand = new Random(randSeed);
@@ -44,7 +53,7 @@ public class TesterTools
 
     public static void readMaps() throws Exception
     {
-        File folder = new File(inputFolder + "/Maps");
+        File folder = new File(inputPath + "/Maps");
         File[] list = folder.listFiles();
         mapNames = new String[list.length];
         maps = new Environment[list.length];

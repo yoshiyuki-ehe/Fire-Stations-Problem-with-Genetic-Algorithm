@@ -47,14 +47,6 @@ public enum FireStationsSingleton
         this.generator = generator;
     }
 
-    public IndividualGenerator getGenerator() {
-        return generator;
-    }
-
-    public void setGenerator(IndividualGenerator generator) {
-        this.generator = generator;
-    }
-
     public ParentSelection getParentSelection() {
         return parentSelection;
     }

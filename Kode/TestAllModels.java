@@ -5,24 +5,6 @@ public class TestAllModels
 {
     public static void main(String[] args) throws Exception
     {
-        IndividualGenerator[] chromosomeEncodings = new IndividualGenerator[] {
-            new SelectionIndividualGenerator(),
-            new CoordinateIndividualGenerator()
-        };
-        ParentSelection[] parentSelections = new ParentSelection[] {
-            new ParentSelectionByFitness(),
-            new ParentSelectionByRank()
-        };
-        Crossover[] crossovers = new Crossover[] {
-            new SinglePointCrossover(),
-            new ArithmeticAverageCrossover()
-        };
-        Mutation[] mutations = new Mutation[] {
-            new SwapMutation(),
-            new IncrementMutation()
-        };
-        String[] encodingNames = new String[] {"Combination", "BoundedCoordinate"};
-
         Random rand = new Random(20010911);
         TesterTools.initializeSeeds(rand);
         Random[] rnds = TesterTools.rnds;
@@ -33,7 +15,7 @@ public class TestAllModels
 
         BufferedReader br = new BufferedReader(new FileReader(TesterTools.inputPath + "/SpecificHyperparameter.csv"));
         StringTokenizer st = new StringTokenizer(br.readLine(), ",");
-        FileWriter fw = new FileWriter(Tester.resultsPath + "/generalResults.csv", true);
+        FileWriter fw = new FileWriter(TesterTools.resultsPath + "/generalResults.csv", true);
 
         FireStationsSingleton fss = FireStationsSingleton.INSTANCE;
         fss.setPopulationSize(Integer.parseInt(st.nextToken()));
