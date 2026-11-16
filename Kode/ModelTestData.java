@@ -2,13 +2,24 @@ public class ModelTestData implements Comparable<ModelTestData>
 {
     public final String csvTemplate;
 
+    public final int populationSize;
+    public final double crossoverRate;
+    public final double mutationRate;
+    public final double elitismRate;
+
     private double[][] results;
     private double[] mapBest;
+
     public final double overallMean;
 
     public ModelTestData(int chromosomeCode, int parentSelectionCode, int crossoverCode, int mutationCode,
         int populationSize, double crossoverRate, double mutationRate, double elitismRate, double[][] results)
     {
+        this.populationSize = populationSize;
+        this.crossoverRate = crossoverRate;
+        this.mutationRate = mutationRate;
+        this.elitismRate = elitismRate;
+        
         this.results = results;
         csvTemplate = TesterTools.chromosomeEncodings[chromosomeCode] + "," +
         TesterTools.parentSelections[parentSelectionCode].getClass().getSimpleName() + "," +

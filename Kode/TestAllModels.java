@@ -72,7 +72,7 @@ public class TestAllModels
             fw.append(data.outputVerbose());
         fw.close();
 
-        fw = new FileWriter(TesterTools.resultsPath + "/Top3Results.csv", true);
+        fw = new FileWriter(TesterTools.resultsPath + "/AllModelsTop3Results.csv", true);
         fw.append("Chromosome Encoding,Parent Selection,Crossover,Mutation,Population Size,Crossover Rate,Mutation Rate, Elitism Rate,Map,Mean Result");
         Arrays.sort(model);
         for (int pos = 0; pos < 3; pos++)

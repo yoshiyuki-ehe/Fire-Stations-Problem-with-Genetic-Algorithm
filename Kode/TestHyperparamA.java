@@ -1,18 +1,11 @@
-/*
-    ini aku sebagian besar ngikutin bentukan TestAllModels cuman aku sesuai in buat hyperparameter aja
-*/
-
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-import java.util.StringTokenizer;
+import java.util.*;
+import java.io.*;
 
 public class TestHyperparamA {
    
     public static void main(String [] args) throws Exception{
+        int i, j, k;
+        
         TesterTools.setOtherParameters();
         int[] seeds = TesterTools.seeds;
 
@@ -25,55 +18,35 @@ public class TestHyperparamA {
         StringTokenizer stPopulation = new StringTokenizer(br.readLine(), ",");
         int nPopulation = stPopulation.countTokens(); //cari tahu n (n itu jumlah data)
         int[] hyperParamPopulasi = new int[nPopulation]; //pake array biasa karena n diketahui
-        for (int i = 0; i < nPopulation; i++) {
+        for (i = 0; i < nPopulation; i++) {
             hyperParamPopulasi[i] = Integer.parseInt(stPopulation.nextToken().trim());
         }
-
         StringTokenizer stCrossover = new StringTokenizer(br.readLine(), ",");
         int nCrossover = stCrossover.countTokens();
         double[] hyperParamCrossover = new double[nCrossover];
-        for (int i = 0; i < nCrossover; i++) {
+        for (i = 0; i < nCrossover; i++) {
             hyperParamCrossover[i] = Double.parseDouble(stCrossover.nextToken().trim());
         }
-
         StringTokenizer stMutation = new StringTokenizer(br.readLine(), ",");
         int nMutation = stMutation.countTokens();
         double[] hyperParamMutation = new double[nMutation];
-        for (int i = 0; i < nMutation; i++) {
+        for (i = 0; i < nMutation; i++) {
             hyperParamMutation[i] = Double.parseDouble(stMutation.nextToken().trim());
         }
-
         StringTokenizer stElitism = new StringTokenizer(br.readLine(), ",");
         int nElitism = stElitism.countTokens();
         double[] hyperParamElitism = new double[nElitism];
-        for (int i = 0; i < nElitism; i++) {
+        for (i = 0; i < nElitism; i++) {
             hyperParamElitism[i] = Double.parseDouble(stElitism.nextToken().trim());
         }
+        br.close();
    
         FireStationsSingleton fireStation = FireStationsSingleton.INSTANCE;
-        IndividualGenerator individualGenerate = new SelectionIndividualGenerator();
-
-        //ini yg kata [Redacted] jangan hardcode
-        IndividualGenerator[] chromosomeEncodings = new IndividualGenerator[] {
-            new SelectionIndividualGenerator(),
-            new CoordinateIndividualGenerator()
-        };
-        ParentSelection[] parentSelections = new ParentSelection[] {
-            new ParentSelectionByFitness(),
-            new ParentSelectionByRank()
-        };
-        Crossover[] crossovers = new Crossover[] {
-            new SinglePointCrossover(),
-            new ArithmeticAverageCrossover()
-        };
-        Mutation[] mutations = new Mutation[] {
-            new SwapMutation(),
-            new IncrementMutation()
-        };
 
         //baca lagi dari spesifik model skrng buat nentuin enaknya pake model apa
         BufferedReader brModel = new BufferedReader(new FileReader(TesterTools.inputPath + "/SpecificModel.txt"));
         StringTokenizer stModel = new StringTokenizer(brModel.readLine(), ",");
+        brModel.close();
 
         //ambil angkkanya
         int encodingCode  = Integer.parseInt(stModel.nextToken().trim());
@@ -82,244 +55,157 @@ public class TestHyperparamA {
         int mutationCode  = Integer.parseInt(stModel.nextToken().trim());
 
         //set komponen pake index array, karena array mulai dari 0 di -1
-        fireStation.setGenerator(chromosomeEncodings[encodingCode]);
-        fireStation.setParentSelection(parentSelections[selectionCode]);
-        fireStation.setCrossover(crossovers[crossoverCode]);
-        fireStation.setMutation(mutations[mutationCode]);
+        fireStation.setGenerator(TesterTools.chromosomeEncodings[encodingCode]);
+        fireStation.setParentSelection(TesterTools.parentSelections[selectionCode]);
+        fireStation.setCrossover(TesterTools.crossovers[crossoverCode]);
+        fireStation.setMutation(TesterTools.mutations[mutationCode]);
 
         //disini harusnya ada file writer aku kurang ngerti cara pakenya nanti boleh tolong tambahin
-        FileWriter fw = new FileWriter(TesterTools.resultsPath + "/TestAResults.csv", true);
-        fw.append("Parameter,Value,Map,Mean,Stdev\n"); // Tulis header kolom
-        
-        //ini gw ambil dari csv [Redacted] nilainya yang specifichyper parameter buat acuan
-        BufferedReader brDefault = new BufferedReader(new FileReader(TesterTools.inputPath + "/SpecificHyperparameter.txt"));
-        StringTokenizer stDefault = new StringTokenizer(brDefault.readLine(), ",");
+        FileWriter fw = new FileWriter(TesterTools.resultsPath + "/TestAPopulationRun.csv", true);
+        fw.append("Parameter,Value,Map,Mean\n"); // Tulis header kolom
 
-        int bestPopulationSize = Integer.parseInt(stDefault.nextToken().trim());
-        double bestCrossoverRate = Double.parseDouble(stDefault.nextToken().trim());
-        double bestMutationRate = Double.parseDouble(stDefault.nextToken().trim());
-        double bestElitismRate = Double.parseDouble(stDefault.nextToken().trim());
-       
+        FileWriter rankings = new FileWriter(TesterTools.resultsPath + "/BestParameterPerRun.txt", true);
 
-        double totalScore = 0.0;
-        int evaluationBudget = 0;
+        fireStation.setCrossoverRate(hyperParamCrossover[0]);
+        fireStation.setMutationRate(hyperParamMutation[0]);
+        fireStation.setElitismRate(hyperParamElitism[0]);
 
         //population tuning
-        double bestScore = Double.MAX_VALUE;
-        for(int i = 0; i < hyperParamPopulasi.length; i++){
+        ModelTestData[] populationTest = new ModelTestData[hyperParamPopulasi.length];
+        for(i = 0; i < hyperParamPopulasi.length; i++){
             fireStation.setPopulationSize(hyperParamPopulasi[i]);
-            fireStation.setCrossoverRate(bestCrossoverRate);
-            fireStation.setMutationRate(bestMutationRate);
-            fireStation.setElitismRate(bestElitismRate);
+            double[][] res = new double[maps.length][seeds.length];
 
-            for(int ii = 0; ii < mapNames.length; ii++){
-                fireStation.setEnvironment(maps[ii]);
-                //ini aku ngikutin dari [Redacted] evaluation Budgetnya if if nya juga aku ngikutin dari [Redacted] yang testAllModels
-                evaluationBudget = 500000;
-                if (maps[ii].unreachablePenalty < 400){
-                    evaluationBudget = 10000; // ukuran lebih kecil 20 x 20 (1-399)
-                } 
-                else if (maps[ii].unreachablePenalty < 1600) {
-                    evaluationBudget = 50000; // ukuran lebih kecil 40 x 40 (400-1599)
-                }
-                else if (maps[ii].unreachablePenalty < 6400){
-                    evaluationBudget = 200000; // ukuran lebih kecil 80 x 80 (1600-6399)
-                }
-                fireStation.setEvaluationBudget(evaluationBudget);
+            for(j = 0; j < mapNames.length; j++){
+                fireStation.setEnvironment(maps[j]);
+                fireStation.setEvaluationBudget(TesterTools.determineEvaluationBudget(maps[j]));
 
-                for(int iii = 0; iii < rnds.length; iii++){
-                    fireStation.setRandom(rnds[iii]);
-                    individualGenerate.updateContext();
-                    Population candidate = new Population(individualGenerate, fireStation.getPopulationSize(), fireStation.getElitismRate());
+                for(k = 0; k < seeds.length; k++){
+                    fireStation.setRandom(new Random(seeds[k]));
+                    Population candidate = new Population(fireStation.getGenerator(), fireStation.getPopulationSize(), fireStation.getElitismRate());
                     fireStation.setPopulation(candidate);
 
-                    // ini angkanya aku ngikutin test model [Redacted]
-                    fireStation.setTermination(new FullParameterTermination(candidate, 5,1, evaluationBudget));
+                    fireStation.setTermination(new FullParameterTermination(candidate, 5,1, fireStation.getEvluationBudget()));
                     fireStation.run();
 
-                    res[ii][iii] = fireStation.getPopulation().getIndividual(0).objectiveValue;
+                    res[j][k] = fireStation.getPopulation().getIndividual(0).objectiveValue;
                 }
-
-                double [] values = TesterTools.meanAndStdev(res[ii]);
-
-                    //disini kalo liat dari punya [Redacted] bakal ada append append cuman aku kurang ngerti cara pakenya
-                    //update ini uda gw tambahin append cmn gw sekali lagi ga ngerti, nanti [Redacted] cek ya ini bener apa engga
-                    fw.append("PopulationSize," + hyperParamPopulasi[i] + "," + mapNames[ii] + "," + values[0] + "," + values[1] + "\n");
-                    fw.flush(); 
-
-                    //jujur aku kurang ngerti bagian jumlahin totalScsorenya nanti boleh tolong tambahin
-                    totalScore += values[0];
             }
 
-            if (totalScore < bestScore){
-                bestScore = totalScore;
-                bestPopulationSize = hyperParamPopulasi[i];
-            }
+            populationTest[i] = new ModelTestData(encodingCode, selectionCode, crossoverCode, mutationCode,
+                fireStation.getPopulationSize(), fireStation.getCrossoverRate(), fireStation.getMutationRate(), fireStation.getElitismRate(), res);
+            fw.append(populationTest[i].outputVerbose());
         }
-
-        //crossover rate
-        totalScore = 0.0;
-        bestScore = Double.MAX_VALUE;
-        for(int i = 0; i < hyperParamCrossover.length; i++){
-            fireStation.setPopulationSize(bestPopulationSize);
+        Arrays.sort(populationTest);
+        rankings.append("Population Size:");
+        for (i = 0; i < populationTest.length; i++)
+            rankings.append(" " + populationTest[i].populationSize);
+        rankings.append("\n");
+        
+        
+        
+        fireStation.setPopulationSize(populationTest[0].populationSize);
+        ModelTestData[] crossoverTest = new ModelTestData[hyperParamCrossover.length];
+        for(i = 0; i < hyperParamCrossover.length; i++){
             fireStation.setCrossoverRate(hyperParamCrossover[i]);
-            fireStation.setMutationRate(bestMutationRate);
-            fireStation.setElitismRate(bestElitismRate);
+            double[][] res = new double[maps.length][seeds.length];
 
-            for(int ii = 0; ii < mapNames.length; ii++){
-                fireStation.setEnvironment(maps[ii]);
-                //ini aku ngikutin dari [Redacted] evaluation Budgetnya if if nya juga aku ngikutin dari [Redacted] yang testAllModels
-                evaluationBudget = 500000;
-                if (maps[ii].unreachablePenalty < 400){
-                    evaluationBudget = 10000; // ukuran lebih kecil 20 x 20 (1-399)
-                } 
-                else if (maps[ii].unreachablePenalty < 1600) {
-                    evaluationBudget = 50000; // ukuran lebih kecil 40 x 40 (400-1599)
-                }
-                else if (maps[ii].unreachablePenalty < 6400){
-                    evaluationBudget = 200000; // ukuran lebih kecil 80 x 80 (1600-6399)
-                }
-                fireStation.setEvaluationBudget(evaluationBudget);
+            for(j = 0; j < mapNames.length; j++){
+                fireStation.setEnvironment(maps[j]);
+                fireStation.setEvaluationBudget(TesterTools.determineEvaluationBudget(maps[j]));
 
-                for (int iii = 0; iii < rnds.length; iii++){
-                    fireStation.setRandom(rnds[iii]);
-                    individualGenerate.updateContext();
-                    Population candidate = new Population(individualGenerate, fireStation.getPopulationSize(), fireStation.getElitismRate());
+                for (k = 0; k < seeds.length; k++){
+                    fireStation.setRandom(new Random(seeds[k]));
+                    Population candidate = new Population(fireStation.getGenerator(), fireStation.getPopulationSize(), fireStation.getElitismRate());
                     fireStation.setPopulation(candidate);
 
                     // ini angkanya aku ngikutin test model [Redacted]
-                    fireStation.setTermination(new FullParameterTermination(candidate, 5,1, evaluationBudget));
+                    fireStation.setTermination(new FullParameterTermination(candidate, 5,1, fireStation.getEvluationBudget()));
                     fireStation.run();
 
-                    res[ii][iii] = fireStation.getPopulation().getIndividual(0).objectiveValue;
+                    res[j][k] = fireStation.getPopulation().getIndividual(0).objectiveValue;
                 }
-
-                double [] values = TesterTools.meanAndStdev(res[ii]);
-                    // disini kalo liat dari punya [Redacted] bakal ada append append cuman aku kurang ngerti cara pakenya
-
-                    //jujur aku kurang ngerti bagian jumlahin totalScsorenya nanti boleh tolong tambahin
-                    //update ini uda gw tambahin append cmn gw sekali lagi ga ngerti, nanti [Redacted] cek ya ini bener apa engga
-                    fw.append("CrossoverRate," + hyperParamCrossover[i] + "," + mapNames[ii] + "," + values[0] + "," + values[1] + "\n");
-                    fw.flush();
-
-                    //jujur aku kurang ngerti bagian jumlahin totalScsorenya nanti boleh tolong tambahin
-                    totalScore += values[0];
             }
 
-            if (totalScore < bestScore){
-                bestScore = totalScore;
-                bestCrossoverRate = hyperParamCrossover[i];
-            }
+            crossoverTest[i] = new ModelTestData(encodingCode, selectionCode, crossoverCode, mutationCode,
+                fireStation.getPopulationSize(), fireStation.getCrossoverRate(), fireStation.getMutationRate(), fireStation.getElitismRate(), res);
+            fw.append(crossoverTest[i].outputVerbose());
         }
-
-        //Mutation Rate
-        totalScore = 0.0;
-        bestScore = Double.MAX_VALUE;
-        for(int i = 0; i < hyperParamMutation.length; i++){
-            fireStation.setPopulationSize(bestPopulationSize);
-            fireStation.setCrossoverRate(bestCrossoverRate);
+        Arrays.sort(crossoverTest);
+        rankings.append("Crossover Rate:");
+        for (i = 0; i < crossoverTest.length; i++)
+            rankings.append(" " + crossoverTest[i].crossoverRate);
+        rankings.append("\n");
+        
+        
+        
+        fireStation.setCrossoverRate(crossoverTest[0].crossoverRate);
+        ModelTestData[] mutationTest = new ModelTestData[hyperParamMutation.length];
+        for(i = 0; i < hyperParamMutation.length; i++){
             fireStation.setMutationRate(hyperParamMutation[i]);
-            fireStation.setElitismRate(bestElitismRate);
+            double[][] res = new double[maps.length][seeds.length];
 
-            for(int ii = 0; ii < mapNames.length; ii++){
-                fireStation.setEnvironment(maps[ii]);
-                //ini aku ngikutin dari [Redacted] evaluation Budgetnya if if nya juga aku ngikutin dari [Redacted] yang testAllModels
-                evaluationBudget = 500000;
-                if (maps[ii].unreachablePenalty < 400){
-                    evaluationBudget = 10000; // ukuran lebih kecil 20 x 20 (1-399)
-                } 
-                else if (maps[ii].unreachablePenalty < 1600) {
-                    evaluationBudget = 50000; // ukuran lebih kecil 40 x 40 (400-1599)
-                }
-                else if (maps[ii].unreachablePenalty < 6400){
-                    evaluationBudget = 200000; // ukuran lebih kecil 80 x 80 (1600-6399)
-                }
-                fireStation.setEvaluationBudget(evaluationBudget);
+            for(j = 0; j < mapNames.length; j++){
+                fireStation.setEnvironment(maps[j]);
+                fireStation.setEvaluationBudget(TesterTools.determineEvaluationBudget(maps[j]));
 
-                for(int iii = 0; iii < rnds.length; iii++){
-                    fireStation.setRandom(rnds[iii]);
-                    individualGenerate.updateContext();
-                    Population candidate = new Population(individualGenerate, fireStation.getPopulationSize(), fireStation.getElitismRate());
+                for (k = 0; k < seeds.length; k++){
+                    fireStation.setRandom(new Random(seeds[k]));
+                    Population candidate = new Population(fireStation.getGenerator(), fireStation.getPopulationSize(), fireStation.getElitismRate());
                     fireStation.setPopulation(candidate);
 
-                    // ini angkanya aku ngikutin test model [Redacted]
-                    fireStation.setTermination(new FullParameterTermination(candidate, 5,1, evaluationBudget));
+                    fireStation.setTermination(new FullParameterTermination(candidate, 5,1, fireStation.getEvluationBudget()));
                     fireStation.run();
 
-                    res[ii][iii] = fireStation.getPopulation().getIndividual(0).objectiveValue;
+                    res[j][k] = fireStation.getPopulation().getIndividual(0).objectiveValue;
                 }
-
-                double [] values = TesterTools.meanAndStdev(res[ii]);
-                    // disini kalo liat dari punya [Redacted] bakal ada append append cuman aku kurang ngerti cara pakenya
-
-                    //jujur aku kurang ngerti bagian jumlahin totalScsorenya nanti boleh tolong tambahin
-                    //update ini uda gw tambahin append cmn gw sekali lagi ga ngerti, nanti [Redacted] cek ya ini bener apa engga
-                    fw.append("MutationRate," + hyperParamMutation[i] + "," + mapNames[ii] + "," + values[0] + "," + values[1] + "\n");
-                    fw.flush();
-
-                    //jujur aku kurang ngerti bagian jumlahin totalScsorenya nanti boleh tolong tambahin
-                    totalScore += values[0];
             }
 
-            if(totalScore < bestScore){
-                bestScore = totalScore;
-                bestMutationRate= hyperParamMutation[i];
-            }
+            mutationTest[i] = new ModelTestData(encodingCode, selectionCode, crossoverCode, mutationCode,
+                fireStation.getPopulationSize(), fireStation.getCrossoverRate(), fireStation.getMutationRate(), fireStation.getElitismRate(), res);
+            fw.append(mutationTest[i].outputVerbose());
         }
+        Arrays.sort(mutationTest);
+        rankings.append("Mutation Rate:");
+        for (i = 0; i < mutationTest.length; i++)
+            rankings.append(" " + mutationTest[i].mutationRate);
+        rankings.append("\n");
 
-        //elitism
-        totalScore = 0.0;
-        bestScore = Double.MAX_VALUE;
-        for(int i = 0; i < hyperParamElitism.length; i++){
-            fireStation.setPopulationSize(bestPopulationSize);
-            fireStation.setCrossoverRate(bestCrossoverRate);
-            fireStation.setMutationRate(bestMutationRate);
+
+
+        fireStation.setMutationRate(mutationTest[0].mutationRate);
+        ModelTestData[] elitismTest = new ModelTestData[hyperParamElitism.length];
+        for(i = 0; i < hyperParamElitism.length; i++){
             fireStation.setElitismRate(hyperParamElitism[i]);
+            double[][] res = new double[maps.length][seeds.length];
 
-            for(int ii = 0; ii < mapNames.length; ii++){
-                fireStation.setEnvironment(maps[ii]);
-                //ini aku ngikutin dari [Redacted] evaluation Budgetnya if if nya juga aku ngikutin dari [Redacted] yang testAllModels
-                evaluationBudget = 500000;
-                if (maps[ii].unreachablePenalty < 400){
-                    evaluationBudget = 10000; // ukuran lebih kecil 20 x 20 (1-399)
-                } 
-                else if (maps[ii].unreachablePenalty < 1600) {
-                    evaluationBudget = 50000; // ukuran lebih kecil 40 x 40 (400-1599)
-                }
-                else if (maps[ii].unreachablePenalty < 6400){
-                    evaluationBudget = 200000; // ukuran lebih kecil 80 x 80 (1600-6399)
-                }
-                fireStation.setEvaluationBudget(evaluationBudget); 
+            for(j = 0; j < mapNames.length; j++){
+                fireStation.setEnvironment(maps[j]);
+                fireStation.setEvaluationBudget(TesterTools.determineEvaluationBudget(maps[j]));
 
-                for(int iii = 0; iii < rnds.length; iii++){
-                    fireStation.setRandom(rnds[iii]);
-                    individualGenerate.updateContext();
-                    Population candidate = new Population(individualGenerate, fireStation.getPopulationSize(), fireStation.getElitismRate());
+                for (k = 0; k < seeds.length; k++){
+                    fireStation.setRandom(new Random(seeds[k]));
+                    Population candidate = new Population(fireStation.getGenerator(), fireStation.getPopulationSize(), fireStation.getElitismRate());
                     fireStation.setPopulation(candidate);
 
                     // ini angkanya aku ngikutin test model [Redacted]
-                    fireStation.setTermination(new FullParameterTermination(candidate, 5,1, evaluationBudget));
+                    fireStation.setTermination(new FullParameterTermination(candidate, 5,1, fireStation.getEvluationBudget()));
                     fireStation.run();
 
-                    res[ii][iii] = fireStation.getPopulation().getIndividual(0).objectiveValue;
+                    res[j][k] = fireStation.getPopulation().getIndividual(0).objectiveValue;
                 }
-
-                double [] values = TesterTools.meanAndStdev(res[ii]);
-                    // disini kalo liat dari punya [Redacted] bakal ada append append cuman aku kurang ngerti cara pakenya
-
-                    //jujur aku kurang ngerti bagian jumlahin totalScsorenya nanti boleh tolong tambahin
-                    //update ini uda gw tambahin append cmn gw sekali lagi ga ngerti, nanti [Redacted] cek ya ini bener apa engga
-                    fw.append("ElitismRate," + hyperParamElitism[i] + "," + mapNames[ii] + "," + values[0] + "," + values[1] + "\n");
-                    fw.flush();
-
-                    //jujur aku kurang ngerti bagian jumlahin totalScsorenya nanti boleh tolong tambahin
-                    totalScore += values[0];
             }
 
-            if(totalScore < bestScore){
-                bestScore = totalScore;
-                bestElitismRate= hyperParamElitism[i];
-            }
+            elitismTest[i] = new ModelTestData(encodingCode, selectionCode, crossoverCode, mutationCode,
+                fireStation.getPopulationSize(), fireStation.getCrossoverRate(), fireStation.getMutationRate(), fireStation.getElitismRate(), res);
+            fw.append(elitismTest[i].outputVerbose());
         }
+        Arrays.sort(elitismTest);
+        rankings.append("Elitism Rate:");
+        for (i = 0; i < elitismTest.length; i++)
+            rankings.append(" " + elitismTest[i].elitismRate);
+        
+        rankings.close();
+        fw.close();
     }
 }
