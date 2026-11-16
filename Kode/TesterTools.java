@@ -71,6 +71,7 @@ public class TesterTools
             br.close();
 
             maps[f] = new Environment(map, p);
+            // membaca nama file
             mapNames[f] = list[f].getName();
         }
     }
