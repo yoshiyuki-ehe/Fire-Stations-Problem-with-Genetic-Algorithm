@@ -1,7 +1,7 @@
 import java.util.*;
 import java.io.*;
 
-public class TestHyperparamB {
+public class TestAllHyperparameters {
    
     public static void main(String [] args) throws Exception{
         int i, j, k, l, m, n;
@@ -16,7 +16,7 @@ public class TestHyperparamB {
         BufferedReader br = new BufferedReader(new FileReader(TesterTools.inputPath + "CombinationHyperparameters.txt"));
          
         StringTokenizer stPopulation = new StringTokenizer(br.readLine(), ",");
-        int nPopulation = stPopulation.countTokens(); //cari tahu n (n itu jumlah data)
+        int nPopulation = stPopulation.countTokens(); //cari tahu n (jumlah data)
         int[] hyperParamPopulasi = new int[nPopulation]; //pake array biasa karena n diketahui
         for (i = 0; i < nPopulation; i++) {
             hyperParamPopulasi[i] = Integer.parseInt(stPopulation.nextToken().trim());
@@ -43,7 +43,7 @@ public class TestHyperparamB {
    
         FireStationsSingleton fireStation = FireStationsSingleton.INSTANCE;
 
-        //baca lagi dari spesifik model skrng buat nentuin enaknya pake model apa
+        // menggunakan 1 jenis Model
         BufferedReader brModel = new BufferedReader(new FileReader(TesterTools.inputPath + "/SpecificModel.txt"));
         StringTokenizer stModel = new StringTokenizer(brModel.readLine(), ",");
         brModel.close();
@@ -60,26 +60,29 @@ public class TestHyperparamB {
         fireStation.setCrossover(TesterTools.crossovers[crossoverCode]);
         fireStation.setMutation(TesterTools.mutations[mutationCode]);
 
-        FileWriter rankings = new FileWriter(TesterTools.resultsPath + "/.txt", true);
-
-        fireStation.setCrossoverRate(hyperParamCrossover[0]);
-        fireStation.setMutationRate(hyperParamMutation[0]);
-        fireStation.setElitismRate(hyperParamElitism[0]);
-
-        //population tuning
-        ModelTestData[] populationTest = new ModelTestData[hyperParamPopulasi.length];
-        FileWriter fw = new FileWriter(TesterTools.resultsPath + "/TestAllHyperparameter.csv", true);
-        fw.append("Chromosome Encoding,Parent Selection,Crossover,Mutation,Population Size,Crossover Rate,Mutation Rate, Elitism Rate,Map,Seed,Result"); // Tulis header kolom
-        for(i = 0; i < hyperParamPopulasi.length; i++){
+        // model menyimpan semua kombinasi Hyperparameter
+        ModelTestData[] model = new ModelTestData[hyperParamPopulasi.length * hyperParamCrossover.length *
+            hyperParamMutation.length * hyperParamElitism.length];
+        
+        for(i = 0; i < hyperParamPopulasi.length; i++)
+        {
             fireStation.setPopulationSize(hyperParamPopulasi[i]);
+            for (j = 0; j < hyperParamCrossover.length; j++)
+            {
+                fireStation.setCrossoverRate(hyperParamCrossover[j]);
+                for (k = 0; k < hyperParamMutation.length; k++)
+                {
+                    fireStation.setMutationRate(hyperParamMutation[k]);
+                    for (l = 0; l < hyperParamElitism.length; l++)
+                    {
                         double[][] res = new double[maps.length][seeds.length];
 
-                        for(j = 0; j < mapNames.length; j++){
-                            fireStation.setEnvironment(maps[j]);
-                            fireStation.setEvaluationBudget(TesterTools.determineEvaluationBudget(maps[j]));
+                        for(m = 0; m < mapNames.length; m++){
+                            fireStation.setEnvironment(maps[m]);
+                            fireStation.setEvaluationBudget(TesterTools.determineEvaluationBudget(maps[m]));
 
-                            for(k = 0; k < seeds.length; k++){
-                                fireStation.setRandom(new Random(seeds[k]));
+                            for(n = 0; n < seeds.length; n++){
+                                fireStation.setRandom(new Random(seeds[n]));
                                 Population candidate = new Population(fireStation.getGenerator(), fireStation.getPopulationSize(), fireStation.getElitismRate());
                                 fireStation.setPopulation(candidate);
 
@@ -90,16 +93,29 @@ public class TestHyperparamB {
                             }
                         }
 
-            populationTest[i] = new ModelTestData(encodingCode, selectionCode, crossoverCode, mutationCode,
-                fireStation.getPopulationSize(), fireStation.getCrossoverRate(), fireStation.getMutationRate(), fireStation.getElitismRate(), res);
-            fw.append(populationTest[i].outputVerbose());
+                        model[i * hyperParamCrossover.length * hyperParamMutation.length * hyperParamElitism.length +
+                            j * hyperParamMutation.length * hyperParamElitism.length + k * hyperParamElitism.length + l] =
+                            new ModelTestData(encodingCode, selectionCode, crossoverCode, mutationCode,
+                        fireStation.getPopulationSize(), fireStation.getCrossoverRate(), fireStation.getMutationRate(), fireStation.getElitismRate(), res);
+                    }
+                }
+            }
+        }
+        
+        FileWriter fw = new FileWriter(TesterTools.resultsPath + "/AllHyperparametersVerboseResults.csv", true);
+        fw.append("Chromosome Encoding,Parent Selection,Crossover,Mutation,Population Size,Crossover Rate,Mutation Rate, Elitism Rate,Map,Seed,Result");
+        for (ModelTestData data : model)
+            fw.append(data.outputVerbose());
+        fw.close();
+
+        fw = new FileWriter(TesterTools.resultsPath + "/AllHyperparametersResultsRanked.csv", true);
+        fw.append("Chromosome Encoding,Parent Selection,Crossover,Mutation,Population Size,Crossover Rate,Mutation Rate, Elitism Rate,Map,Mean Result");
+        Arrays.sort(model);
+        for (ModelTestData data : model)
+        {
+            fw.append(data.outputBestDataOnly());
+            fw.append("\nOverall Mean," + data.overallMean);
         }
         fw.close();
-        Arrays.sort(populationTest);
-        rankings.append("Population Size:");
-        for (i = 0; i < populationTest.length; i++)
-            rankings.append(" " + populationTest[i].populationSize);
-        rankings.append("\n");
-        
     }
 }

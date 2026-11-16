@@ -55,18 +55,19 @@ public class TesterTools
         mapNames = new String[list.length];
         maps = new Environment[list.length];
 
-        int n, m, p, i, f;
+        int n, p, i, f;
         for (f = 0; f < list.length; f++)
         {
             BufferedReader br = new BufferedReader(new FileReader(list[f]));
             StringTokenizer st = new StringTokenizer(br.readLine());
 
-            n = Integer.parseInt(st.nextToken());
-            m = Integer.parseInt(st.nextToken());
-            p = Integer.parseInt(st.nextToken());
+            n = Integer.parseInt(st.nextToken().trim());
+            // m tidak benar benar dibutuhkan karena banyak kolom langsung dibaca dari jumlah karakter di baris
+            st.nextToken();
+            p = Integer.parseInt(st.nextToken().trim());
 
             char[][] map = new char[n][];
-            for (i = 0; i < n; i++) map[i] = br.readLine().toCharArray();
+            for (i = 0; i < n; i++) map[i] = br.readLine().trim().toCharArray();
             br.close();
 
             maps[f] = new Environment(map, p);

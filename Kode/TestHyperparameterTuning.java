@@ -1,7 +1,7 @@
 import java.util.*;
 import java.io.*;
 
-public class TestHyperparamA {
+public class TestHyperparameterTuning {
    
     public static void main(String [] args) throws Exception{
         int i, j, k;
@@ -16,7 +16,7 @@ public class TestHyperparamA {
         BufferedReader br = new BufferedReader(new FileReader(TesterTools.inputPath + "CombinationHyperparameters.txt"));
          
         StringTokenizer stPopulation = new StringTokenizer(br.readLine(), ",");
-        int nPopulation = stPopulation.countTokens(); //cari tahu n (n itu jumlah data)
+        int nPopulation = stPopulation.countTokens(); //cari tahu n (jumlah data)
         int[] hyperParamPopulasi = new int[nPopulation]; //pake array biasa karena n diketahui
         for (i = 0; i < nPopulation; i++) {
             hyperParamPopulasi[i] = Integer.parseInt(stPopulation.nextToken().trim());
@@ -43,7 +43,7 @@ public class TestHyperparamA {
    
         FireStationsSingleton fireStation = FireStationsSingleton.INSTANCE;
 
-        //baca lagi dari spesifik model skrng buat nentuin enaknya pake model apa
+        // menggunakan 1 jenis Model
         BufferedReader brModel = new BufferedReader(new FileReader(TesterTools.inputPath + "/SpecificModel.txt"));
         StringTokenizer stModel = new StringTokenizer(brModel.readLine(), ",");
         brModel.close();
@@ -66,7 +66,7 @@ public class TestHyperparamA {
         fireStation.setMutationRate(hyperParamMutation[0]);
         fireStation.setElitismRate(hyperParamElitism[0]);
 
-        //population tuning
+        //population size tuning
         ModelTestData[] populationTest = new ModelTestData[hyperParamPopulasi.length];
         FileWriter fw = new FileWriter(TesterTools.resultsPath + "/TestPopulationTuning.csv", true);
         fw.append("Chromosome Encoding,Parent Selection,Crossover,Mutation,Population Size,Crossover Rate,Mutation Rate, Elitism Rate,Map,Seed,Result"); // Tulis header kolom
@@ -105,6 +105,7 @@ public class TestHyperparamA {
         fw = new FileWriter(TesterTools.resultsPath + "/TestCrossoverTuning.csv", true);
         fw.append("Chromosome Encoding,Parent Selection,Crossover,Mutation,Population Size,Crossover Rate,Mutation Rate, Elitism Rate,Map,Seed,Result");
         fireStation.setPopulationSize(populationTest[0].populationSize);
+        //crossover rate tuning
         ModelTestData[] crossoverTest = new ModelTestData[hyperParamCrossover.length];
         for(i = 0; i < hyperParamCrossover.length; i++){
             fireStation.setCrossoverRate(hyperParamCrossover[i]);
@@ -142,6 +143,7 @@ public class TestHyperparamA {
         fw = new FileWriter(TesterTools.resultsPath + "/TestMutationTuning.csv", true);
         fw.append("Chromosome Encoding,Parent Selection,Crossover,Mutation,Population Size,Crossover Rate,Mutation Rate, Elitism Rate,Map,Seed,Result");
         fireStation.setCrossoverRate(crossoverTest[0].crossoverRate);
+        //mutation rate tuning
         ModelTestData[] mutationTest = new ModelTestData[hyperParamMutation.length];
         for(i = 0; i < hyperParamMutation.length; i++){
             fireStation.setMutationRate(hyperParamMutation[i]);
@@ -178,6 +180,7 @@ public class TestHyperparamA {
         fw = new FileWriter(TesterTools.resultsPath + "/TestElitismTuning.csv", true);
         fw.append("Chromosome Encoding,Parent Selection,Crossover,Mutation,Population Size,Crossover Rate,Mutation Rate, Elitism Rate,Map,Seed,Result");
         fireStation.setMutationRate(mutationTest[0].mutationRate);
+        //elitism rate tuning
         ModelTestData[] elitismTest = new ModelTestData[hyperParamElitism.length];
         for(i = 0; i < hyperParamElitism.length; i++){
             fireStation.setElitismRate(hyperParamElitism[i]);
