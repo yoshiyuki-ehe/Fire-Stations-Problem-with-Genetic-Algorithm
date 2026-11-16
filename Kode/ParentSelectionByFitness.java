@@ -26,7 +26,6 @@ public class ParentSelectionByFitness extends ParentSelection{
     }
 
     private int searchRouletteIndex(Population population, double rouletteResult) {
-        
         int left = 0;
         int right = population.getPopulationSize() - 1;
         int mid = (left + right) / 2;
@@ -38,11 +37,18 @@ public class ParentSelectionByFitness extends ParentSelection{
         {
             mid = (left + right) / 2;
             // interval rouletteResult ada di kanan batas kanan interval yang diperiksa sekarang (tidak mungkin berada di dalamnya)
-            // | mid | rouletteResult |
+            //           mid
+            // | interval | rouletteResult |
             if (population.getFitnessPrefixSum(mid) < rouletteResult) left = mid + 1;
             // jika tidak rouletteResult berada di kiri batas kanan interval yang diperiksa sekarang (bisa saja berada di dalamnya)
-            // | rouletteResult mid |
-            // | rouletteResult | mid |
+            // atau bahkan bisa berada di batas kanan interval yang diperiksa sekarang jika fitnessPrefixSum(mid) == rouletteResult
+            //                 mid
+            // | rouletteResult |
+            //                            mid
+            // | rouletteResult | interval |
+            //           mid
+            //      rouletteResult
+            // | interval | interval |
             else mid = right;
         }
 
