@@ -48,7 +48,7 @@ public class TestHyperparamA {
         StringTokenizer stModel = new StringTokenizer(brModel.readLine(), ",");
         brModel.close();
 
-        //ambil angkkanya
+        //ambil angkanya
         int encodingCode  = Integer.parseInt(stModel.nextToken().trim());
         int selectionCode = Integer.parseInt(stModel.nextToken().trim());
         int crossoverCode = Integer.parseInt(stModel.nextToken().trim());
