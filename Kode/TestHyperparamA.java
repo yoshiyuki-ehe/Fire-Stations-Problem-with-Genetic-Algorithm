@@ -60,10 +60,6 @@ public class TestHyperparamA {
         fireStation.setCrossover(TesterTools.crossovers[crossoverCode]);
         fireStation.setMutation(TesterTools.mutations[mutationCode]);
 
-        //disini harusnya ada file writer aku kurang ngerti cara pakenya nanti boleh tolong tambahin
-        FileWriter fw = new FileWriter(TesterTools.resultsPath + "/TestAPopulationRun.csv", true);
-        fw.append("Parameter,Value,Map,Mean\n"); // Tulis header kolom
-
         FileWriter rankings = new FileWriter(TesterTools.resultsPath + "/BestParameterPerRun.txt", true);
 
         fireStation.setCrossoverRate(hyperParamCrossover[0]);
@@ -72,6 +68,8 @@ public class TestHyperparamA {
 
         //population tuning
         ModelTestData[] populationTest = new ModelTestData[hyperParamPopulasi.length];
+        FileWriter fw = new FileWriter(TesterTools.resultsPath + "/TestPopulationTuning.csv", true);
+        fw.append("Chromosome Encoding,Parent Selection,Crossover,Mutation,Population Size,Crossover Rate,Mutation Rate, Elitism Rate,Map,Seed,Result"); // Tulis header kolom
         for(i = 0; i < hyperParamPopulasi.length; i++){
             fireStation.setPopulationSize(hyperParamPopulasi[i]);
             double[][] res = new double[maps.length][seeds.length];
@@ -96,14 +94,16 @@ public class TestHyperparamA {
                 fireStation.getPopulationSize(), fireStation.getCrossoverRate(), fireStation.getMutationRate(), fireStation.getElitismRate(), res);
             fw.append(populationTest[i].outputVerbose());
         }
+        fw.close();
         Arrays.sort(populationTest);
         rankings.append("Population Size:");
         for (i = 0; i < populationTest.length; i++)
             rankings.append(" " + populationTest[i].populationSize);
         rankings.append("\n");
         
-        
-        
+
+        fw = new FileWriter(TesterTools.resultsPath + "/TestCrossoverTuning.csv", true);
+        fw.append("Chromosome Encoding,Parent Selection,Crossover,Mutation,Population Size,Crossover Rate,Mutation Rate, Elitism Rate,Map,Seed,Result");
         fireStation.setPopulationSize(populationTest[0].populationSize);
         ModelTestData[] crossoverTest = new ModelTestData[hyperParamCrossover.length];
         for(i = 0; i < hyperParamCrossover.length; i++){
@@ -131,6 +131,7 @@ public class TestHyperparamA {
                 fireStation.getPopulationSize(), fireStation.getCrossoverRate(), fireStation.getMutationRate(), fireStation.getElitismRate(), res);
             fw.append(crossoverTest[i].outputVerbose());
         }
+        fw.close();
         Arrays.sort(crossoverTest);
         rankings.append("Crossover Rate:");
         for (i = 0; i < crossoverTest.length; i++)
@@ -138,7 +139,8 @@ public class TestHyperparamA {
         rankings.append("\n");
         
         
-        
+        fw = new FileWriter(TesterTools.resultsPath + "/TestMutationTuning.csv", true);
+        fw.append("Chromosome Encoding,Parent Selection,Crossover,Mutation,Population Size,Crossover Rate,Mutation Rate, Elitism Rate,Map,Seed,Result");
         fireStation.setCrossoverRate(crossoverTest[0].crossoverRate);
         ModelTestData[] mutationTest = new ModelTestData[hyperParamMutation.length];
         for(i = 0; i < hyperParamMutation.length; i++){
@@ -165,6 +167,7 @@ public class TestHyperparamA {
                 fireStation.getPopulationSize(), fireStation.getCrossoverRate(), fireStation.getMutationRate(), fireStation.getElitismRate(), res);
             fw.append(mutationTest[i].outputVerbose());
         }
+        fw.close();
         Arrays.sort(mutationTest);
         rankings.append("Mutation Rate:");
         for (i = 0; i < mutationTest.length; i++)
@@ -172,7 +175,8 @@ public class TestHyperparamA {
         rankings.append("\n");
 
 
-
+        fw = new FileWriter(TesterTools.resultsPath + "/TestElitismTuning.csv", true);
+        fw.append("Chromosome Encoding,Parent Selection,Crossover,Mutation,Population Size,Crossover Rate,Mutation Rate, Elitism Rate,Map,Seed,Result");
         fireStation.setMutationRate(mutationTest[0].mutationRate);
         ModelTestData[] elitismTest = new ModelTestData[hyperParamElitism.length];
         for(i = 0; i < hyperParamElitism.length; i++){
@@ -200,12 +204,12 @@ public class TestHyperparamA {
                 fireStation.getPopulationSize(), fireStation.getCrossoverRate(), fireStation.getMutationRate(), fireStation.getElitismRate(), res);
             fw.append(elitismTest[i].outputVerbose());
         }
+        fw.close();
         Arrays.sort(elitismTest);
         rankings.append("Elitism Rate:");
         for (i = 0; i < elitismTest.length; i++)
             rankings.append(" " + elitismTest[i].elitismRate);
         
         rankings.close();
-        fw.close();
     }
 }
