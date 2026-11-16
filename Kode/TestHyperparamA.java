@@ -13,15 +13,14 @@ import java.util.StringTokenizer;
 public class TestHyperparamA {
    
     public static void main(String [] args) throws Exception{
-        // ini aku ngambil dari yang punya [Redacted] yang testAllModels
-        Random rand = new Random(20010911);
-        TesterTools.initializeSeeds(rand, 10);
+        TesterTools.setOtherParameters();
+        int[] seeds = TesterTools.seeds;
+
         TesterTools.readMaps();
         String[] mapNames = TesterTools.mapNames;
         Environment[] maps = TesterTools.maps;
-        double[][] res = new double[mapNames.length][rnds.length];
 
-        BufferedReader br = new BufferedReader(new FileReader(TesterTools.inputPath + "path......csv"));
+        BufferedReader br = new BufferedReader(new FileReader(TesterTools.inputPath + "CombinationHyperparameters.txt"));
          
         StringTokenizer stPopulation = new StringTokenizer(br.readLine(), ",");
         int nPopulation = stPopulation.countTokens(); //cari tahu n (n itu jumlah data)

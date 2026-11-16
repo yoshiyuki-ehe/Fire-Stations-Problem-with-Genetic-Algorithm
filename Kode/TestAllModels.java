@@ -12,7 +12,7 @@ public class TestAllModels
         String[] mapNames = TesterTools.mapNames;
         Environment[] maps = TesterTools.maps;
         
-        BufferedReader br = new BufferedReader(new FileReader(TesterTools.inputPath + "/SpecificHyperparameter.csv"));
+        BufferedReader br = new BufferedReader(new FileReader(TesterTools.inputPath + "/SpecificHyperparameter.txt"));
 
         FireStationsSingleton fss = FireStationsSingleton.INSTANCE;
         fss.setPopulationSize(Integer.parseInt(br.readLine().trim()));
