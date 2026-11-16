@@ -6,47 +6,42 @@ public class TestAllModels
     public static void main(String[] args) throws Exception
     {
         TesterTools.setOtherParameters();
-        Random rand = TesterTools.globalRand;
         int[] seeds = TesterTools.seeds;
 
         TesterTools.readMaps();
         String[] mapNames = TesterTools.mapNames;
         Environment[] maps = TesterTools.maps;
-        double[][] res = new double[mapNames.length][rnds.length];
-
+        
         BufferedReader br = new BufferedReader(new FileReader(TesterTools.inputPath + "/SpecificHyperparameter.csv"));
         StringTokenizer st = new StringTokenizer(br.readLine(), ",");
-        FileWriter fw = new FileWriter(TesterTools.resultsPath + "/generalResults.csv", true);
+        br.close();
 
         FireStationsSingleton fss = FireStationsSingleton.INSTANCE;
         fss.setPopulationSize(Integer.parseInt(st.nextToken()));
         fss.setCrossoverRate(Double.parseDouble(st.nextToken()));
         fss.setMutationRate(Double.parseDouble(st.nextToken()));
+        fss.setElitismRate(Double.parseDouble(st.nextToken()));
         
-        fw.append("Chromosome Encoding,Parent Selection,Crossover,Mutation,Map,Mean,Standard Deviation");
-        int i, j, k, l, m, n, evaluationBudget;
+        ModelTestData[] model = new ModelTestData[16];
+        int i, j, k, l, m, n;
         for (i = 0; i < 2; i++)
         {
+            fss.setGenerator(TesterTools.chromosomeEncodings[i]);
             for (j = 0; j < 2; j++)
             {
+                fss.setParentSelection(TesterTools.parentSelections[j]);
                 for (k = 0; k < 2; k++)
                 {
+                    fss.setCrossover(TesterTools.crossovers[k]);
                     for (l = 0; l < 2; l++)
                     {
-                        fss.setGenerator(TesterTools.chromosomeEncodings[i]);
-                        fss.setParentSelection(parentSelections[j]);
-                        fss.setCrossover(crossovers[k]);
-                        fss.setMutation(mutations[l]);
+                        fss.setMutation(TesterTools.mutations[l]);
 
+                        double[][] res = new double[mapNames.length][seeds.length];
                         for (m = 0; m < mapNames.length; m++)
                         {
                             fss.setEnvironment(maps[m]);
-                            // referensi: Tabel1 pada pdf Tugas buatan Pak Lionov
-                            evaluationBudget = 500000; // ukuran mulai dari 80 x 80
-                            if (maps[m].unreachablePenalty < 400) evaluationBudget = 10000; // ukuran lebih kecil 20 x 20 (1-399)
-                            else if (maps[m].unreachablePenalty < 1600) evaluationBudget = 50000; // ukuran lebih kecil 40 x 40 (400-1599)
-                            else if (maps[m].unreachablePenalty < 6400) evaluationBudget = 200000; // ukuran lebih kecil 80 x 80 (1600-6399)
-                            fss.setEvaluationBudget(evaluationBudget);
+                            fss.setEvaluationBudget(TesterTools.determineEvaluationBudget(maps[m]));
 
                             for (n = 0; n < seeds.length; n++)
                             {
@@ -57,24 +52,35 @@ public class TestAllModels
                                     fss.getElitismRate());
                                 fss.setPopulation(subject);
                                 fss.setTermination(new FullParameterTermination(
-                                    subject, 5, 1, evaluationBudget));
+                                    subject, 5, 1, fss.getEvluationBudget()));
                                 fss.run();
                             
-                                res[m][n] = fss.getPopulation().getIndividual(0).objective;
+                                res[m][n] = fss.getPopulation().getIndividual(0).objectiveValue;
                             }
-
-                            double[] values = TesterTools.meanAndStdev(res[m]);
-                            fw.append("\n" + encodingNames[i] + "," + 
-                            parentSelections[j].getClass().getSimpleName() + "," +
-                            crossovers[k].getClass().getSimpleName() + "," +
-                            mutations[l].getClass().getSimpleName() + "," +
-                            values[0] + "," + values[1]);
                         }
+
+                        model[i * 8 + j * 4 + k * 2 + l] = new ModelTestData(i, j, k, l,
+                            fss.getPopulationSize(), fss.getCrossoverRate(), fss.getMutationRate(), fss.getElitismRate(),
+                            res);
                     }
                 }
             }
         }
 
-        br.close();
+        FileWriter fw = new FileWriter(TesterTools.resultsPath + "/AllModelsVerboseResults.csv", true);
+        fw.append("Chromosome Encoding,Parent Selection,Crossover,Mutation,Population Size,Crossover Rate,Mutation Rate, Elitism Rate,Map,Seed,Result");
+        for (ModelTestData data : model)
+            fw.append(data.outputVerbose());
+        fw.close();
+
+        fw = new FileWriter(TesterTools.resultsPath + "/Top3Results.csv", true);
+        fw.append("Chromosome Encoding,Parent Selection,Crossover,Mutation,Population Size,Crossover Rate,Mutation Rate, Elitism Rate,Map,Mean Result");
+        Arrays.sort(model);
+        for (int pos = 0; pos < 3; pos++)
+        {
+            fw.append(model[pos].outputBestDataOnly());
+            fw.append("\nOverall Mean," + model[pos].overallMean);
+        }
+        fw.close();
     }
 }

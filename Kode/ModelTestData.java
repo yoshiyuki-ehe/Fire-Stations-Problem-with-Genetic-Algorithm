@@ -4,16 +4,16 @@ public class ModelTestData implements Comparable<ModelTestData>
 
     private double[][] results;
     private double[] mapBest;
-    public final double generalMean;
+    public final double overallMean;
 
     public ModelTestData(int chromosomeCode, int parentSelectionCode, int crossoverCode, int mutationCode,
         int populationSize, double crossoverRate, double mutationRate, double elitismRate, double[][] results)
     {
         this.results = results;
         csvTemplate = TesterTools.chromosomeEncodings[chromosomeCode] + "," +
-        TesterTools.parentSelections[parentSelectionCode] + "," +
-        TesterTools.crossovers[crossoverCode] + "," +
-        TesterTools.mutations[mutationCode] + "," +
+        TesterTools.parentSelections[parentSelectionCode].getClass().getSimpleName() + "," +
+        TesterTools.crossovers[crossoverCode].getClass().getSimpleName() + "," +
+        TesterTools.mutations[mutationCode].getClass().getSimpleName() + "," +
         populationSize + "," + crossoverRate + "," + mutationRate + "," + elitismRate;
 
         int i, j;
@@ -23,13 +23,13 @@ public class ModelTestData implements Comparable<ModelTestData>
             for (j = 0; j < results[i].length; j++) mapBest[i] = Math.min(mapBest[i], results[i][j]);
         }
         
-        generalMean = TesterTools.meanAndStdev(mapBest)[0];
+        overallMean = TesterTools.meanAndStdev(mapBest)[0];
     }
 
     @Override 
     public int compareTo(ModelTestData other)
     {
-        return Double.compare(generalMean, other.generalMean);
+        return Double.compare(overallMean, other.overallMean);
     }
 
     public String outputVerbose()

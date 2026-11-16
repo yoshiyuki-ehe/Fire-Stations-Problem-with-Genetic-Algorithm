@@ -1,6 +1,5 @@
 import java.util.*;
 import java.io.*;
-import java.lang.*;
 
 public class TesterTools
 {
@@ -37,14 +36,15 @@ public class TesterTools
     {
         BufferedReader br = new BufferedReader(new FileReader(inputPath + "/OtherParameters.txt"));
         globalRand = new Random(Integer.parseInt(br.readLine().trim()));
+        
+        initializeSeeds(globalRand, Integer.parseInt(br.readLine().trim()));
+
         br.close();
     }
 
-    public static void initializeSeeds(int randSeed, int n)
+    public static void initializeSeeds(Random rand, int n)
     {
-        Random rand = new Random(randSeed);
         seeds = new int[n];
-
         for (int i = 0; i < n; i++) seeds[i] = rand.nextInt();
     }
 
@@ -89,5 +89,15 @@ public class TesterTools
         for (i = 0; i < arr.length; i++) stdev += Math.pow((arr[i] - mean), 2);
 
         return new double[] {mean, stdev};
+    }
+
+    public static int determineEvaluationBudget(Environment map)
+    {
+        // referensi: Tabel1 pada pdf Tugas buatan Pak Lionov
+
+        if (map.unreachablePenalty < 400) return 10000; // ukuran lebih kecil 20 x 20 (1-399)
+        if (map.unreachablePenalty < 1600) return 50000; // ukuran lebih kecil 40 x 40 (400-1599)
+        if (map.unreachablePenalty < 6400) return 200000; // ukuran lebih kecil 80 x 80 (1600-6399)
+        return 500000;// ukuran mulai dari 80 x 80
     }
 }
