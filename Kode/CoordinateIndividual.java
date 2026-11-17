@@ -1,7 +1,11 @@
-// Individual B
 public class CoordinateIndividual extends Individual {
 
     public CoordinateIndividual(Chromosome chromosome) {
+        super(chromosome, findFireStations(chromosome));
+    }
+
+    static Point[] findFireStations(Chromosome chromosome)
+    {
         Environment env = FireStationsSingleton.INSTANCE.getEnvironment();
         int p = env.fireStationCount;
         Point[] fireStations = new Point[p];
@@ -15,7 +19,7 @@ public class CoordinateIndividual extends Individual {
             c = chromosome.getGene(p + i);
             fireStations[i] = new Point(r, c);
         }
-        
-        super(chromosome, fireStations);
+
+        return fireStations;
     }
 }
