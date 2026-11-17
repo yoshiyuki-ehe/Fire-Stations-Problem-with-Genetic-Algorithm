@@ -34,7 +34,7 @@ public class TesterTools
 
     public static double minRelativeChange = 0;
 
-    public static void setOtherParameters() throws Exception
+    public static void setOtherParameters() throws IOException
     {
         BufferedReader br = new BufferedReader(new FileReader(inputPath + "/OtherParameters.txt"));
         globalRand = new Random(Integer.parseInt(br.readLine().trim()));
@@ -114,5 +114,27 @@ public class TesterTools
         if (populationSize <= 50) return 10;
         if (populationSize <= 100) return 25;
         return 50;
+    }
+
+    public static void writeVerboseToFile(String fileName, ModelTestData[] data) throws IOException
+    {
+        FileWriter fw = new FileWriter(resultsPath + "/" + fileName, true);
+        // Baris Header file CSV
+        fw.append("Chromosome Encoding,Parent Selection,Crossover,Mutation,Population Size,Crossover Rate,Mutation Rate, Elitism Rate,Map,Seed,Result");
+
+        for (ModelTestData model : data) fw.append(model.outputVerbose());
+
+        fw.close();
+    }
+
+    public static void writeBestToFile(String fileName, ModelTestData[] data) throws IOException
+    {
+        FileWriter fw = new FileWriter(resultsPath + "/" + fileName, true);
+        // Baris Header file CSV
+        fw.append("Chromosome Encoding,Parent Selection,Crossover,Mutation,Population Size,Crossover Rate,Mutation Rate, Elitism Rate,Map,BestResult");
+
+        for (ModelTestData model : data) fw.append(model.outputBest());
+
+        fw.close();
     }
 }
