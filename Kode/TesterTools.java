@@ -32,12 +32,16 @@ public class TesterTools
 
     public static int[] seeds;
 
+    public static double minRelativeChange = 0;
+
     public static void setOtherParameters() throws Exception
     {
         BufferedReader br = new BufferedReader(new FileReader(inputPath + "/OtherParameters.txt"));
         globalRand = new Random(Integer.parseInt(br.readLine().trim()));
         
         initializeSeeds(globalRand, Integer.parseInt(br.readLine().trim()));
+
+        minRelativeChange = Double.parseDouble(br.readLine().trim());
 
         br.close();
     }
@@ -101,5 +105,14 @@ public class TesterTools
         if (map.unreachablePenalty < 1600) return 50000; // ukuran lebih kecil 40 x 40 (400-1599)
         if (map.unreachablePenalty < 6400) return 200000; // ukuran lebih kecil 80 x 80 (1600-6399)
         return 500000;// ukuran mulai dari 80 x 80
+    }
+
+    public static int determineMaxStagnantGenerations(int populationSize)
+    {
+        // referensi: Chat sama Gemini
+
+        if (populationSize <= 50) return 10;
+        if (populationSize <= 100) return 25;
+        return 50;
     }
 }

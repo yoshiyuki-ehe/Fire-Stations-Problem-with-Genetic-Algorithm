@@ -50,8 +50,9 @@ public class TestAllModels
                                     fss.getPopulationSize(),
                                     fss.getElitismRate());
                                 fss.setPopulation(subject);
-                                fss.setTermination(new FullParameterTermination(
-                                    subject, 5, 1, fss.getEvluationBudget()));
+                                fss.setTermination(new FullParameterTermination(subject,
+                                    TesterTools.determineMaxStagnantGenerations(fss.getPopulationSize()),
+                                    TesterTools.minRelativeChange, fss.getEvluationBudget()));
                                 fss.run();
                             
                                 res[m][n] = fss.getPopulation().getIndividual(0).objectiveValue;

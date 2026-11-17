@@ -83,7 +83,9 @@ public class TestHyperparameterTuning {
                     Population candidate = new Population(fireStation.getGenerator(), fireStation.getPopulationSize(), fireStation.getElitismRate());
                     fireStation.setPopulation(candidate);
 
-                    fireStation.setTermination(new FullParameterTermination(candidate, 5,1, fireStation.getEvluationBudget()));
+                    fireStation.setTermination(new FullParameterTermination(candidate,
+                        TesterTools.determineMaxStagnantGenerations(fireStation.getPopulationSize()),
+                        TesterTools.minRelativeChange, fireStation.getEvluationBudget()));
                     fireStation.run();
 
                     res[j][k] = fireStation.getPopulation().getIndividual(0).objectiveValue;
@@ -120,8 +122,9 @@ public class TestHyperparameterTuning {
                     Population candidate = new Population(fireStation.getGenerator(), fireStation.getPopulationSize(), fireStation.getElitismRate());
                     fireStation.setPopulation(candidate);
 
-                    // ini angkanya aku ngikutin test model [Redacted]
-                    fireStation.setTermination(new FullParameterTermination(candidate, 5,1, fireStation.getEvluationBudget()));
+                    fireStation.setTermination(new FullParameterTermination(candidate,
+                        TesterTools.determineMaxStagnantGenerations(fireStation.getPopulationSize()),
+                        TesterTools.minRelativeChange, fireStation.getEvluationBudget()));
                     fireStation.run();
 
                     res[j][k] = fireStation.getPopulation().getIndividual(0).objectiveValue;
@@ -158,7 +161,9 @@ public class TestHyperparameterTuning {
                     Population candidate = new Population(fireStation.getGenerator(), fireStation.getPopulationSize(), fireStation.getElitismRate());
                     fireStation.setPopulation(candidate);
 
-                    fireStation.setTermination(new FullParameterTermination(candidate, 5,1, fireStation.getEvluationBudget()));
+                    fireStation.setTermination(new FullParameterTermination(candidate,
+                        TesterTools.determineMaxStagnantGenerations(fireStation.getPopulationSize()),
+                        TesterTools.minRelativeChange, fireStation.getEvluationBudget()));
                     fireStation.run();
 
                     res[j][k] = fireStation.getPopulation().getIndividual(0).objectiveValue;
@@ -195,8 +200,9 @@ public class TestHyperparameterTuning {
                     Population candidate = new Population(fireStation.getGenerator(), fireStation.getPopulationSize(), fireStation.getElitismRate());
                     fireStation.setPopulation(candidate);
 
-                    // ini angkanya aku ngikutin test model [Redacted]
-                    fireStation.setTermination(new FullParameterTermination(candidate, 5,1, fireStation.getEvluationBudget()));
+                    fireStation.setTermination(new FullParameterTermination(candidate,
+                        TesterTools.determineMaxStagnantGenerations(fireStation.getPopulationSize()),
+                        TesterTools.minRelativeChange, fireStation.getEvluationBudget()));
                     fireStation.run();
 
                     res[j][k] = fireStation.getPopulation().getIndividual(0).objectiveValue;

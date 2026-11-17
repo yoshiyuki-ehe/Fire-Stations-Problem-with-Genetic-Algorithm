@@ -17,11 +17,12 @@ public enum FireStationsSingleton
     private Termination termination = null;
 
     private Random rand = null;
-    private double elitismRate = 0;
+    private int populationSize = 0;
     private double crossoverRate = 0;
     private double mutationRate = 0;
+    private double elitismRate = 0;
     private int evaluationBudget = 0;
-    private int populationSize = 0;
+    private int maxStagnantGenerations = 0;    
 
     // getter dan setter
     public Environment getEnvironment() {
@@ -88,6 +89,14 @@ public enum FireStationsSingleton
         this.rand = rand;
     }
 
+    public int getPopulationSize() {
+        return  populationSize;
+    }
+
+    public void setPopulationSize(int populationSize) {
+        this.populationSize = Math.max(1, populationSize);
+    }
+
     public double getElitismRate() {
         return elitismRate;
     }
@@ -121,12 +130,12 @@ public enum FireStationsSingleton
         this.evaluationBudget = Math.max(1, evaluationBudget);
     }
 
-    public int getPopulationSize() {
-        return  populationSize;
+    public int getMaxStagnantGenerations() {
+        return maxStagnantGenerations;
     }
 
-    public void setPopulationSize(int populationSize) {
-        this.populationSize = Math.max(1, populationSize);
+    public void setMaxStagnantGenerations(int maxStagnantGenerations) {
+        this.maxStagnantGenerations = maxStagnantGenerations;
     }
 
     public void run()
