@@ -1,0 +1,7 @@
+Input dikonfigurasi pada folder Input/Maps.
+
+Masukkan Maps yang ingin ditest ke dalam folder Maps.
+
+TestAllModels menggunakan variabel yang dikonfigurasi pada SpecificHyperparameter.txt.
+TestAllHyperparameters dan TestAllHyperparameterTuning menggunakan variabel yang dikonfigurasi pada CombinationHyperparameters.txt dan SpecificModel.txt.
+Beberapa Hyperparameter lain dikonfigurasi pada OtherParameters.txt.
