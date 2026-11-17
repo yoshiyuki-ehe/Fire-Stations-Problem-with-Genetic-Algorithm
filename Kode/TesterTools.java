@@ -130,10 +130,19 @@ public class TesterTools
     public static void writeBestToFile(String fileName, ModelTestData[] data) throws IOException
     {
         FileWriter fw = new FileWriter(resultsPath + "/" + fileName, true);
-        // Baris Header file CSV
         fw.append("Chromosome Encoding,Parent Selection,Crossover,Mutation,Population Size,Crossover Rate,Mutation Rate, Elitism Rate,Map,BestResult");
 
         for (ModelTestData model : data) fw.append(model.outputBest());
+
+        fw.close();
+    }
+
+    public static void writeOverallMeanToFile(String fileName, ModelTestData[] data) throws IOException
+    {
+        FileWriter fw = new FileWriter(resultsPath + "/" + fileName, true);
+        fw.append("Chromosome Encoding,Parent Selection,Crossover,Mutation,Population Size,Crossover Rate,Mutation Rate, Elitism Rate,OverallMean");
+
+        for (ModelTestData model : data) fw.append(model.csvTemplate + "," + model.overallMean);
 
         fw.close();
     }

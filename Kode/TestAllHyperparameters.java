@@ -104,20 +104,9 @@ public class TestAllHyperparameters {
             }
         }
         
-        FileWriter fw = new FileWriter(TesterTools.resultsPath + "/AllHyperparametersVerboseResults.csv", true);
-        fw.append("Chromosome Encoding,Parent Selection,Crossover,Mutation,Population Size,Crossover Rate,Mutation Rate, Elitism Rate,Map,Seed,Result");
-        for (ModelTestData data : model)
-            fw.append(data.outputVerbose());
-        fw.close();
-
-        fw = new FileWriter(TesterTools.resultsPath + "/AllHyperparametersResultsRanked.csv", true);
-        fw.append("Chromosome Encoding,Parent Selection,Crossover,Mutation,Population Size,Crossover Rate,Mutation Rate, Elitism Rate,Map,Mean Result");
+        TesterTools.writeVerboseToFile("AllHyperparametersVerboseResults.csv", model);
+        TesterTools.writeBestToFile("AllHyperparametersMapBestResults.csv", model);
         Arrays.sort(model);
-        for (ModelTestData data : model)
-        {
-            fw.append(data.outputBestDataOnly());
-            fw.append("\nOverall Mean," + data.overallMean);
-        }
-        fw.close();
+        TesterTools.writeOverallMeanToFile("/AllHyperparametersResultsRanked.csv", model);
     }
 }

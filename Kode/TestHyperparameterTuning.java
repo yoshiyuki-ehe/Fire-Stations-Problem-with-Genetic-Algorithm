@@ -68,8 +68,6 @@ public class TestHyperparameterTuning {
 
         //population size tuning
         ModelTestData[] populationTest = new ModelTestData[hyperParamPopulasi.length];
-        FileWriter fw = new FileWriter(TesterTools.resultsPath + "/TestPopulationTuning.csv", true);
-        fw.append("Chromosome Encoding,Parent Selection,Crossover,Mutation,Population Size,Crossover Rate,Mutation Rate, Elitism Rate,Map,Seed,Result"); // Tulis header kolom
         for(i = 0; i < hyperParamPopulasi.length; i++){
             fireStation.setPopulationSize(hyperParamPopulasi[i]);
             double[][] res = new double[maps.length][seeds.length];
@@ -94,18 +92,15 @@ public class TestHyperparameterTuning {
 
             populationTest[i] = new ModelTestData(encodingCode, selectionCode, crossoverCode, mutationCode,
                 fireStation.getPopulationSize(), fireStation.getCrossoverRate(), fireStation.getMutationRate(), fireStation.getElitismRate(), res);
-            fw.append(populationTest[i].outputVerbose());
         }
-        fw.close();
+        TesterTools.writeVerboseToFile("TestPopulationTuning.csv", populationTest);
         Arrays.sort(populationTest);
+        TesterTools.writeOverallMeanToFile("/TestPopulationTuningOverallMean.csv", populationTest);
         rankings.append("Population Size:");
         for (i = 0; i < populationTest.length; i++)
             rankings.append(" " + populationTest[i].populationSize);
         rankings.append("\n");
-        
 
-        fw = new FileWriter(TesterTools.resultsPath + "/TestCrossoverTuning.csv", true);
-        fw.append("Chromosome Encoding,Parent Selection,Crossover,Mutation,Population Size,Crossover Rate,Mutation Rate, Elitism Rate,Map,Seed,Result");
         fireStation.setPopulationSize(populationTest[0].populationSize);
         //crossover rate tuning
         ModelTestData[] crossoverTest = new ModelTestData[hyperParamCrossover.length];
@@ -133,18 +128,16 @@ public class TestHyperparameterTuning {
 
             crossoverTest[i] = new ModelTestData(encodingCode, selectionCode, crossoverCode, mutationCode,
                 fireStation.getPopulationSize(), fireStation.getCrossoverRate(), fireStation.getMutationRate(), fireStation.getElitismRate(), res);
-            fw.append(crossoverTest[i].outputVerbose());
         }
-        fw.close();
+        TesterTools.writeVerboseToFile("TestCrossoverTuning.csv", crossoverTest);
         Arrays.sort(crossoverTest);
+        TesterTools.writeOverallMeanToFile("/TestCrossoverTuningOverallMean.csv", crossoverTest);
         rankings.append("Crossover Rate:");
         for (i = 0; i < crossoverTest.length; i++)
             rankings.append(" " + crossoverTest[i].crossoverRate);
         rankings.append("\n");
         
         
-        fw = new FileWriter(TesterTools.resultsPath + "/TestMutationTuning.csv", true);
-        fw.append("Chromosome Encoding,Parent Selection,Crossover,Mutation,Population Size,Crossover Rate,Mutation Rate, Elitism Rate,Map,Seed,Result");
         fireStation.setCrossoverRate(crossoverTest[0].crossoverRate);
         //mutation rate tuning
         ModelTestData[] mutationTest = new ModelTestData[hyperParamMutation.length];
@@ -172,18 +165,16 @@ public class TestHyperparameterTuning {
 
             mutationTest[i] = new ModelTestData(encodingCode, selectionCode, crossoverCode, mutationCode,
                 fireStation.getPopulationSize(), fireStation.getCrossoverRate(), fireStation.getMutationRate(), fireStation.getElitismRate(), res);
-            fw.append(mutationTest[i].outputVerbose());
         }
-        fw.close();
+        TesterTools.writeVerboseToFile("TestMutationTuning.csv", mutationTest);
         Arrays.sort(mutationTest);
+        TesterTools.writeOverallMeanToFile("/TestMutationTuningOverallMean.csv", mutationTest);
         rankings.append("Mutation Rate:");
         for (i = 0; i < mutationTest.length; i++)
             rankings.append(" " + mutationTest[i].mutationRate);
         rankings.append("\n");
 
 
-        fw = new FileWriter(TesterTools.resultsPath + "/TestElitismTuning.csv", true);
-        fw.append("Chromosome Encoding,Parent Selection,Crossover,Mutation,Population Size,Crossover Rate,Mutation Rate, Elitism Rate,Map,Seed,Result");
         fireStation.setMutationRate(mutationTest[0].mutationRate);
         //elitism rate tuning
         ModelTestData[] elitismTest = new ModelTestData[hyperParamElitism.length];
@@ -211,14 +202,13 @@ public class TestHyperparameterTuning {
 
             elitismTest[i] = new ModelTestData(encodingCode, selectionCode, crossoverCode, mutationCode,
                 fireStation.getPopulationSize(), fireStation.getCrossoverRate(), fireStation.getMutationRate(), fireStation.getElitismRate(), res);
-            fw.append(elitismTest[i].outputVerbose());
         }
-        fw.close();
+        TesterTools.writeVerboseToFile("TestElitismTuning.csv", elitismTest);
         Arrays.sort(elitismTest);
+        TesterTools.writeOverallMeanToFile("/TestElitismTuningOverallMean.csv", elitismTest);
         rankings.append("Elitism Rate:");
         for (i = 0; i < elitismTest.length; i++)
             rankings.append(" " + elitismTest[i].elitismRate);
-        
         rankings.close();
     }
 }
