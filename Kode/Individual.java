@@ -24,7 +24,10 @@ public abstract class Individual implements Comparable<Individual> {
     }
 
     // nilai objective terburuk adalah ukuran map itu sendiri (sama dengan unreachablePenalty)
-    // fungsi fitness di bawah memastikan dalam kasus terekstrim, nilai fitness terendah adalah 0 (tidak mungkin negatif)
+    // fungsi fitness di bawah memastikan dalam kasus terekstrim, nilai fitness terendah adalah 0.000001
+    // justifikasi penambahan 0.000001 adalah untuk menghindari kasus dimana pada seluruh Populasi memiliki fitness 0 dan
+    // Parent Selection by Fitness (Roulette Wheel) selalu mengambil individu pada indeks 0
+    // jika hal tesebut terjadi individu yang masuk ke generasi baru adalah duplikat dari individu pada indeks 0
     private double fitness() {
         return FireStationsSingleton.INSTANCE.getEnvironment().unreachablePenalty - objectiveValue + 0.000001;
     }
