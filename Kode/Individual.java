@@ -26,7 +26,7 @@ public abstract class Individual implements Comparable<Individual> {
     // nilai objective terburuk adalah ukuran map itu sendiri (sama dengan unreachablePenalty)
     // fungsi fitness di bawah memastikan dalam kasus terekstrim, nilai fitness terendah adalah 0 (tidak mungkin negatif)
     private double fitness() {
-        return FireStationsSingleton.INSTANCE.getEnvironment().unreachablePenalty - objectiveValue;
+        return FireStationsSingleton.INSTANCE.getEnvironment().unreachablePenalty - objectiveValue + 0.000001;
     }
 
     // average of min distances
