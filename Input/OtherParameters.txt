@@ -1,4 +1,0 @@
-20010911
-30
-seed
-number of seeds per test case
