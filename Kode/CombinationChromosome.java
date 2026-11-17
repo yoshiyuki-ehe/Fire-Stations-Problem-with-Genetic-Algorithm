@@ -34,18 +34,22 @@ public class CombinationChromosome extends Chromosome {
             count += genes[i];
         }
 
+        i = FireStationsSingleton.INSTANCE.getRandom().nextInt(length);
+
         //mengurangi jumlah angka 1 jika melebihi r
-        for (i = 0; count > r; i--) {
+        while (count > r) {
             // jika nilai gen 1, kurangi count sebanyak 1
             count -= genes[i];
             genes[i] = 0;
+            i = (i + 1) % length;
         }
 
         //menambah jumlah angka 1 jika kurang dari r
-        for (i = 0; count < r; i++) {
+        while (count < r) {
             // jika nilai gen 0, tambah count sebanyak 1
             count += 1 - genes[i];
             genes[i] = 1;
+            i = (i + 1) % length;
         }
     }
 
