@@ -70,6 +70,6 @@ public class TestAllModels
         TesterTools.writeVerboseToFile("AllModelsVerboseResults.csv", model);
         TesterTools.writeBestToFile("AllModelsMapBestResults.csv", model);
         Arrays.sort(model);
-        TesterTools.writeOverallMeanToFile("/AllModelsResultsRanked.csv", model);
+        TesterTools.writeOverallMeanToFile("AllModelsResultsRanked.csv", model);
     }
 }
