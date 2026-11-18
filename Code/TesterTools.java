@@ -100,11 +100,12 @@ public class TesterTools
     public static int determineEvaluationBudget(Environment map)
     {
         // referensi: Tabel1 pada pdf Tugas buatan Pak Lionov
+        // ralat: gw chat Pak Lionov katanya di pdf harusnya tulisnya small, normal, large 
 
-        if (map.unreachablePenalty < 400) return 10000; // ukuran lebih kecil 20 x 20 (1-399)
-        if (map.unreachablePenalty < 1600) return 50000; // ukuran lebih kecil 40 x 40 (400-1599)
-        if (map.unreachablePenalty < 6400) return 200000; // ukuran lebih kecil 80 x 80 (1600-6399)
-        return 500000;// ukuran mulai dari 80 x 80
+        if (map.unreachablePenalty < 1600) return 10000; // tiny = ukuran lebih kecil 40 x 40 (1-1599)
+        if (map.unreachablePenalty < 3600) return 50000; // small = ukuran lebih kecil 60 x 60 (1600-3599)
+        if (map.unreachablePenalty < 6400) return 200000; // normal = ukuran lebih kecil 80 x 80 (3600-6399)
+        return 500000;// large = ukuran mulai dari 80 x 80
     }
 
     public static int determineMaxStagnantGenerations(int populationSize)
