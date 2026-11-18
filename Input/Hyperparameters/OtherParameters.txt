@@ -1,6 +1,6 @@
 20010911
 30
 0.001
-Seed
+Global seed
 Number of seeds per test case
-Minimum relative change
+Minimum relative change (for stagnation calculation)
