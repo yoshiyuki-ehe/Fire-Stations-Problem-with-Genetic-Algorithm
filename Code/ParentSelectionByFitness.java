@@ -8,7 +8,7 @@ public class ParentSelectionByFitness extends ParentSelection{
     {
         Random random = FireStationsSingleton.INSTANCE.getRandom();
 
-        double totalFitness = population.getFitnessPrefixSum(population.getPopulationSize());
+        double totalFitness = population.getFitnessPrefixSum(population.getPopulationSize() - 1);
 
         //array hasil parent-parent terpilih (yang di-return)
         Individual[] selectedParents = new Individual[nOfParents];
@@ -49,7 +49,7 @@ public class ParentSelectionByFitness extends ParentSelection{
             //           mid
             //      rouletteResult
             // | interval | interval |
-            else mid = right;
+            else right = mid;
         }
 
         return left;

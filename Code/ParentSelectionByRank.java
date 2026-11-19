@@ -38,11 +38,12 @@ public class ParentSelectionByRank extends ParentSelection{
         // x = (-1 +- sqrt(b^2 - 4ac)) / 2a
         // Termial(n) = n * (n + 1) / 2
         // 2 * Termial(n) = n^2 + n
-        // 0 = n^2 + n - 2 * Termial(n)
+        // 0 = n^2 + n + 2 * Termial(n)
         // nilai invers yang dibutuhkan merupakan nilai positif
-        // n = (-1 + sqrt(1 - 4 * 2 * Termial(n))) / 2
+        // n = (-1 + sqrt(1 + 4 * 2 * Termial(n))) / 2
+        // n = (-1 + sqrt(1 + 8 * Termial(n))) / 2
 
-        return (-1 + (int)(Math.sqrt(1 - 4 * 2 * y))) / 2;
+        return (-1 + (int)(Math.sqrt(1 + 8 * y))) / 2;
         //some study reference used into the implementation below and to understand the possible risks of it:
         //https://stackoverflow.com/questions/1348892/why-does-math-floordouble-return-a-value-of-type-double
     }

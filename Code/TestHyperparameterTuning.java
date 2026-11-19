@@ -13,7 +13,7 @@ public class TestHyperparameterTuning {
         String[] mapNames = TesterTools.mapNames;
         Environment[] maps = TesterTools.maps;
 
-        BufferedReader br = new BufferedReader(new FileReader(TesterTools.inputPath + "CombinationHyperparameters.txt"));
+        BufferedReader br = new BufferedReader(new FileReader(TesterTools.inputPath + "/Hyperparameters/CombinationHyperparameters.txt"));
          
         StringTokenizer stPopulation = new StringTokenizer(br.readLine(), ",");
         int nPopulation = stPopulation.countTokens(); //cari tahu n (jumlah data)
@@ -44,7 +44,7 @@ public class TestHyperparameterTuning {
         FireStationsSingleton fireStation = FireStationsSingleton.INSTANCE;
 
         // menggunakan 1 jenis Model
-        BufferedReader brModel = new BufferedReader(new FileReader(TesterTools.inputPath + "/SpecificModel.txt"));
+        BufferedReader brModel = new BufferedReader(new FileReader(TesterTools.inputPath + "/Hyperparameters/SpecificModel.txt"));
         StringTokenizer stModel = new StringTokenizer(brModel.readLine(), ",");
         brModel.close();
 
@@ -62,9 +62,12 @@ public class TestHyperparameterTuning {
 
         FileWriter rankings = new FileWriter(TesterTools.resultsPath + "/BestParameterPerRun.txt", true);
 
-        fireStation.setCrossoverRate(hyperParamCrossover[0]);
-        fireStation.setMutationRate(hyperParamMutation[0]);
-        fireStation.setElitismRate(hyperParamElitism[0]);
+        br = new BufferedReader(new FileReader(TesterTools.inputPath + "/Hyperparameters/SpecificHyperparameters.txt"));
+        br.readLine();
+        fireStation.setCrossoverRate(Double.parseDouble(br.readLine()));
+        fireStation.setMutationRate(Double.parseDouble(br.readLine()));
+        fireStation.setElitismRate(Double.parseDouble(br.readLine()));
+        br.close();
 
         //population size tuning
         ModelTestData[] populationTest = new ModelTestData[hyperParamPopulasi.length];
@@ -95,7 +98,7 @@ public class TestHyperparameterTuning {
         }
         TesterTools.writeVerboseToFile("TestPopulationTuning.csv", populationTest);
         Arrays.sort(populationTest);
-        TesterTools.writeOverallMeanToFile("/TestPopulationTuningOverallMean.csv", populationTest);
+        TesterTools.writeOverallMeanToFile("TestPopulationTuningOverallMean.csv", populationTest);
         rankings.append("Population Size:");
         for (i = 0; i < populationTest.length; i++)
             rankings.append(" " + populationTest[i].populationSize);
@@ -131,7 +134,7 @@ public class TestHyperparameterTuning {
         }
         TesterTools.writeVerboseToFile("TestCrossoverTuning.csv", crossoverTest);
         Arrays.sort(crossoverTest);
-        TesterTools.writeOverallMeanToFile("/TestCrossoverTuningOverallMean.csv", crossoverTest);
+        TesterTools.writeOverallMeanToFile("TestCrossoverTuningOverallMean.csv", crossoverTest);
         rankings.append("Crossover Rate:");
         for (i = 0; i < crossoverTest.length; i++)
             rankings.append(" " + crossoverTest[i].crossoverRate);
@@ -168,7 +171,7 @@ public class TestHyperparameterTuning {
         }
         TesterTools.writeVerboseToFile("TestMutationTuning.csv", mutationTest);
         Arrays.sort(mutationTest);
-        TesterTools.writeOverallMeanToFile("/TestMutationTuningOverallMean.csv", mutationTest);
+        TesterTools.writeOverallMeanToFile("TestMutationTuningOverallMean.csv", mutationTest);
         rankings.append("Mutation Rate:");
         for (i = 0; i < mutationTest.length; i++)
             rankings.append(" " + mutationTest[i].mutationRate);
@@ -205,7 +208,7 @@ public class TestHyperparameterTuning {
         }
         TesterTools.writeVerboseToFile("TestElitismTuning.csv", elitismTest);
         Arrays.sort(elitismTest);
-        TesterTools.writeOverallMeanToFile("/TestElitismTuningOverallMean.csv", elitismTest);
+        TesterTools.writeOverallMeanToFile("TestElitismTuningOverallMean.csv", elitismTest);
         rankings.append("Elitism Rate:");
         for (i = 0; i < elitismTest.length; i++)
             rankings.append(" " + elitismTest[i].elitismRate);

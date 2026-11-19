@@ -49,7 +49,7 @@ public class TesterTools
     public static void initializeSeeds(Random rand, int n)
     {
         seeds = new int[n];
-        for (int i = 0; i < n; i++) seeds[i] = rand.nextInt();
+        for (int i = 0; i < n; i++) seeds[i] = rand.nextInt(65537);
     }
 
     public static void readMaps() throws Exception
@@ -93,6 +93,7 @@ public class TesterTools
 
         // stdev = sqrt(sigma{(xi - mean)^2} / (n - 1))
         for (i = 0; i < arr.length; i++) stdev += Math.pow((arr[i] - mean), 2);
+        stdev = Math.sqrt(stdev / (arr.length - 1));
 
         return new double[] {mean, stdev};
     }
@@ -143,7 +144,7 @@ public class TesterTools
         FileWriter fw = new FileWriter(resultsPath + "/" + fileName, true);
         fw.append("Chromosome Encoding,Parent Selection,Crossover,Mutation,Population Size,Crossover Rate,Mutation Rate, Elitism Rate,OverallMean");
 
-        for (ModelTestData model : data) fw.append(model.csvTemplate + "," + model.overallMean);
+        for (ModelTestData model : data) fw.append("\n" + model.csvTemplate + "," + model.overallMean);
 
         fw.close();
     }

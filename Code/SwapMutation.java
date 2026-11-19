@@ -22,5 +22,7 @@ public class SwapMutation implements Mutation {
         int temp = chromosome.getGene(index1);
         chromosome.setGene(index1, chromosome.getGene(index2));
         chromosome.setGene(index2, temp);
+
+        chromosome.selfRepair();
     }
 }

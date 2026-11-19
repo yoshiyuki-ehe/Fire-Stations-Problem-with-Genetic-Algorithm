@@ -8,7 +8,7 @@ public class FullParameterTermination implements Termination{
 
     public FullParameterTermination(Population population, int maxStagnantGenerations, double minRelativeChange, int evaluationBudget) {
         this.maxStagnantGenerations = maxStagnantGenerations;
-        remainingGenerations = (evaluationBudget + population.getPopulationSize() - 1) / population.getPopulationSize();
+        remainingGenerations = (evaluationBudget + population.getPopulationSize() - 1) / population.getPopulationSize() - 1;
         this.minRelativeChange = minRelativeChange;
         bestFitness = 0.000001;
         stagnantCount = 0;

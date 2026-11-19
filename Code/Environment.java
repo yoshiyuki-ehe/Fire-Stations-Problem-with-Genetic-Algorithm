@@ -88,10 +88,10 @@ public class Environment
                         nex = new Point(cur.row + dir[i][0], cur.col + dir[i][1]);
                         // boundary check dan obstacle check dan redundancy check
                         if (nex.row >= 0 && nex.col >= 0 && nex.row < this.mapHeight && nex.col < this.mapWidth
-                            && map[nex.row][nex.col] == '.' && dist[k][nex.row][nex.col] > depth)
+                            && map[nex.row][nex.col] == '.' && dist[l][nex.row][nex.col] > depth)
                         {
                             bfs.offer(nex);
-                            dist[k][nex.row][nex.col] = depth;
+                            dist[l][nex.row][nex.col] = depth;
                         }
                     }
                 }
@@ -108,7 +108,7 @@ public class Environment
         int i, j;
         for (i = 0; i < mapHeight; i++)
         {
-            for (j = 0; i < mapWidth; j++)
+            for (j = 0; j < mapWidth; j++)
             {
                 if (map[i][j] == '.') freePositions.add(new Point(i, j));
             }

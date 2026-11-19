@@ -15,5 +15,7 @@ public class IncrementMutation implements Mutation {
         //jika nilai randomIncrement 0, gen didecrement
         //jika nilai randomIncrement 1, gen diincrement   
         chromosome.setGene(randomIndex, chromosome.getGene(randomIndex) - 1 + 2 * randomIncrement);
+
+        chromosome.selfRepair();
     }
 }

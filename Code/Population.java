@@ -70,26 +70,30 @@ public class Population {
         // looping dibuat dengan asumsi tidak pernah infinite loop yang disebabkan penciptaan Individual invalid
         while (i < culledGenSize) {
             Individual[] selectedParents = parentSelection.selectParents(this, 2);
+            Chromosome[] childrensChromosomes;
             if (random.nextDouble(0, 1) < crossoverRate)
-            {
-                Chromosome[] childrensChromosomes = crossover.crossover(selectedParents[0].chromosome, selectedParents[1].chromosome);
-
-                for(j = 1; j < childrensChromosomes.length; j++){
-                    if(random.nextDouble(0,1) < mutationRate){
-                        mutation.mutate(childrensChromosomes[i]);
-                    }
-                }
-                
-                //mengambil asumsi constructor langsung menghitung fitnessValue dan objectiveValue,
-                for(j = 0; j < childrensChromosomes.length && i + j < culledGenSize; j++){
-                    nextGen[i+j] = generator.generateSpecificIndividual(childrensChromosomes[j]);
-                }
-                i += childrensChromosomes.length;
+                childrensChromosomes = crossover.crossover(selectedParents[0].chromosome, selectedParents[1].chromosome);
+            else {
+                childrensChromosomes = new Chromosome[2];
+                childrensChromosomes[0] = selectedParents[0].chromosome.duplicate();
+                childrensChromosomes[1] = selectedParents[1].chromosome.duplicate();
             }
+
+            for(j = 0; j < childrensChromosomes.length; j++){
+                if(random.nextDouble(0,1) < mutationRate){
+                    mutation.mutate(childrensChromosomes[j]);
+                }
+            }
+            
+            //mengambil asumsi constructor langsung menghitung fitnessValue dan objectiveValue,
+            for(j = 0; j < childrensChromosomes.length && i + j < culledGenSize; j++){
+                nextGen[i+j] = generator.generateSpecificIndividual(childrensChromosomes[j]);
+            }
+            i += childrensChromosomes.length;
         }   
 
         //ganti Individu non-elit dengan generasi selanjutnya
-        for (i = 0; i < elitismCount; i++) nextGen[culledGenSize + i] = populationArray[i];
+        for (i = 0; i < culledGenSize; i++) populationArray[elitismCount + i] = nextGen[i];
         refreshGeneration();
     }
 }

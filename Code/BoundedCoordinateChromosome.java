@@ -67,6 +67,11 @@ public class BoundedCoordinateChromosome extends Chromosome {
 
     @Override
     public Chromosome duplicate() {
-        return new BoundedCoordinateChromosome(genes.clone(), maxFirst, maxSecond);
+        int[][] newGenes = new int[length/2][2];
+        for (int i = 0; i < genes.length; i++) {
+            newGenes[i][0] = genes[i][0];
+            newGenes[i][1] = genes[i][1];
+        }
+        return new BoundedCoordinateChromosome(newGenes, maxFirst, maxSecond);
     }
 }

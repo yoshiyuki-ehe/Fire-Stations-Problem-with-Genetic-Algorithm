@@ -13,7 +13,7 @@ public class TestAllHyperparameters {
         String[] mapNames = TesterTools.mapNames;
         Environment[] maps = TesterTools.maps;
 
-        BufferedReader br = new BufferedReader(new FileReader(TesterTools.inputPath + "CombinationHyperparameters.txt"));
+        BufferedReader br = new BufferedReader(new FileReader(TesterTools.inputPath + "/Hyperparameters/CombinationHyperparameters.txt"));
          
         StringTokenizer stPopulation = new StringTokenizer(br.readLine(), ",");
         int nPopulation = stPopulation.countTokens(); //cari tahu n (jumlah data)
@@ -44,7 +44,7 @@ public class TestAllHyperparameters {
         FireStationsSingleton fireStation = FireStationsSingleton.INSTANCE;
 
         // menggunakan 1 jenis Model
-        BufferedReader brModel = new BufferedReader(new FileReader(TesterTools.inputPath + "/SpecificModel.txt"));
+        BufferedReader brModel = new BufferedReader(new FileReader(TesterTools.inputPath + "/Hyperparameters/SpecificModel.txt"));
         StringTokenizer stModel = new StringTokenizer(brModel.readLine(), ",");
         brModel.close();
 
@@ -75,6 +75,7 @@ public class TestAllHyperparameters {
                     fireStation.setMutationRate(hyperParamMutation[k]);
                     for (l = 0; l < hyperParamElitism.length; l++)
                     {
+                        fireStation.setElitismRate(hyperParamElitism[l]);
                         double[][] res = new double[maps.length][seeds.length];
 
                         for(m = 0; m < mapNames.length; m++){
@@ -91,7 +92,7 @@ public class TestAllHyperparameters {
                                     TesterTools.minRelativeChange, fireStation.getEvluationBudget()));
                                 fireStation.run();
 
-                                res[j][k] = fireStation.getPopulation().getIndividual(0).objectiveValue;
+                                res[m][n] = fireStation.getPopulation().getIndividual(0).objectiveValue;
                             }
                         }
 
@@ -107,6 +108,6 @@ public class TestAllHyperparameters {
         TesterTools.writeVerboseToFile("AllHyperparametersVerboseResults.csv", model);
         TesterTools.writeBestToFile("AllHyperparametersMapBestResults.csv", model);
         Arrays.sort(model);
-        TesterTools.writeOverallMeanToFile("/AllHyperparametersResultsRanked.csv", model);
+        TesterTools.writeOverallMeanToFile("AllHyperparametersResultsRanked.csv", model);
     }
 }

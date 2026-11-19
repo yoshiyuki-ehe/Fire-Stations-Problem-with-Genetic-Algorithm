@@ -8,7 +8,7 @@ public class ModelTestData implements Comparable<ModelTestData>
     public final double elitismRate;
 
     private double[][] results;
-    private double[] mapBest;
+    private double[] mapMean;
 
     public final double overallMean;
 
@@ -27,14 +27,15 @@ public class ModelTestData implements Comparable<ModelTestData>
         TesterTools.mutations[mutationCode].getClass().getSimpleName() + "," +
         populationSize + "," + crossoverRate + "," + mutationRate + "," + elitismRate;
 
-        int i, j;
+        mapMean = new double[results.length];
+
+        int i;
         for (i = 0; i < results.length; i++)
         {
-            mapBest[i] = Double.MAX_VALUE;
-            for (j = 0; j < results[i].length; j++) mapBest[i] = Math.min(mapBest[i], results[i][j]);
+            mapMean[i] = TesterTools.meanAndStdev(results[i])[0];
         }
         
-        overallMean = TesterTools.meanAndStdev(mapBest)[0];
+        overallMean = TesterTools.meanAndStdev(mapMean)[0];
     }
 
     @Override 
@@ -79,7 +80,7 @@ public class ModelTestData implements Comparable<ModelTestData>
         StringBuilder res = new StringBuilder();
         int i;
         for (i = 0; i < results.length; i++)
-            res.append("\n" + csvTemplate + "," + TesterTools.mapNames[i] + "," + mapBest[i]);
+            res.append("\n" + csvTemplate + "," + TesterTools.mapNames[i] + "," + mapMean[i]);
 
         return res.toString();
     }
@@ -89,7 +90,7 @@ public class ModelTestData implements Comparable<ModelTestData>
         StringBuilder res = new StringBuilder();
         int i;
         for (i = 0; i < results.length; i++)
-            res.append("\n" + TesterTools.mapNames[i] + "," + mapBest[i]);
+            res.append("\n" + TesterTools.mapNames[i] + "," + mapMean[i]);
 
         return res.toString();
     }
