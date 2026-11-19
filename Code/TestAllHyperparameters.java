@@ -15,25 +15,25 @@ public class TestAllHyperparameters {
 
         BufferedReader br = new BufferedReader(new FileReader(TesterTools.inputPath + "/Hyperparameters/CombinationHyperparameters.txt"));
          
-        StringTokenizer stPopulation = new StringTokenizer(br.readLine(), ",");
+        StringTokenizer stPopulation = new StringTokenizer(br.readLine());
         int nPopulation = stPopulation.countTokens(); //cari tahu n (jumlah data)
         int[] hyperParamPopulasi = new int[nPopulation]; //pake array biasa karena n diketahui
         for (i = 0; i < nPopulation; i++) {
             hyperParamPopulasi[i] = Integer.parseInt(stPopulation.nextToken().trim());
         }
-        StringTokenizer stCrossover = new StringTokenizer(br.readLine(), ",");
+        StringTokenizer stCrossover = new StringTokenizer(br.readLine());
         int nCrossover = stCrossover.countTokens();
         double[] hyperParamCrossover = new double[nCrossover];
         for (i = 0; i < nCrossover; i++) {
             hyperParamCrossover[i] = Double.parseDouble(stCrossover.nextToken().trim());
         }
-        StringTokenizer stMutation = new StringTokenizer(br.readLine(), ",");
+        StringTokenizer stMutation = new StringTokenizer(br.readLine());
         int nMutation = stMutation.countTokens();
         double[] hyperParamMutation = new double[nMutation];
         for (i = 0; i < nMutation; i++) {
             hyperParamMutation[i] = Double.parseDouble(stMutation.nextToken().trim());
         }
-        StringTokenizer stElitism = new StringTokenizer(br.readLine(), ",");
+        StringTokenizer stElitism = new StringTokenizer(br.readLine());
         int nElitism = stElitism.countTokens();
         double[] hyperParamElitism = new double[nElitism];
         for (i = 0; i < nElitism; i++) {

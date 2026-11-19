@@ -5,8 +5,8 @@ public class TesterTools
 {
     public static Random globalRand;
 
-    public static final String inputPath = System.getProperty("user.dir");
-    public static final String projectRoot = inputPath + "/..";
+    public static final String projectRoot = System.getProperty("user.dir") + "/..";
+    public static final String inputPath = projectRoot + "/Input";
     public static final String resultsPath = projectRoot + "/Results";
 
     public static final IndividualGenerator[] chromosomeEncodings = new IndividualGenerator[] {
@@ -36,7 +36,7 @@ public class TesterTools
 
     public static void setOtherParameters() throws IOException
     {
-        BufferedReader br = new BufferedReader(new FileReader(inputPath + "/OtherParameters.txt"));
+        BufferedReader br = new BufferedReader(new FileReader(inputPath + "/Hyperparameters/OtherParameters.txt"));
         globalRand = new Random(Integer.parseInt(br.readLine().trim()));
         
         initializeSeeds(globalRand, Integer.parseInt(br.readLine().trim()));
@@ -49,6 +49,7 @@ public class TesterTools
     public static void initializeSeeds(Random rand, int n)
     {
         seeds = new int[n];
+        // referensi: kode pada pdf Tugas Pak Lionov membatasi seed pada rentang [0,65536]
         for (int i = 0; i < n; i++) seeds[i] = rand.nextInt(65537);
     }
 
@@ -120,7 +121,8 @@ public class TesterTools
 
     public static void writeVerboseToFile(String fileName, ModelTestData[] data) throws IOException
     {
-        FileWriter fw = new FileWriter(resultsPath + "/" + fileName, true);
+        new File(resultsPath + "/" + fileName).delete();
+        FileWriter fw = new FileWriter(resultsPath + "/" + fileName);
         // Baris Header file CSV
         fw.append("Chromosome Encoding,Parent Selection,Crossover,Mutation,Population Size,Crossover Rate,Mutation Rate, Elitism Rate,Map,Seed,Result");
 
@@ -131,7 +133,8 @@ public class TesterTools
 
     public static void writeBestToFile(String fileName, ModelTestData[] data) throws IOException
     {
-        FileWriter fw = new FileWriter(resultsPath + "/" + fileName, true);
+        new File(resultsPath + "/" + fileName).delete();
+        FileWriter fw = new FileWriter(resultsPath + "/" + fileName);
         fw.append("Chromosome Encoding,Parent Selection,Crossover,Mutation,Population Size,Crossover Rate,Mutation Rate, Elitism Rate,Map,BestResult");
 
         for (ModelTestData model : data) fw.append(model.outputBest());
@@ -141,7 +144,8 @@ public class TesterTools
 
     public static void writeOverallMeanToFile(String fileName, ModelTestData[] data) throws IOException
     {
-        FileWriter fw = new FileWriter(resultsPath + "/" + fileName, true);
+        new File(resultsPath + "/" + fileName).delete();
+        FileWriter fw = new FileWriter(resultsPath + "/" + fileName);
         fw.append("Chromosome Encoding,Parent Selection,Crossover,Mutation,Population Size,Crossover Rate,Mutation Rate, Elitism Rate,OverallMean");
 
         for (ModelTestData model : data) fw.append("\n" + model.csvTemplate + "," + model.overallMean);

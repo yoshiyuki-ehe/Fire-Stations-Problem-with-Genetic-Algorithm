@@ -15,29 +15,29 @@ public class TestHyperparameterTuning {
 
         BufferedReader br = new BufferedReader(new FileReader(TesterTools.inputPath + "/Hyperparameters/CombinationHyperparameters.txt"));
          
-        StringTokenizer stPopulation = new StringTokenizer(br.readLine(), ",");
+        StringTokenizer stPopulation = new StringTokenizer(br.readLine());
         int nPopulation = stPopulation.countTokens(); //cari tahu n (jumlah data)
         int[] hyperParamPopulasi = new int[nPopulation]; //pake array biasa karena n diketahui
         for (i = 0; i < nPopulation; i++) {
-            hyperParamPopulasi[i] = Integer.parseInt(stPopulation.nextToken().trim());
+            hyperParamPopulasi[i] = Integer.parseInt(stPopulation.nextToken());
         }
-        StringTokenizer stCrossover = new StringTokenizer(br.readLine(), ",");
+        StringTokenizer stCrossover = new StringTokenizer(br.readLine());
         int nCrossover = stCrossover.countTokens();
         double[] hyperParamCrossover = new double[nCrossover];
         for (i = 0; i < nCrossover; i++) {
-            hyperParamCrossover[i] = Double.parseDouble(stCrossover.nextToken().trim());
+            hyperParamCrossover[i] = Double.parseDouble(stCrossover.nextToken());
         }
-        StringTokenizer stMutation = new StringTokenizer(br.readLine(), ",");
+        StringTokenizer stMutation = new StringTokenizer(br.readLine());
         int nMutation = stMutation.countTokens();
         double[] hyperParamMutation = new double[nMutation];
         for (i = 0; i < nMutation; i++) {
-            hyperParamMutation[i] = Double.parseDouble(stMutation.nextToken().trim());
+            hyperParamMutation[i] = Double.parseDouble(stMutation.nextToken());
         }
-        StringTokenizer stElitism = new StringTokenizer(br.readLine(), ",");
+        StringTokenizer stElitism = new StringTokenizer(br.readLine());
         int nElitism = stElitism.countTokens();
         double[] hyperParamElitism = new double[nElitism];
         for (i = 0; i < nElitism; i++) {
-            hyperParamElitism[i] = Double.parseDouble(stElitism.nextToken().trim());
+            hyperParamElitism[i] = Double.parseDouble(stElitism.nextToken());
         }
         br.close();
    
@@ -45,14 +45,13 @@ public class TestHyperparameterTuning {
 
         // menggunakan 1 jenis Model
         BufferedReader brModel = new BufferedReader(new FileReader(TesterTools.inputPath + "/Hyperparameters/SpecificModel.txt"));
-        StringTokenizer stModel = new StringTokenizer(brModel.readLine(), ",");
-        brModel.close();
 
         //ambil angkanya
-        int encodingCode  = Integer.parseInt(stModel.nextToken().trim());
-        int selectionCode = Integer.parseInt(stModel.nextToken().trim());
-        int crossoverCode = Integer.parseInt(stModel.nextToken().trim());
-        int mutationCode  = Integer.parseInt(stModel.nextToken().trim());
+        int encodingCode  = Integer.parseInt(brModel.readLine().trim());
+        int selectionCode = Integer.parseInt(brModel.readLine().trim());
+        int crossoverCode = Integer.parseInt(brModel.readLine().trim());
+        int mutationCode  = Integer.parseInt(brModel.readLine().trim());
+        brModel.close();
 
         //set komponen pake index array, karena array mulai dari 0 di -1
         fireStation.setGenerator(TesterTools.chromosomeEncodings[encodingCode]);
@@ -60,9 +59,11 @@ public class TestHyperparameterTuning {
         fireStation.setCrossover(TesterTools.crossovers[crossoverCode]);
         fireStation.setMutation(TesterTools.mutations[mutationCode]);
 
-        FileWriter rankings = new FileWriter(TesterTools.resultsPath + "/BestParameterPerRun.txt", true);
+        File target = new File(TesterTools.resultsPath + "/BestParameterPerRun.txt");
+        target.delete();
+        FileWriter rankings = new FileWriter(TesterTools.resultsPath + "/BestParameterPerRun.txt", false);
 
-        br = new BufferedReader(new FileReader(TesterTools.inputPath + "/Hyperparameters/SpecificHyperparameters.txt"));
+        br = new BufferedReader(new FileReader(TesterTools.inputPath + "/Hyperparameters/SpecificHyperparameter.txt"));
         br.readLine();
         fireStation.setCrossoverRate(Double.parseDouble(br.readLine()));
         fireStation.setMutationRate(Double.parseDouble(br.readLine()));

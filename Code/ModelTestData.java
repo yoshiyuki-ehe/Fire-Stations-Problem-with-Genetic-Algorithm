@@ -21,7 +21,7 @@ public class ModelTestData implements Comparable<ModelTestData>
         this.elitismRate = elitismRate;
         
         this.results = results;
-        csvTemplate = TesterTools.chromosomeEncodings[chromosomeCode] + "," +
+        csvTemplate = TesterTools.encodingNames[chromosomeCode] + "," +
         TesterTools.parentSelections[parentSelectionCode].getClass().getSimpleName() + "," +
         TesterTools.crossovers[crossoverCode].getClass().getSimpleName() + "," +
         TesterTools.mutations[mutationCode].getClass().getSimpleName() + "," +

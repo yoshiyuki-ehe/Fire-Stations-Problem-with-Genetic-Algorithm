@@ -1,0 +1,4 @@
+Population Size: 100 10
+Crossover Rate: 0.5 0.1
+Mutation Rate: 0.1 0.25
+Elitism Rate: 0.1 0.3

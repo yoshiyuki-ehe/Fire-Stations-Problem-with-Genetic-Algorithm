@@ -1,5 +1,5 @@
 20010911
-30
+2
 0.001
 Global seed
 Number of seeds per test case

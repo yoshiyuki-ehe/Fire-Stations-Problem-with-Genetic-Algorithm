@@ -15,8 +15,8 @@ public class ParentSelectionByRank extends ParentSelection{
         //ambil parent sebanyak nOfParents
         for (int i = 0; i < nOfParents; i++) 
         {    
-            //ambil nilai sembarang roulleteResult dari 1 sampai total nilai fitness.
-            int roulleteResult = random.nextInt(1, totalRank + 1);
+            //ambil nilai sembarang roulleteResult dari 0 sampai total nilai fitness.
+            int roulleteResult = random.nextInt(totalRank);
             
             //untuk mengambil sebuah kandidat acak untuk dimasukkan ke selectedParents, 
             //pakai inverse function termial untuk mendapatkan index dari nilai (index diambil dari belakang)

@@ -1,0 +1,9 @@
+Chromosome Encoding,Parent Selection,Crossover,Mutation,Population Size,Crossover Rate,Mutation Rate, Elitism Rate,Map,Seed,Result
+Combination,ParentSelectionByRank,SinglePointCrossover,IncrementMutation,10,0.8,0.05,0.2,n80_labirin_04.txt,33065,10.369205298013245
+Combination,ParentSelectionByRank,SinglePointCrossover,IncrementMutation,10,0.8,0.05,0.2,n80_labirin_04.txt,28147,10.875827814569536
+Combination,ParentSelectionByRank,SinglePointCrossover,IncrementMutation,10,0.8,0.05,0.2,ragebait.txt,33065,10000.0
+Combination,ParentSelectionByRank,SinglePointCrossover,IncrementMutation,10,0.8,0.05,0.2,ragebait.txt,28147,10000.0
+Combination,ParentSelectionByRank,SinglePointCrossover,IncrementMutation,100,0.8,0.05,0.2,n80_labirin_04.txt,33065,8.887417218543046
+Combination,ParentSelectionByRank,SinglePointCrossover,IncrementMutation,100,0.8,0.05,0.2,n80_labirin_04.txt,28147,8.756622516556291
+Combination,ParentSelectionByRank,SinglePointCrossover,IncrementMutation,100,0.8,0.05,0.2,ragebait.txt,33065,7500.25
+Combination,ParentSelectionByRank,SinglePointCrossover,IncrementMutation,100,0.8,0.05,0.2,ragebait.txt,28147,10000.0

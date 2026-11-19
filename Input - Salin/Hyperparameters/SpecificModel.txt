@@ -1,0 +1,8 @@
+0
+1
+0
+1
+Chromosome Encoding=[CombinationChromosome, BoundedCoordinateChromosome]
+Parent Selection=[ParentSelectionByFitness, ParentSelectionByRank]
+Crossover=[SinglePointCrossover, ArithmeticAverageCrossover]
+Mutation=[SwapMutation, IncrementMutation]

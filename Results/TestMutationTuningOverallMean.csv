@@ -1,0 +1,3 @@
+Chromosome Encoding,Parent Selection,Crossover,Mutation,Population Size,Crossover Rate,Mutation Rate, Elitism Rate,OverallMean
+Combination,ParentSelectionByRank,SinglePointCrossover,IncrementMutation,100,0.5,0.1,0.2,3754.5078642384105
+Combination,ParentSelectionByRank,SinglePointCrossover,IncrementMutation,100,0.5,0.25,0.2,3754.5401490066224
