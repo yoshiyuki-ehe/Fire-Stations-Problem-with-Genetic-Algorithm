@@ -1,0 +1,6 @@
+24033
+30
+0.001
+Global seed
+Number of seeds per test case
+Minimum relative change (for stagnation calculation)
