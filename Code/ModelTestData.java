@@ -68,7 +68,7 @@ public class ModelTestData implements Comparable<ModelTestData>
         {
             for (j = 0; j < results[i].length; j++)
             {
-                res.append("\n" + TesterTools.mapNames[i] + "," + TesterTools.seeds[j] + results[i][j]);
+                res.append("\n" + TesterTools.mapNames[i] + "," + TesterTools.seeds[j] + "," + results[i][j]);
             }
         }
 
