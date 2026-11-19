@@ -1,0 +1,17 @@
+Chromosome Encoding,Parent Selection,Crossover,Mutation,Population Size,Crossover Rate,Mutation Rate, Elitism Rate,OverallMean
+SelectionIndividualGenerator@7ea987ac,ParentSelectionByFitness,SinglePointCrossover,IncrementMutation,100,0.8,0.05,0.2,57.960033566524665
+SelectionIndividualGenerator@7ea987ac,ParentSelectionByFitness,SinglePointCrossover,SwapMutation,100,0.8,0.05,0.2,159.9913613765706
+SelectionIndividualGenerator@7ea987ac,ParentSelectionByFitness,ArithmeticAverageCrossover,SwapMutation,100,0.8,0.05,0.2,160.4482843846942
+SelectionIndividualGenerator@7ea987ac,ParentSelectionByFitness,ArithmeticAverageCrossover,IncrementMutation,100,0.8,0.05,0.2,160.46107524959695
+SelectionIndividualGenerator@7ea987ac,ParentSelectionByRank,SinglePointCrossover,SwapMutation,100,0.8,0.05,0.2,160.80145186513224
+SelectionIndividualGenerator@7ea987ac,ParentSelectionByRank,SinglePointCrossover,IncrementMutation,100,0.8,0.05,0.2,160.80145186513224
+SelectionIndividualGenerator@7ea987ac,ParentSelectionByRank,ArithmeticAverageCrossover,SwapMutation,100,0.8,0.05,0.2,160.80145186513224
+SelectionIndividualGenerator@7ea987ac,ParentSelectionByRank,ArithmeticAverageCrossover,IncrementMutation,100,0.8,0.05,0.2,160.80145186513224
+CoordinateIndividualGenerator@5e2de80c,ParentSelectionByFitness,SinglePointCrossover,IncrementMutation,100,0.8,0.05,0.2,161.06180470880034
+CoordinateIndividualGenerator@5e2de80c,ParentSelectionByFitness,SinglePointCrossover,SwapMutation,100,0.8,0.05,0.2,161.08712570990036
+CoordinateIndividualGenerator@5e2de80c,ParentSelectionByFitness,ArithmeticAverageCrossover,SwapMutation,100,0.8,0.05,0.2,161.43361684552255
+CoordinateIndividualGenerator@5e2de80c,ParentSelectionByFitness,ArithmeticAverageCrossover,IncrementMutation,100,0.8,0.05,0.2,161.4357630284958
+CoordinateIndividualGenerator@5e2de80c,ParentSelectionByRank,SinglePointCrossover,SwapMutation,100,0.8,0.05,0.2,161.48003672865377
+CoordinateIndividualGenerator@5e2de80c,ParentSelectionByRank,ArithmeticAverageCrossover,SwapMutation,100,0.8,0.05,0.2,161.4811485404023
+CoordinateIndividualGenerator@5e2de80c,ParentSelectionByRank,ArithmeticAverageCrossover,IncrementMutation,100,0.8,0.05,0.2,161.50121898189212
+CoordinateIndividualGenerator@5e2de80c,ParentSelectionByRank,SinglePointCrossover,IncrementMutation,100,0.8,0.05,0.2,161.51129981584515

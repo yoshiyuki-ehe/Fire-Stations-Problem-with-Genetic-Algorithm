@@ -1,0 +1,7 @@
+Chromosome Encoding,Parent Selection,Crossover,Mutation,Population Size,Crossover Rate,Mutation Rate, Elitism Rate,OverallMean
+SelectionIndividualGenerator@12a3a380,ParentSelectionByFitness,SinglePointCrossover,IncrementMutation,1000,0.6,0.05,0.2,6.395935466055879
+SelectionIndividualGenerator@12a3a380,ParentSelectionByFitness,SinglePointCrossover,IncrementMutation,1000,0.95,0.05,0.2,6.398191654830736
+SelectionIndividualGenerator@12a3a380,ParentSelectionByFitness,SinglePointCrossover,IncrementMutation,1000,0.8,0.05,0.2,6.405277245401277
+SelectionIndividualGenerator@12a3a380,ParentSelectionByFitness,SinglePointCrossover,IncrementMutation,1000,0.9,0.05,0.2,6.40646140261421
+SelectionIndividualGenerator@12a3a380,ParentSelectionByFitness,SinglePointCrossover,IncrementMutation,1000,0.7,0.05,0.2,6.409098254534682
+SelectionIndividualGenerator@12a3a380,ParentSelectionByFitness,SinglePointCrossover,IncrementMutation,1000,0.5,0.05,0.2,6.4126805837211505
