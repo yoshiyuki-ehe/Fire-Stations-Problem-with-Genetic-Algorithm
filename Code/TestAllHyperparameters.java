@@ -45,14 +45,13 @@ public class TestAllHyperparameters {
 
         // menggunakan 1 jenis Model
         BufferedReader brModel = new BufferedReader(new FileReader(TesterTools.inputPath + "/Hyperparameters/SpecificModel.txt"));
-        StringTokenizer stModel = new StringTokenizer(brModel.readLine(), ",");
-        brModel.close();
 
         //ambil angkanya
-        int encodingCode  = Integer.parseInt(stModel.nextToken().trim());
-        int selectionCode = Integer.parseInt(stModel.nextToken().trim());
-        int crossoverCode = Integer.parseInt(stModel.nextToken().trim());
-        int mutationCode  = Integer.parseInt(stModel.nextToken().trim());
+        int encodingCode  = Integer.parseInt(brModel.readLine().trim());
+        int selectionCode = Integer.parseInt(brModel.readLine().trim());
+        int crossoverCode = Integer.parseInt(brModel.readLine().trim());
+        int mutationCode  = Integer.parseInt(brModel.readLine().trim());
+        brModel.close();
 
         //set komponen pake index array, karena array mulai dari 0 di -1
         fireStation.setGenerator(TesterTools.chromosomeEncodings[encodingCode]);
