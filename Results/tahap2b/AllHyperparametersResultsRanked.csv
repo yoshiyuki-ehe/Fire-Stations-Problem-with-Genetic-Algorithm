@@ -1,0 +1,17 @@
+Chromosome Encoding,Parent Selection,Crossover,Mutation,Population Size,Crossover Rate,Mutation Rate, Elitism Rate,OverallMean
+SelectionIndividualGenerator@7ea987ac,ParentSelectionByFitness,SinglePointCrossover,IncrementMutation,1000,0.95,0.01,0.25,6.359130393926107
+SelectionIndividualGenerator@7ea987ac,ParentSelectionByFitness,SinglePointCrossover,IncrementMutation,1000,0.6,0.01,0.25,6.36519732251686
+SelectionIndividualGenerator@7ea987ac,ParentSelectionByFitness,SinglePointCrossover,IncrementMutation,1000,0.95,0.05,0.3,6.366458883021349
+SelectionIndividualGenerator@7ea987ac,ParentSelectionByFitness,SinglePointCrossover,IncrementMutation,1000,0.95,0.01,0.3,6.367687175383449
+SelectionIndividualGenerator@7ea987ac,ParentSelectionByFitness,SinglePointCrossover,IncrementMutation,1000,0.6,0.05,0.3,6.372251984440763
+SelectionIndividualGenerator@7ea987ac,ParentSelectionByFitness,SinglePointCrossover,IncrementMutation,1000,0.6,0.01,0.3,6.376906694698064
+SelectionIndividualGenerator@7ea987ac,ParentSelectionByFitness,SinglePointCrossover,IncrementMutation,500,0.6,0.01,0.3,6.384220864507122
+SelectionIndividualGenerator@7ea987ac,ParentSelectionByFitness,SinglePointCrossover,IncrementMutation,1000,0.95,0.05,0.25,6.38464898030075
+SelectionIndividualGenerator@7ea987ac,ParentSelectionByFitness,SinglePointCrossover,IncrementMutation,1000,0.6,0.05,0.25,6.3905374320781805
+SelectionIndividualGenerator@7ea987ac,ParentSelectionByFitness,SinglePointCrossover,IncrementMutation,500,0.95,0.01,0.3,6.401458812661271
+SelectionIndividualGenerator@7ea987ac,ParentSelectionByFitness,SinglePointCrossover,IncrementMutation,500,0.6,0.05,0.3,6.403273886118338
+SelectionIndividualGenerator@7ea987ac,ParentSelectionByFitness,SinglePointCrossover,IncrementMutation,500,0.95,0.05,0.25,6.408331382885201
+SelectionIndividualGenerator@7ea987ac,ParentSelectionByFitness,SinglePointCrossover,IncrementMutation,500,0.6,0.05,0.25,6.413899224488425
+SelectionIndividualGenerator@7ea987ac,ParentSelectionByFitness,SinglePointCrossover,IncrementMutation,500,0.95,0.05,0.3,6.414378370273487
+SelectionIndividualGenerator@7ea987ac,ParentSelectionByFitness,SinglePointCrossover,IncrementMutation,500,0.95,0.01,0.25,6.416861857092953
+SelectionIndividualGenerator@7ea987ac,ParentSelectionByFitness,SinglePointCrossover,IncrementMutation,500,0.6,0.01,0.25,6.424748498119321

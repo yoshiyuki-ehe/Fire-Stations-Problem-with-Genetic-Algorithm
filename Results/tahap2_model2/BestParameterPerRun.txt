@@ -1,0 +1,4 @@
+Population Size: 1000 500 250 150 100 50
+Crossover Rate: 0.8 0.5 0.7 0.6 0.95 0.9
+Mutation Rate: 0.05 0.15 0.01 0.2 0.1 0.02
+Elitism Rate: 0.3 0.2 0.25 0.15 0.1 0.05
